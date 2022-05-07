@@ -30,6 +30,11 @@ module Bundler
         exit 1
       end
 
+      desc "version", "Prints the bundler-alive version"
+      def version
+        puts "bundler-alive #{VERSION}"
+      end
+
       private
 
       def initialize_doctor
