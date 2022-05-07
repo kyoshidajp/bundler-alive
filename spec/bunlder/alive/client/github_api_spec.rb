@@ -34,5 +34,14 @@ RSpec.describe Bundler::Alive::Client::GitHubApi do
         expect { client.archived?(url) }.to raise_error(NotImplementedError)
       end
     end
+
+    context "API rate limit exceeded" do
+      it "raises a `Client::SourceCodeClient::SearchRepositoryError`" do
+        VCR.use_cassette "github.com/rate-limit-exceeded" do
+          url = Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/rate-limit/exceeded")
+          expect { client.archived?(url) }.to raise_error(Client::SourceCodeClient::SearchRepositoryError)
+        end
+      end
+    end
   end
 end
