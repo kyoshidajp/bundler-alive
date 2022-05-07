@@ -19,21 +19,21 @@ module Bundler
         end
 
         #
-        # Returns repository uri
+        # Returns repository url
         #
         # @param [String] gem_name
         #
         # @return [SourceCodeRepositoryUrl]
         #
-        def get_repository_uri(gem_name)
+        def get_repository_url(gem_name)
           url = api_url(gem_name)
           response = connection.get(url)
 
           raise NotFound, "#{gem_name} is not found in gems.org." if response.status == 404
 
           body = JSON.parse(response.body)
-          raw_uri = body["source_code_uri"] || body["homepage_uri"]
-          SourceCodeRepositoryUrl.new(raw_uri)
+          raw_url = body["source_code_uri"] || body["homepage_uri"]
+          SourceCodeRepositoryUrl.new(raw_url)
         end
 
         private

@@ -4,21 +4,21 @@ module Bundler
   module Alive
     # Represents a source code repository
     class SourceCodeRepository
-      def initialize(uri:, client:)
-        raise ArgumentError, "Unknown uri: #{uri}" unless uri.instance_of?(SourceCodeRepositoryUrl)
+      def initialize(url:, client:)
+        raise ArgumentError, "Unknown url: #{url}" unless url.instance_of?(SourceCodeRepositoryUrl)
         raise ArgumentError, "Unknown client: #{client}" unless client.instance_of?(Client::SourceCodeClient)
 
-        @uri = uri
+        @url = url
         @client = client
       end
 
       def alive?
-        !client.archived?(uri)
+        !client.archived?(url)
       end
 
       private
 
-      attr_reader :uri, :client
+      attr_reader :url, :client
     end
   end
 end

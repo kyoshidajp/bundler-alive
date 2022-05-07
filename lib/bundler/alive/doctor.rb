@@ -97,14 +97,14 @@ module Bundler
 
       def diagnose_each_gem(gem_name)
         begin
-          source_code_uri = gem_client.get_repository_uri(gem_name)
-          is_alive = SourceCodeRepository.new(uri: source_code_uri, client: repository_client).alive?
+          source_code_url = gem_client.get_repository_url(gem_name)
+          is_alive = SourceCodeRepository.new(url: source_code_url, client: repository_client).alive?
         rescue Client::GemsApi::NotFound, Client::SourceCodeClient::SearchRepositoryError => e
           puts e.message
         end
 
         GemStatus.new(name: gem_name,
-                      repository_url: source_code_uri,
+                      repository_url: source_code_url,
                       alive: is_alive,
                       checked_at: Time.now)
       end

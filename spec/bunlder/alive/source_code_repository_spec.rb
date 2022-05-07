@@ -3,9 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::SourceCodeRepository do
-  let(:uri) { SourceCodeRepositoryUrl.new("https://github.com/rails/rails") }
+  let(:url) { SourceCodeRepositoryUrl.new("https://github.com/rails/rails") }
   let(:client) { Client::SourceCodeClient.new(service_name: :github) }
-  let(:repository) { described_class.new(uri: uri, client: client) }
+  let(:repository) { described_class.new(url: url, client: client) }
 
   describe "#new" do
     context "with valid params" do
@@ -14,8 +14,8 @@ RSpec.describe Bundler::Alive::SourceCodeRepository do
       end
     end
 
-    context "with a not RepositoryUrl as an uri param" do
-      let(:uri) { "https://github.com/rails/rails" }
+    context "with a not RepositoryUrl as an url param" do
+      let(:url) { "https://github.com/rails/rails" }
       it "raises a `ArgumentError`" do
         expect { repository }.to raise_error(ArgumentError)
       end
