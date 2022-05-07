@@ -2,7 +2,9 @@
 
 module Bundler
   module Alive
+    #
     # Result of gem status
+    #
     class GemStatus
       REPOSITORY_URL_UNKNOWN = :unknown
       ALIVE_UNKNOWN = :unknown
@@ -21,10 +23,18 @@ module Bundler
         freeze
       end
 
+      #
+      # Alive?
+      #
+      # @return [Boolean]
+      #
       def unknown?
         alive == ALIVE_UNKNOWN
       end
 
+      #
+      # @return [Hash] Hash of status
+      #
       def to_h
         {
           repository_url: decorated_repository_url,
@@ -33,6 +43,11 @@ module Bundler
         }
       end
 
+      #
+      # Reports not alive gem
+      #
+      # @return [String]
+      #
       def report
         <<~REPORT
           Name: #{name}

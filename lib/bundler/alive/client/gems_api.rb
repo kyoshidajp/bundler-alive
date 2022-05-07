@@ -6,11 +6,25 @@ require "json"
 module Bundler
   module Alive
     module Client
+      #
       # API Client for RubyGems.org API
+      #
+      # @see https://guides.rubygems.org/rubygems-org-api/
+      #
       class GemsApi
+        #
+        # Not found in rubygems.org error
+        #
         class NotFound < StandardError
         end
 
+        #
+        # Returns repository uri
+        #
+        # @param [String] gem_name
+        #
+        # @return [SourceCodeRepositoryUrl]
+        #
         def get_repository_uri(gem_name)
           url = api_url(gem_name)
           response = connection.get(url)

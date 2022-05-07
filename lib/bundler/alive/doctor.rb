@@ -6,10 +6,18 @@ require "toml-rb"
 
 module Bundler
   module Alive
+    #
     # Diagnoses a `Gemfile.lock` with a TOML file
+    #
     class Doctor
       attr_reader :all_alive
 
+      #
+      # A new instance of Doctor
+      #
+      # @param [String] lock_file lock file of gem
+      # @param [String] result_file file of result
+      #
       def initialize(lock_file, result_file = "result.toml")
         @lock_file = lock_file
         @result_file = result_file
@@ -19,6 +27,9 @@ module Bundler
         @all_alive = nil
       end
 
+      #
+      # Diagnoses gems in lock file of gem
+      #
       def diagnose
         @result = gems.each_with_object(GemStatusCollection.new) do |spec, collection|
           gem_name = spec.name
@@ -29,6 +40,9 @@ module Bundler
         end
       end
 
+      #
+      # Reports the result
+      #
       def report
         need_to_report_gems = result.need_to_report_gems
         @all_alive = need_to_report_gems.size.zero?
@@ -37,6 +51,9 @@ module Bundler
         end
       end
 
+      #
+      # Saves result to file
+      #
       def save_as_file
         body = TomlRB.dump(result.to_h)
         File.write(result_file, body)

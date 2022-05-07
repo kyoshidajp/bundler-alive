@@ -3,7 +3,9 @@
 module Bundler
   module Alive
     module Client
+      #
       # Represents a source code client
+      #
       class SourceCodeClient
         class SearchRepositoryError < StandardError
         end
@@ -12,6 +14,15 @@ module Bundler
           github: GitHubApi
         }.freeze
 
+        #
+        # A new instance of SourceCodeClient
+        #
+        # @param [Symbol] service_name
+        #
+        # @raise [ArgumentError]
+        #
+        # @return [SourceCodeClient]
+        #
         def initialize(service_name:)
           raise ArgumentError, "Unknown service: #{service_name}" unless REPOSITORY_SERVICES.key?(service_name)
 

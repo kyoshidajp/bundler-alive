@@ -12,6 +12,10 @@ gem "rubocop", "~> 1.21"
 gem "thor"
 gem "toml-rb"
 
+group :development do
+  gem "yard"
+end
+
 group :test do
   gem "simplecov"
   gem "vcr"
