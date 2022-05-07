@@ -16,3 +16,4 @@ vendor/bundle/
 Gemfile.lock
 result.toml
 spec/fixtures/files/result.toml.org
+bundler-alive-*.gem
