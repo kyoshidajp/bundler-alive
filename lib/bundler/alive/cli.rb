@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "bundler/alive"
-require "bundler/alive/scanner"
+require "bundler/alive/doctor"
 
 require "thor"
 
@@ -19,12 +19,12 @@ module Bundler
                                    default: "Gemfile.lock"
 
       def check(_dir = Dir.pwd)
-        scanner = initialize_scanner
-        scanner.scan
-        scanner.report
-        scanner.save_as_file
+        doctor = initialize_doctor
+        doctor.diagnose
+        doctor.report
+        doctor.save_as_file
 
-        exit 0 if scanner.all_alive
+        exit 0 if doctor.all_alive
 
         puts "Not alive gems are found!"
         exit 1
@@ -32,8 +32,8 @@ module Bundler
 
       private
 
-      def initialize_scanner
-        Scanner.new(options[:gemfile_lock])
+      def initialize_doctor
+        Doctor.new(options[:gemfile_lock])
       rescue Bundler::GemfileLockNotFound
         exit 1
       end

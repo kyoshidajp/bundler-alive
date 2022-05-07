@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "alive/version"
-require_relative "alive/scanner"
+require_relative "alive/doctor"
 require_relative "alive/source_code_repository"
 require_relative "alive/source_code_repository_url"
 require_relative "alive/gem_status"

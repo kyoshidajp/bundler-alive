@@ -2,7 +2,7 @@
 
 require_relative "../../spec_helper"
 
-RSpec.describe Bundler::Alive::Scanner do
+RSpec.describe Bundler::Alive::Doctor do
   let(:lock_file) { "spec/fixtures/files/Gemfile.lock" }
   let(:toml_file) { "spec/fixtures/files/result.toml" }
   let(:toml_file_org) do
@@ -10,7 +10,7 @@ RSpec.describe Bundler::Alive::Scanner do
     FileUtils.cp(toml_file, file_path)
     file_path
   end
-  let(:scanner) { described_class.new(lock_file, toml_file) }
+  let(:doctor) { described_class.new(lock_file, toml_file) }
 
   before(:each) do
     toml_file_org
@@ -46,18 +46,18 @@ RSpec.describe Bundler::Alive::Scanner do
     VCR.eject_cassette("rubygems.org/journey")
   end
 
-  describe "#scan" do
-    it "scans gems" do
-      scanner.scan
-      scanner.save_as_file
+  describe "#diagnose" do
+    it "diagnose gems" do
+      doctor.diagnose
+      doctor.save_as_file
 
       updated_toml = TomlRB.load_file(toml_file)
       expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
     end
 
     it "updates status of gems only alive or unknown" do
-      scanner.scan
-      scanner.save_as_file
+      doctor.diagnose
+      doctor.save_as_file
 
       updated_toml = TomlRB.load_file(toml_file)
       original_toml = TomlRB.load_file(toml_file_org)
@@ -72,7 +72,7 @@ RSpec.describe Bundler::Alive::Scanner do
 
   describe "#report" do
     it "reports result" do
-      scanner.scan
+      doctor.diagnose
 
       expected = <<~RESULT
         Name: journey
@@ -80,7 +80,7 @@ RSpec.describe Bundler::Alive::Scanner do
         Status: false
 
       RESULT
-      expect { scanner.report }.to output(expected).to_stdout
+      expect { doctor.report }.to output(expected).to_stdout
     end
   end
 end

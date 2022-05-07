@@ -6,8 +6,8 @@ require "toml-rb"
 
 module Bundler
   module Alive
-    # Scans a `Gemfile.lock` with a TOML file
-    class Scanner
+    # Diagnoses a `Gemfile.lock` with a TOML file
+    class Doctor
       attr_reader :all_alive
 
       def initialize(lock_file, toml_file = "result.toml")
@@ -19,11 +19,11 @@ module Bundler
         @all_alive = nil
       end
 
-      def scan
+      def diagnose
         @result = gems.each_with_object(GemStatusCollection.new) do |spec, collection|
           gem_name = spec.name
           gem_status = collection_from_file.get_unchecked(gem_name)
-          gem_status = scan_each_gem(gem_name) if should_scan_gem?(gem_status)
+          gem_status = diagnose_each_gem(gem_name) if should_diagnose_gem?(gem_status)
 
           collection.add(gem_name, gem_status)
         end
@@ -46,7 +46,7 @@ module Bundler
 
       attr_reader :lock_file, :toml_file, :gem_client, :repository_client, :result
 
-      def should_scan_gem?(gem_status)
+      def should_diagnose_gem?(gem_status)
         gem_status.nil? || gem_status.alive
       end
 
@@ -78,7 +78,7 @@ module Bundler
         lock_file.specs.each
       end
 
-      def scan_each_gem(gem_name)
+      def diagnose_each_gem(gem_name)
         begin
           source_code_uri = gem_client.get_repository_uri(gem_name)
           is_alive = SourceCodeRepository.new(uri: source_code_uri, client: repository_client).alive?
