@@ -9,8 +9,8 @@ module Bundler
       extend Forwardable
       delegate each: :gems
 
-      def initialize(gems = nil)
-        @gems = gems.nil? ? {} : gems
+      def initialize(gems = {})
+        @gems = gems
         freeze
       end
 
