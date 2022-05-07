@@ -4,13 +4,13 @@ module Bundler
   module Alive
     # Result of gem status
     class GemStatus
-      GITHUB_URL_UNKNOWN = :unknown
+      REPOSITORY_URL_UNKNOWN = :unknown
       ALIVE_UNKNOWN = :unknown
 
       attr_reader :name, :repository_url, :alive, :checked_at
 
       def initialize(name:, repository_url:, alive:, checked_at:)
-        repository_url = GITHUB_URL_UNKNOWN if repository_url.nil?
+        repository_url = REPOSITORY_URL_UNKNOWN if repository_url.nil?
         alive = ALIVE_UNKNOWN if alive.nil?
 
         @name = name
@@ -45,8 +45,8 @@ module Bundler
       private
 
       def decorated_repository_url
-        if repository_url == GITHUB_URL_UNKNOWN
-          GITHUB_URL_UNKNOWN.to_s
+        if repository_url == REPOSITORY_URL_UNKNOWN
+          REPOSITORY_URL_UNKNOWN.to_s
         else
           repository_url.url
         end

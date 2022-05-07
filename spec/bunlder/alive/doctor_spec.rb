@@ -4,16 +4,16 @@ require_relative "../../spec_helper"
 
 RSpec.describe Bundler::Alive::Doctor do
   let(:lock_file) { "spec/fixtures/files/Gemfile.lock" }
-  let(:toml_file) { "spec/fixtures/files/result.toml" }
-  let(:toml_file_org) do
+  let(:result_file) { "spec/fixtures/files/result.toml" }
+  let(:result_file_org) do
     file_path = "#{lock_file}.org"
-    FileUtils.cp(toml_file, file_path)
+    FileUtils.cp(result_file, file_path)
     file_path
   end
-  let(:doctor) { described_class.new(lock_file, toml_file) }
+  let(:doctor) { described_class.new(lock_file, result_file) }
 
   before(:each) do
-    toml_file_org
+    result_file_org
 
     VCR.insert_cassette("github.com/whitequark/ast")
     VCR.insert_cassette("github.com/whitequark/parser")
@@ -31,7 +31,7 @@ RSpec.describe Bundler::Alive::Doctor do
   after(:each) do
     # restore result file
     # this could not be run due to unexpected Error
-    FileUtils.mv(toml_file_org, toml_file, **{ force: true })
+    FileUtils.mv(result_file_org, result_file, **{ force: true })
 
     VCR.eject_cassette("github.com/whitequark/ast")
     VCR.eject_cassette("github.com/whitequark/parser")
@@ -51,7 +51,7 @@ RSpec.describe Bundler::Alive::Doctor do
       doctor.diagnose
       doctor.save_as_file
 
-      updated_toml = TomlRB.load_file(toml_file)
+      updated_toml = TomlRB.load_file(result_file)
       expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
     end
 
@@ -59,8 +59,8 @@ RSpec.describe Bundler::Alive::Doctor do
       doctor.diagnose
       doctor.save_as_file
 
-      updated_toml = TomlRB.load_file(toml_file)
-      original_toml = TomlRB.load_file(toml_file_org)
+      updated_toml = TomlRB.load_file(result_file)
+      original_toml = TomlRB.load_file(result_file_org)
 
       expect(updated_toml["ast"]["alive"]).to eq true
       expect(updated_toml["ast"]["checked_at"]).to be > Time.parse("2022-05-07T12:24:11Z")

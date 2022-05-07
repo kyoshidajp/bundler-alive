@@ -10,9 +10,9 @@ module Bundler
     class Doctor
       attr_reader :all_alive
 
-      def initialize(lock_file, toml_file = "result.toml")
+      def initialize(lock_file, result_file = "result.toml")
         @lock_file = lock_file
-        @toml_file = toml_file
+        @result_file = result_file
         @gem_client = Client::GemsApi.new
         @repository_client = Client::SourceCodeClient.new(service_name: :github)
         @result = nil
@@ -38,13 +38,13 @@ module Bundler
       end
 
       def save_as_file
-        toml = TomlRB.dump(result.to_h)
-        File.write(toml_file, toml)
+        body = TomlRB.dump(result.to_h)
+        File.write(result_file, body)
       end
 
       private
 
-      attr_reader :lock_file, :toml_file, :gem_client, :repository_client, :result
+      attr_reader :lock_file, :result_file, :gem_client, :repository_client, :result
 
       def should_diagnose_gem?(gem_status)
         gem_status.nil? || gem_status.alive
@@ -53,16 +53,16 @@ module Bundler
       def collection_from_file
         return @collection_from_file if instance_variable_defined?(:@collection_from_file)
 
-        return GemStatusCollection.new unless File.exist?(toml_file)
+        return GemStatusCollection.new unless File.exist?(result_file)
 
-        toml_hash = TomlRB.load_file(toml_file)
+        toml_hash = TomlRB.load_file(result_file)
         @collection_from_file = collection_from_hash(toml_hash)
       end
 
       def collection_from_hash(hash)
         hash.each_with_object(GemStatusCollection.new) do |(gem_name, v), collection|
           url = v["repository_url"]
-          next if url.to_sym == GemStatus::GITHUB_URL_UNKNOWN
+          next if url.to_sym == GemStatus::REPOSITORY_URL_UNKNOWN
 
           gem_status = GemStatus.new(name: gem_name,
                                      repository_url: SourceCodeRepositoryUrl.new(url),
