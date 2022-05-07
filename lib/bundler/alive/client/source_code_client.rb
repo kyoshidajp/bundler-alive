@@ -10,9 +10,11 @@ module Bundler
         class SearchRepositoryError < StandardError
         end
 
-        REPOSITORY_SERVICES = {
-          github: GitHubApi
+        SERVICE_WITH_STRATEGIES = {
+          SourceCodeRepository::Service::GITHUB => GitHubApi
         }.freeze
+
+        private_constant :SERVICE_WITH_STRATEGIES
 
         #
         # A new instance of SourceCodeClient
@@ -24,9 +26,9 @@ module Bundler
         # @return [SourceCodeClient]
         #
         def initialize(service_name:)
-          raise ArgumentError, "Unknown service: #{service_name}" unless REPOSITORY_SERVICES.key?(service_name)
+          raise ArgumentError, "Unknown service: #{service_name}" unless SERVICE_WITH_STRATEGIES.key?(service_name)
 
-          service = REPOSITORY_SERVICES[service_name]
+          service = SERVICE_WITH_STRATEGIES[service_name]
           extend service
 
           @client = create_client

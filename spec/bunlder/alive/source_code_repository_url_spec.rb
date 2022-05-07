@@ -12,6 +12,14 @@ RSpec.describe Bundler::Alive::SourceCodeRepositoryUrl do
       it "returns `Bundler::Alive::RepositoryUrl`" do
         expect(repository_url).to be_a(Bundler::Alive::SourceCodeRepositoryUrl)
       end
+
+      it "has url" do
+        expect(repository_url.url).to eq url
+      end
+
+      it "has service_name" do
+        expect(repository_url.service_name).to eq :github
+      end
     end
 
     context "with an invalid URL" do

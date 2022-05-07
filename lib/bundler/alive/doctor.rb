@@ -22,7 +22,6 @@ module Bundler
         @lock_file = lock_file
         @result_file = result_file
         @gem_client = Client::GemsApi.new
-        @repository_client = Client::SourceCodeClient.new(service_name: :github)
         @result = nil
         @all_alive = nil
       end
@@ -61,7 +60,7 @@ module Bundler
 
       private
 
-      attr_reader :lock_file, :result_file, :gem_client, :repository_client, :result
+      attr_reader :lock_file, :result_file, :gem_client, :result
 
       def should_diagnose_gem?(gem_status)
         gem_status.nil? || gem_status.alive
@@ -97,14 +96,14 @@ module Bundler
 
       def diagnose_each_gem(gem_name)
         begin
-          source_code_uri = gem_client.get_repository_uri(gem_name)
-          is_alive = SourceCodeRepository.new(uri: source_code_uri, client: repository_client).alive?
+          source_code_url = gem_client.get_repository_url(gem_name)
+          is_alive = SourceCodeRepository.new(url: source_code_url).alive?
         rescue Client::GemsApi::NotFound, Client::SourceCodeClient::SearchRepositoryError => e
           puts e.message
         end
 
         GemStatus.new(name: gem_name,
-                      repository_url: source_code_uri,
+                      repository_url: source_code_url,
                       alive: is_alive,
                       checked_at: Time.now)
       end
