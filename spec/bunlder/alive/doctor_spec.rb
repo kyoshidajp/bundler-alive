@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+
+require_relative "../../spec_helper"
+
+RSpec.describe Bundler::Alive::Doctor do
+  let(:lock_file) { "spec/fixtures/files/Gemfile.lock" }
+  let(:result_file) { "spec/fixtures/files/result.toml" }
+  let(:result_file_org) do
+    file_path = "#{lock_file}.org"
+    FileUtils.cp(result_file, file_path)
+    file_path
+  end
+  let(:doctor) { described_class.new(lock_file, result_file) }
+
+  before(:each) do
+    result_file_org
+
+    VCR.insert_cassette("github.com/whitequark/ast")
+    VCR.insert_cassette("github.com/whitequark/parser")
+    VCR.insert_cassette("github.com/grosser/parallel")
+    VCR.insert_cassette("github.com/sickill/rainbow")
+    VCR.insert_cassette("github.com/rails/journey")
+    VCR.insert_cassette("rubygems.org/bundle-alive")
+    VCR.insert_cassette("rubygems.org/ast")
+    VCR.insert_cassette("rubygems.org/parallel")
+    VCR.insert_cassette("rubygems.org/parser")
+    VCR.insert_cassette("rubygems.org/rainbow")
+    VCR.insert_cassette("rubygems.org/journey")
+  end
+
+  after(:each) do
+    # restore result file
+    # this could not be run due to unexpected Error
+    FileUtils.mv(result_file_org, result_file, **{ force: true })
+
+    VCR.eject_cassette("github.com/whitequark/ast")
+    VCR.eject_cassette("github.com/whitequark/parser")
+    VCR.eject_cassette("github.com/grosser/parallel")
+    VCR.eject_cassette("github.com/sickill/rainbow")
+    VCR.eject_cassette("github.com/rails/journey")
+    VCR.eject_cassette("rubygems.org/bundle-alive")
+    VCR.eject_cassette("rubygems.org/ast")
+    VCR.eject_cassette("rubygems.org/parallel")
+    VCR.eject_cassette("rubygems.org/parser")
+    VCR.eject_cassette("rubygems.org/rainbow")
+    VCR.eject_cassette("rubygems.org/journey")
+  end
+
+  describe "#diagnose" do
+    it "diagnose gems" do
+      doctor.diagnose
+      doctor.save_as_file
+
+      updated_toml = TomlRB.load_file(result_file)
+      expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
+    end
+
+    it "updates status of gems only alive or unknown" do
+      doctor.diagnose
+      doctor.save_as_file
+
+      updated_toml = TomlRB.load_file(result_file)
+      original_toml = TomlRB.load_file(result_file_org)
+
+      expect(updated_toml["ast"]["alive"]).to eq true
+      expect(updated_toml["ast"]["checked_at"]).to be > Time.parse("2022-05-07T12:24:11Z")
+
+      expect(updated_toml["journey"]["alive"]).to eq false
+      expect(updated_toml["journey"]["checked_at"]).to eq original_toml["journey"]["checked_at"]
+    end
+  end
+
+  describe "#report" do
+    it "reports result" do
+      doctor.diagnose
+
+      expected = <<~RESULT
+        Name: journey
+        URL: http://github.com/rails/journey
+        Status: false
+
+      RESULT
+      expect { doctor.report }.to output(expected).to_stdout
+    end
+  end
+end
