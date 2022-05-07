@@ -1,0 +1,88 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/rainbow.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Security-Policy:
+      - default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'
+        https://secure.gaug.es https://gravatar.com https://secure.gravatar.com https://*.fastly-insights.com;
+        object-src 'none'; script-src 'self' https://secure.gaug.es https://www.fastly-insights.com;
+        style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://s3-us-west-2.amazonaws.com/rubygems-dumps/
+        https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
+        form-action 'self'; frame-ancestors 'self'
+      X-Request-Id:
+      - 5d716e7f-06c4-4a61-a5e7-6b483a3ff954
+      X-Runtime:
+      - '0.013184'
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Backend:
+      - F_Rails 52.88.209.40:443
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 07 May 2022 02:17:12 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-tyo11948-TYO
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1651889832.078125,VS0,VE547
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"05ef8db8b6f65c115e3ac4f7c30fab59"'
+      Server:
+      - RubyGems.org
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"rainbow","downloads":231783428,"version":"3.1.1","version_created_at":"2022-01-11T09:11:07.407Z","version_downloads":13630819,"platform":"ruby","authors":"Marcin
+        Kulik, Olle Jonsson","info":"Colorize printed text on ANSI terminals","licenses":["MIT"],"metadata":{},"yanked":false,"sha":"039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a","project_uri":"https://rubygems.org/gems/rainbow","gem_uri":"https://rubygems.org/gems/rainbow-3.1.1.gem","homepage_uri":"https://github.com/sickill/rainbow","wiki_uri":"","documentation_uri":"https://www.rubydoc.info/gems/rainbow/3.1.1","mailing_list_uri":"","source_code_uri":"http://github.com/sickill/rainbow","bug_tracker_uri":"","changelog_uri":null,"funding_uri":null,"dependencies":{"development":[{"name":"bundler","requirements":"\u003e=
+        1.3, \u003c 3"}],"runtime":[]}}'
+  recorded_at: Sat, 07 May 2022 02:17:12 GMT
+recorded_with: VCR 6.1.0

@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/parallel.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Security-Policy:
+      - default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'
+        https://secure.gaug.es https://gravatar.com https://secure.gravatar.com https://*.fastly-insights.com;
+        object-src 'none'; script-src 'self' https://secure.gaug.es https://www.fastly-insights.com;
+        style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://s3-us-west-2.amazonaws.com/rubygems-dumps/
+        https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
+        form-action 'self'; frame-ancestors 'self'
+      X-Request-Id:
+      - 4fb29b49-889a-4dc6-9828-4b8543dc6b5e
+      X-Runtime:
+      - '0.020026'
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Backend:
+      - F_Rails 54.203.190.11:443
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 07 May 2022 02:11:50 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-tyo11941-TYO
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1651889510.361573,VS0,VE151
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"6f45f62c13e9718715b356bc06f21233"'
+      Server:
+      - RubyGems.org
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"parallel","downloads":244443773,"version":"1.22.1","version_created_at":"2022-03-25T23:34:40.553Z","version_downloads":6665623,"platform":"ruby","authors":"Michael
+        Grosser","info":"Run any kind of code in parallel processes","licenses":["MIT"],"metadata":{"wiki_uri":"https://github.com/grosser/parallel/wiki","bug_tracker_uri":"https://github.com/grosser/parallel/issues","source_code_uri":"https://github.com/grosser/parallel/tree/v1.22.1","documentation_uri":"https://github.com/grosser/parallel/blob/v1.22.1/Readme.md"},"yanked":false,"sha":"ebdf1f0c51f182df38522f70ba770214940bef998cdb6e00f36492b29699761f","project_uri":"https://rubygems.org/gems/parallel","gem_uri":"https://rubygems.org/gems/parallel-1.22.1.gem","homepage_uri":"https://github.com/grosser/parallel","wiki_uri":"https://github.com/grosser/parallel/wiki","documentation_uri":"https://github.com/grosser/parallel/blob/v1.22.1/Readme.md","mailing_list_uri":null,"source_code_uri":"https://github.com/grosser/parallel/tree/v1.22.1","bug_tracker_uri":"https://github.com/grosser/parallel/issues","changelog_uri":null,"funding_uri":null,"dependencies":{"development":[],"runtime":[]}}'
+  recorded_at: Sat, 07 May 2022 02:11:50 GMT
+recorded_with: VCR 6.1.0

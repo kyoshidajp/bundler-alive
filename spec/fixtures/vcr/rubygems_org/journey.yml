@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/journey.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Security-Policy:
+      - default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'
+        https://secure.gaug.es https://gravatar.com https://secure.gravatar.com https://*.fastly-insights.com;
+        object-src 'none'; script-src 'self' https://secure.gaug.es https://www.fastly-insights.com;
+        style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://s3-us-west-2.amazonaws.com/rubygems-dumps/
+        https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
+        form-action 'self'; frame-ancestors 'self'
+      X-Request-Id:
+      - a903b15c-1047-4fc3-bddb-f0a3978ff805
+      X-Runtime:
+      - '0.013706'
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Backend:
+      - F_Rails 34.218.36.241:443
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 07 May 2022 04:03:09 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-tyo11965-TYO
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1651896190.686988,VS0,VE148
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"6e739c7fcab3a8ab03675259a0c58c80"'
+      Server:
+      - RubyGems.org
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"journey","downloads":29340794,"version":"1.0.4","version_created_at":"2012-06-14T21:18:48.707Z","version_downloads":27478813,"platform":"ruby","authors":"Aaron
+        Patterson","info":"Journey is a router.  It routes requests.","licenses":null,"metadata":{},"yanked":false,"sha":"7454b8612530784000fbb17ea2df749a71b70702a0ac8ebef4a1e7f05aecc10f","project_uri":"https://rubygems.org/gems/journey","gem_uri":"https://rubygems.org/gems/journey-1.0.4.gem","homepage_uri":"http://github.com/rails/journey","wiki_uri":null,"documentation_uri":"https://www.rubydoc.info/gems/journey/1.0.4","mailing_list_uri":null,"source_code_uri":null,"bug_tracker_uri":null,"changelog_uri":null,"funding_uri":null,"dependencies":{"development":[{"name":"hoe","requirements":"~\u003e
+        2.13"},{"name":"json","requirements":"\u003e= 0"},{"name":"minitest","requirements":"~\u003e
+        2.11"},{"name":"racc","requirements":"\u003e= 1.4.6"},{"name":"rdoc","requirements":"~\u003e
+        3.11"},{"name":"rdoc","requirements":"~\u003e 3.10"}],"runtime":[]}}'
+  recorded_at: Sat, 07 May 2022 04:03:09 GMT
+recorded_with: VCR 6.1.0

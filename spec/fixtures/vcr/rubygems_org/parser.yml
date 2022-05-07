@@ -1,0 +1,92 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/parser.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Security-Policy:
+      - default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'
+        https://secure.gaug.es https://gravatar.com https://secure.gravatar.com https://*.fastly-insights.com;
+        object-src 'none'; script-src 'self' https://secure.gaug.es https://www.fastly-insights.com;
+        style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://s3-us-west-2.amazonaws.com/rubygems-dumps/
+        https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
+        form-action 'self'; frame-ancestors 'self'
+      X-Request-Id:
+      - 3ece39e3-473c-4c7b-a420-e877a65d9179
+      X-Runtime:
+      - '0.023398'
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Backend:
+      - F_Rails 54.203.190.11:443
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 07 May 2022 02:47:56 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-tyo11929-TYO
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1651891677.649715,VS0,VE219
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"ef75a42ac73672b974ae00fef2b4557d"'
+      Server:
+      - RubyGems.org
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"parser","downloads":245682303,"version":"3.1.2.0","version_created_at":"2022-04-12T17:22:30.014Z","version_downloads":1801897,"platform":"ruby","authors":"whitequark","info":"A
+        Ruby parser written in pure Ruby.","licenses":["MIT"],"metadata":{"changelog_uri":"https://github.com/whitequark/parser/blob/v3.1.2.0/CHANGELOG.md","bug_tracker_uri":"https://github.com/whitequark/parser/issues","source_code_uri":"https://github.com/whitequark/parser/tree/v3.1.2.0","documentation_uri":"https://www.rubydoc.info/gems/parser/3.1.2.0"},"yanked":false,"sha":"eda4d7b49bbfddad3b6ca9cdfb23302eec6cf73c2e808b6d5b0cc9161f7c0e76","project_uri":"https://rubygems.org/gems/parser","gem_uri":"https://rubygems.org/gems/parser-3.1.2.0.gem","homepage_uri":"https://github.com/whitequark/parser","wiki_uri":null,"documentation_uri":"https://www.rubydoc.info/gems/parser/3.1.2.0","mailing_list_uri":null,"source_code_uri":"https://github.com/whitequark/parser/tree/v3.1.2.0","bug_tracker_uri":"https://github.com/whitequark/parser/issues","changelog_uri":"https://github.com/whitequark/parser/blob/v3.1.2.0/CHANGELOG.md","funding_uri":null,"dependencies":{"development":[{"name":"bundler","requirements":"\u003e=
+        1.15, \u003c 3.0.0"},{"name":"cliver","requirements":"~\u003e 0.3.2"},{"name":"gauntlet","requirements":"\u003e=
+        0"},{"name":"kramdown","requirements":"\u003e= 0"},{"name":"minitest","requirements":"~\u003e
+        5.10"},{"name":"racc","requirements":"= 1.4.15"},{"name":"rake","requirements":"~\u003e
+        13.0.1"},{"name":"simplecov","requirements":"~\u003e 0.15.1"},{"name":"yard","requirements":"\u003e=
+        0"}],"runtime":[{"name":"ast","requirements":"~\u003e 2.4.1"}]}}'
+  recorded_at: Sat, 07 May 2022 02:47:56 GMT
+recorded_with: VCR 6.1.0
