@@ -4,6 +4,12 @@ module Bundler
   module Alive
     # Represents a source code repository
     class SourceCodeRepositoryUrl
+      DOMAIN_WITH_SERVICES = {
+        "github.com" => SourceCodeRepository::Service::GITHUB
+      }.freeze
+
+      private_constant :DOMAIN_WITH_SERVICES
+
       # No supported URL Error
       class UnSupportedUrl < StandardError
         def initialize(url)
@@ -12,21 +18,29 @@ module Bundler
         end
       end
 
-      GITHUB_DOMAIN = "github.com"
+      attr_reader :url, :service_name
 
-      attr_reader :url
-
+      #
+      # Creates a `SourceCodeRepositoryUrl`
+      #
+      # @param [String] url
+      #
+      # @raise [UnSupportedUrl]
+      #
       def initialize(url)
-        raise UnSupportedUrl, url unless github_url?(url)
-
         @url = url
+        @service_name = service(url)
       end
 
       private
 
-      def github_url?(url)
+      def service(url)
         uri = URI.parse(url)
-        uri.host == GITHUB_DOMAIN
+        host = uri.host
+
+        raise UnSupportedUrl, url unless DOMAIN_WITH_SERVICES.key?(host)
+
+        DOMAIN_WITH_SERVICES[host]
       end
     end
   end

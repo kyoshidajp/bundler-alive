@@ -4,14 +4,27 @@ module Bundler
   module Alive
     # Represents a source code repository
     class SourceCodeRepository
-      def initialize(url:, client:)
-        raise ArgumentError, "Unknown url: #{url}" unless url.instance_of?(SourceCodeRepositoryUrl)
-        raise ArgumentError, "Unknown client: #{client}" unless client.instance_of?(Client::SourceCodeClient)
-
-        @url = url
-        @client = client
+      module Service
+        GITHUB = :github
       end
 
+      #
+      # Creates a `SourceCodeRepository`
+      #
+      # @param [SourceCodeRepositoryUrl] url
+      #
+      def initialize(url:)
+        raise ArgumentError, "Unknown url: #{url}" unless url.instance_of?(SourceCodeRepositoryUrl)
+
+        @url = url
+        @client = Client::SourceCodeClient.new(service_name: url.service_name)
+      end
+
+      #
+      # Returns alive or not
+      #
+      # @return [Boolean]
+      #
       def alive?
         !client.archived?(url)
       end
