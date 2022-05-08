@@ -30,6 +30,14 @@ module Bundler
       #
       # Diagnoses gems in lock file of gem
       #
+      # @raise [Client::SourceCodeClient::RateLimitExceededError]
+      #   When exceeded access rate limit
+      #
+      # @raise [StandardError]
+      #   When raised unexpected error
+      #
+      # @return [GemStatusCollection]
+      #
       def diagnose
         @result = gems.each_with_object(GemStatusCollection.new) do |spec, collection|
           gem_name = spec.name
@@ -94,21 +102,13 @@ module Bundler
         lock_file.specs.each
       end
 
-      # rubocop:disable Metrics/MethodLength
       def diagnose_gem(gem_name)
         gem_status = collection_from_file.get_unchecked(gem_name)
         return gem_status if diagnosed_gem?(gem_status)
 
         unless @rate_limit_exceeded_error
-          begin
-            source_code_url = gem_client.get_repository_url(gem_name)
-            is_alive = SourceCodeRepository.new(url: source_code_url).alive?
-          rescue Client::SourceCodeClient::RateLimitExceededError => e
-            @rate_limit_exceeded_error = true
-            puts e.message
-          rescue StandardError => e
-            puts e.message
-          end
+          source_code_url = gem_source_code_url(gem_name)
+          is_alive = gem_alive?(source_code_url)
         end
 
         GemStatus.new(name: gem_name,
@@ -116,7 +116,24 @@ module Bundler
                       alive: is_alive,
                       checked_at: Time.now)
       end
-      # rubocop:enable Metrics/MethodLength
+
+      def gem_source_code_url(gem_name)
+        gem_client.get_repository_url(gem_name)
+      rescue Client::SourceCodeClient::RateLimitExceededError => e
+        @rate_limit_exceeded_error = true
+        puts e.message
+      rescue StandardError => e
+        puts e.message
+      end
+
+      def gem_alive?(source_code_url)
+        SourceCodeRepository.new(url: source_code_url).alive?
+      rescue Client::SourceCodeClient::RateLimitExceededError => e
+        @rate_limit_exceeded_error = true
+        puts e.message
+      rescue StandardError => e
+        puts e.message
+      end
     end
   end
 end
