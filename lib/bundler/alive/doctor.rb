@@ -10,7 +10,7 @@ module Bundler
     # Diagnoses a `Gemfile.lock` with a TOML file
     #
     class Doctor
-      attr_reader :all_alive
+      attr_reader :all_alive, :rate_limit_exceeded_error
 
       #
       # A new instance of Doctor
@@ -24,6 +24,7 @@ module Bundler
         @gem_client = Client::GemsApi.new
         @result = nil
         @all_alive = nil
+        @rate_limit_exceeded_error = false
       end
 
       #
@@ -32,8 +33,7 @@ module Bundler
       def diagnose
         @result = gems.each_with_object(GemStatusCollection.new) do |spec, collection|
           gem_name = spec.name
-          gem_status = collection_from_file.get_unchecked(gem_name)
-          gem_status = diagnose_each_gem(gem_name) if should_diagnose_gem?(gem_status)
+          gem_status = diagnose_gem(gem_name)
 
           collection.add(gem_name, gem_status)
         end
@@ -62,8 +62,8 @@ module Bundler
 
       attr_reader :lock_file, :result_file, :gem_client, :result
 
-      def should_diagnose_gem?(gem_status)
-        gem_status.nil? || gem_status.alive
+      def diagnosed_gem?(gem_status)
+        !gem_status.nil? && !gem_status.unknown?
       end
 
       def collection_from_file
@@ -94,19 +94,29 @@ module Bundler
         lock_file.specs.each
       end
 
-      def diagnose_each_gem(gem_name)
-        begin
-          source_code_url = gem_client.get_repository_url(gem_name)
-          is_alive = SourceCodeRepository.new(url: source_code_url).alive?
-        rescue Client::GemsApi::NotFound, Client::SourceCodeClient::SearchRepositoryError => e
-          puts e.message
+      # rubocop:disable Metrics/MethodLength
+      def diagnose_gem(gem_name)
+        gem_status = collection_from_file.get_unchecked(gem_name)
+        return gem_status if diagnosed_gem?(gem_status)
+
+        unless @rate_limit_exceeded_error
+          begin
+            source_code_url = gem_client.get_repository_url(gem_name)
+            is_alive = SourceCodeRepository.new(url: source_code_url).alive?
+          rescue Client::SourceCodeClient::RateLimitExceededError => e
+            @rate_limit_exceeded_error = true
+            puts e.message
+          rescue StandardError => e
+            puts e.message
+          end
         end
 
         GemStatus.new(name: gem_name,
-                      repository_url: source_code_url,
-                      alive: is_alive,
+                      repository_url: source_code_url || GemStatus::REPOSITORY_URL_UNKNOWN,
+                      alive: is_alive || GemStatus::ALIVE_UNKNOWN,
                       checked_at: Time.now)
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end

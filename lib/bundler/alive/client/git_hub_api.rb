@@ -24,13 +24,21 @@ module Bundler
         #
         # @param [SourceCodeRepositoryUrl] repository_url
         #
+        # @raise [ArgumentError]
+        #   when repository_uri is not `SourceCodeRepositoryUrl`
+        #
+        # @raise [Octokit::TooManyRequests]
+        #   when too many requested to GitHub.com
+        #
         # @raise [SourceCodeClient::SearchRepositoryError]
+        #   when Error without `Octokit::TooManyRequests`
         #
         # @return [Boolean]
         #
+        # rubocop:disable Metrics/MethodLength
         def archived?(repository_url)
           unless repository_url.instance_of?(SourceCodeRepositoryUrl)
-            raise NotImplementedError, "UnSupported url: #{repository_url}"
+            raise ArgumentError, "UnSupported url: #{repository_url}"
           end
 
           query = "repo:#{slug(repository_url.url)}"
@@ -38,10 +46,13 @@ module Bundler
           begin
             result = @client.search_repositories(query)
             result[:items][0][:archived]
-          rescue Octokit::TooManyRequests, Octokit::UnprocessableEntity => e
+          rescue Octokit::TooManyRequests => e
+            raise SourceCodeClient::RateLimitExceededError, e.message
+          rescue StandardError => e
             raise SourceCodeClient::SearchRepositoryError, e.message
           end
         end
+        # rubocop:enable Metrics/MethodLength
 
         #
         # Returns slug of repository URL

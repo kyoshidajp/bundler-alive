@@ -19,10 +19,12 @@ module Bundler
                                    default: "Gemfile.lock"
 
       def check(_dir = Dir.pwd)
-        doctor = initialize_doctor
-        doctor.diagnose
-        doctor.report
-        doctor.save_as_file
+        doctor = check_by_doctor
+
+        if doctor.rate_limit_exceeded_error
+          puts "Too many requested! Retry later."
+          exit 1
+        end
 
         exit 0 if doctor.all_alive
 
@@ -37,10 +39,17 @@ module Bundler
 
       private
 
-      def initialize_doctor
-        Doctor.new(options[:gemfile_lock])
-      rescue Bundler::GemfileLockNotFound
-        exit 1
+      def check_by_doctor
+        doctor = begin
+          Doctor.new(options[:gemfile_lock])
+        rescue Bundler::GemfileLockNotFound
+          exit 1
+        end
+
+        doctor.diagnose
+        doctor.report
+        doctor.save_as_file
+        doctor
       end
     end
   end
