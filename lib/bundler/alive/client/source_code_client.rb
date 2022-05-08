@@ -10,6 +10,9 @@ module Bundler
         class SearchRepositoryError < StandardError
         end
 
+        class RateLimitExceededError < StandardError
+        end
+
         SERVICE_WITH_STRATEGIES = {
           SourceCodeRepository::Service::GITHUB => GitHubApi
         }.freeze
