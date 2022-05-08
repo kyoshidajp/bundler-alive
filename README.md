@@ -42,3 +42,10 @@ If you run again, it will resume.
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/kyoshidajp/bunlder-alive.
+
+## Thanks
+
+This gem was inspired by the following products.
+
+- [bundler-audit](https://github.com/rubysec/bundler-audit)
+- [良いコード／悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方](https://gihyo.jp/book/2022/978-4-297-12783-1)
