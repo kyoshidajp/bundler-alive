@@ -21,7 +21,7 @@ module Bundler
       def check(_dir = Dir.pwd)
         doctor = check_by_doctor
 
-        if doctor.rate_limit_exceeded_error
+        if doctor.rate_limit_exceeded
           puts "Too many requested! Retry later."
           exit 1
         end

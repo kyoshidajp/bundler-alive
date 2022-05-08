@@ -10,7 +10,7 @@ module Bundler
     # Diagnoses a `Gemfile.lock` with a TOML file
     #
     class Doctor
-      attr_reader :all_alive, :rate_limit_exceeded_error
+      attr_reader :all_alive, :rate_limit_exceeded
 
       #
       # A new instance of Doctor
@@ -24,7 +24,7 @@ module Bundler
         @gem_client = Client::GemsApi.new
         @result = nil
         @all_alive = nil
-        @rate_limit_exceeded_error = false
+        @rate_limit_exceeded = false
       end
 
       #
@@ -106,7 +106,7 @@ module Bundler
         gem_status = collection_from_file.get_unchecked(gem_name)
         return gem_status if diagnosed_gem?(gem_status)
 
-        unless @rate_limit_exceeded_error
+        unless @rate_limit_exceeded
           source_code_url = gem_source_code_url(gem_name)
           is_alive = gem_alive?(source_code_url)
         end
@@ -120,7 +120,7 @@ module Bundler
       def gem_source_code_url(gem_name)
         gem_client.get_repository_url(gem_name)
       rescue Client::SourceCodeClient::RateLimitExceededError => e
-        @rate_limit_exceeded_error = true
+        @rate_limit_exceeded = true
         puts e.message
       rescue StandardError => e
         puts e.message
@@ -129,7 +129,7 @@ module Bundler
       def gem_alive?(source_code_url)
         SourceCodeRepository.new(url: source_code_url).alive?
       rescue Client::SourceCodeClient::RateLimitExceededError => e
-        @rate_limit_exceeded_error = true
+        @rate_limit_exceeded = true
         puts e.message
       rescue StandardError => e
         puts e.message
