@@ -112,8 +112,8 @@ module Bundler
         end
 
         GemStatus.new(name: gem_name,
-                      repository_url: source_code_url || GemStatus::REPOSITORY_URL_UNKNOWN,
-                      alive: is_alive || GemStatus::ALIVE_UNKNOWN,
+                      repository_url: source_code_url,
+                      alive: is_alive,
                       checked_at: Time.now)
       end
       # rubocop:enable Metrics/MethodLength
