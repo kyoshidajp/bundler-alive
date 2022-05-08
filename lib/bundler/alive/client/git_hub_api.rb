@@ -10,13 +10,15 @@ module Bundler
       # API Client for GitHub API
       #
       module GitHubApi
+        ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITHUB_TOKEN"
+
         #
         # Creates a GitHub client
         #
         # @return [Octokit::Client]
         #
         def create_client
-          Octokit::Client.new(access_token: ENV.fetch("BUNDLER_ALIVE_GITHUB_TOKEN", nil))
+          Octokit::Client.new(access_token: ENV.fetch(ACCESS_TOKEN_ENV_NAME, nil))
         end
 
         #
