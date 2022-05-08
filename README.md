@@ -1,31 +1,51 @@
-# Bunlde::Alive
+# bundler-alive
 
 ![bundler-alive](https://github.com/kyoshidajp/bundler-alive/actions/workflows/ci.yml/badge.svg)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bunlde/alive`. To experiment with that code, run `bin/console` for an interactive prompt.
+`bunder-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
 
-TODO: Delete this and the text above, and describe your gem
+Currently only github.com is supported as a source code repository. If the source code repository is archived, then reports as not alive.
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
-
-    $ bundle add bunlde-alive
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install bunlde-alive
+```
+$ gem install bunlder-alive
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ bundle-alive
+Name: journey
+URL: http://github.com/rails/journey
+Status: false
 
-## Development
+Not alive gems are found!
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Default `Gemfile.lock` location is in your current directory. You can specify it.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+$ bundle-alive -G /path/to/Gemfile.lock
+```
+
+In most cases, the following error is output.
+
+```
+Too many requested! Retry later.
+```
+
+In this case, setting [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) as `BUNDLER_ALIVE_GITHUB_TOKEN` environment variable may alleviate the error.
+
+If you run again, it will resume.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/kyoshidajp/bunlde-alive.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kyoshidajp/bunlder-alive.
+
+## Thanks
+
+This gem was inspired by the following products.
+
+- [bundler-audit](https://github.com/rubysec/bundler-audit)
+- [良いコード／悪いコードで学ぶ設計入門 ―保守しやすい 成長し続けるコードの書き方](https://gihyo.jp/book/2022/978-4-297-12783-1)
