@@ -37,24 +37,36 @@ module Bundler
         #
         # @return [Boolean]
         #
-        # rubocop:disable Metrics/MethodLength
         def archived?(repository_url)
           unless repository_url.instance_of?(SourceCodeRepositoryUrl)
             raise ArgumentError, "UnSupported url: #{repository_url}"
           end
 
           query = "repo:#{slug(repository_url.url)}"
-
-          begin
-            result = @client.search_repositories(query)
-            result[:items][0][:archived]
-          rescue Octokit::TooManyRequests => e
-            raise SourceCodeClient::RateLimitExceededError, e.message
-          rescue StandardError => e
-            raise SourceCodeClient::SearchRepositoryError, e.message
-          end
+          query_archived?(query)
         end
-        # rubocop:enable Metrics/MethodLength
+
+        #
+        # Query the repository archived?
+        #
+        # @param [String] query
+        #
+        # @raise [Octokit::TooManyRequests]
+        #   when too many requested to GitHub.com
+        #
+        # @raise [SourceCodeClient::SearchRepositoryError]
+        #   when Error without `Octokit::TooManyRequests`
+        #
+        # @return [Boolean]
+        #
+        def query_archived?(query)
+          result = @client.search_repositories(query)
+          result[:items][0][:archived]
+        rescue Octokit::TooManyRequests => e
+          raise SourceCodeClient::RateLimitExceededError, e.message
+        rescue StandardError => e
+          raise SourceCodeClient::SearchRepositoryError, e.message
+        end
 
         #
         # Returns slug of repository URL
