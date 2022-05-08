@@ -4,8 +4,8 @@ require "forwardable"
 
 module Bundler
   module Alive
-    # Collection of GemStatus
-    class GemStatusCollection
+    # Collection of `Gem`
+    class GemCollection
       extend Forwardable
       delegate each: :gems
 

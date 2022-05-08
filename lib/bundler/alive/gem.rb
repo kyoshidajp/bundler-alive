@@ -3,9 +3,9 @@
 module Bundler
   module Alive
     #
-    # Result of gem status
+    # Represents Gem
     #
-    class GemStatus
+    class Gem
       REPOSITORY_URL_UNKNOWN = :unknown
       ALIVE_UNKNOWN = :unknown
 
@@ -24,7 +24,7 @@ module Bundler
       end
 
       #
-      # Alive?
+      # Is status of alive unknown?
       #
       # @return [Boolean]
       #
