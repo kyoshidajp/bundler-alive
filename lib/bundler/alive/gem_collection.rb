@@ -22,8 +22,8 @@ module Bundler
         freeze
       end
 
-      def add(name, gem_status)
-        gems[name] = gem_status
+      def add(name, gem)
+        gems[name] = gem
 
         self.class.new(gems)
       end
@@ -31,10 +31,10 @@ module Bundler
       def get_unchecked(name)
         return nil unless gems.key?(name)
 
-        gem_status = gems[name]
-        return nil if gem_status.unknown?
+        gem = gems[name]
+        return nil if gem.unknown?
 
-        gem_status
+        gem
       end
 
       def to_h

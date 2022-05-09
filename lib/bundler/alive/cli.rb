@@ -20,9 +20,9 @@ module Bundler
 
       def check(_dir = Dir.pwd)
         doctor = check_by_doctor
-        puts doctor.message
+        doctor.report
 
-        exit_status = doctor.all_alive ? 0 : 1
+        exit_status = doctor.all_alive? ? 0 : 1
         exit exit_status
       end
 
@@ -41,7 +41,6 @@ module Bundler
         end
 
         doctor.diagnose
-        doctor.report
         doctor
       end
     end
