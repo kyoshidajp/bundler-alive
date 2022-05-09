@@ -1,7 +1,9 @@
 # bundler-alive
 
-![bundler-alive](https://github.com/kyoshidajp/bundler-alive/actions/workflows/ci.yml/badge.svg)
 [![Gem Version](https://badge.fury.io/rb/bundler-alive.svg)](https://badge.fury.io/rb/bundler-alive)
+![bundler-alive](https://github.com/kyoshidajp/bundler-alive/actions/workflows/ci.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a79d53257bc5e93842f6/maintainability)](https://codeclimate.com/github/kyoshidajp/bundler-alive/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a79d53257bc5e93842f6/test_coverage)](https://codeclimate.com/github/kyoshidajp/bundler-alive/test_coverage)
 
 `bunder-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
 
