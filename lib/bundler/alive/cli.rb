@@ -48,7 +48,6 @@ module Bundler
 
         doctor.diagnose
         doctor.report
-        doctor.save_as_file
         doctor
       end
     end

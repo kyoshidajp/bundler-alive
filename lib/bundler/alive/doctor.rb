@@ -44,6 +44,8 @@ module Bundler
           collection.add(gem_name, gem_status)
         end
         @all_alive = result.all_alive?
+
+        save_as_file
       end
 
       #
@@ -56,17 +58,14 @@ module Bundler
         end
       end
 
-      #
-      # Saves result to file
-      #
+      private
+
+      attr_reader :lock_file, :result_file, :gem_client, :result
+
       def save_as_file
         body = TomlRB.dump(result.to_h)
         File.write(result_file, body)
       end
-
-      private
-
-      attr_reader :lock_file, :result_file, :gem_client, :result
 
       def diagnosed_gem?(gem_status)
         !gem_status.nil? && !gem_status.unknown?
