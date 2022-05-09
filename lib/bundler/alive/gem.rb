@@ -6,8 +6,8 @@ module Bundler
     # Represents Gem
     #
     class Gem
-      REPOSITORY_URL_UNKNOWN = :unknown
-      ALIVE_UNKNOWN = :unknown
+      REPOSITORY_URL_UNKNOWN = "unknown"
+      ALIVE_UNKNOWN = "unknown"
 
       attr_reader :name, :repository_url, :alive, :checked_at
 
@@ -61,7 +61,7 @@ module Bundler
 
       def decorated_repository_url
         if repository_url == REPOSITORY_URL_UNKNOWN
-          REPOSITORY_URL_UNKNOWN.to_s
+          REPOSITORY_URL_UNKNOWN
         else
           repository_url.url
         end
@@ -69,7 +69,7 @@ module Bundler
 
       def decorated_alive
         if alive == ALIVE_UNKNOWN
-          ALIVE_UNKNOWN.to_s
+          ALIVE_UNKNOWN
         else
           alive
         end

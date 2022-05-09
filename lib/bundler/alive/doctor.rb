@@ -84,7 +84,7 @@ module Bundler
       def collection_from_hash(hash)
         hash.each_with_object(GemCollection.new) do |(gem_name, v), collection|
           url = v["repository_url"]
-          next if url.to_sym == Gem::REPOSITORY_URL_UNKNOWN
+          next if url == Gem::REPOSITORY_URL_UNKNOWN
 
           gem_status = Gem.new(name: gem_name,
                                repository_url: SourceCodeRepositoryUrl.new(url),
