@@ -41,6 +41,15 @@ module Bundler
         gems.find_all { |_name, gem| !!!gem.alive }
       end
 
+      #
+      # All of gems are alive nor not
+      #
+      # @return [Boolean]
+      #
+      def all_alive?
+        gems.find { |_name, gem| !!!gem.alive || gem.unknown? }.nil?
+      end
+
       private
 
       attr_reader :gems

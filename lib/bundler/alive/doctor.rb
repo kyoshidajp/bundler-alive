@@ -36,8 +36,6 @@ module Bundler
       # @raise [StandardError]
       #   When raised unexpected error
       #
-      # @return [GemCollection]
-      #
       def diagnose
         @result = gems.each_with_object(GemCollection.new) do |spec, collection|
           gem_name = spec.name
@@ -45,6 +43,7 @@ module Bundler
 
           collection.add(gem_name, gem_status)
         end
+        @all_alive = result.all_alive?
       end
 
       #
@@ -52,7 +51,6 @@ module Bundler
       #
       def report
         need_to_report_gems = result.need_to_report_gems
-        @all_alive = need_to_report_gems.size.zero?
         need_to_report_gems.each do |_name, gem_status|
           print gem_status.report
         end
