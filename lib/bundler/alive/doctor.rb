@@ -10,7 +10,7 @@ module Bundler
     # Diagnoses a `Gemfile.lock` with a TOML file
     #
     class Doctor
-      attr_reader :all_alive, :rate_limit_exceeded
+      attr_reader :all_alive, :message
 
       #
       # A new instance of Doctor
@@ -25,6 +25,7 @@ module Bundler
         @result = nil
         @all_alive = nil
         @rate_limit_exceeded = false
+        @message = nil
       end
 
       #
@@ -44,6 +45,7 @@ module Bundler
           collection.add(gem_name, gem_status)
         end
         @all_alive = result.all_alive?
+        @message = _message
 
         save_as_file
       end
@@ -60,7 +62,15 @@ module Bundler
 
       private
 
-      attr_reader :lock_file, :result_file, :gem_client, :result
+      attr_reader :lock_file, :result_file, :gem_client, :result, :rate_limit_exceeded
+
+      def _message
+        return "Too many requested! Retry later." if rate_limit_exceeded
+
+        return "All gems are alive!" if all_alive
+
+        "Not alive gems are found!"
+      end
 
       def save_as_file
         body = TomlRB.dump(result.to_h)
