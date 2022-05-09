@@ -68,22 +68,6 @@ RSpec.describe Bundler::Alive::Doctor do
       expect(updated_toml["journey"]["checked_at"]).to eq original_toml["journey"]["checked_at"]
     end
 
-    it "has not alive gems are found" do
-      doctor.diagnose
-      expect(doctor.message).to eq "Not alive gems are found!"
-    end
-
-    context "when all gems are alive" do
-      before do
-        allow(doctor).to receive(:all_alive).and_return(true)
-        allow(doctor).to receive(:rate_limit_exceeded).and_return(false)
-      end
-      it "has all gems are alive" do
-        doctor.diagnose
-        expect(doctor.message).to eq "All gems are alive!"
-      end
-    end
-
     context "when raised a GitHub's rate limit exceeded error" do
       before(:each) do
         VCR.insert_cassette("github.com/sickill/rate-limit-exceeded-rainbow")
@@ -107,11 +91,6 @@ RSpec.describe Bundler::Alive::Doctor do
         expect(updated_toml["rainbow"]["repository_url"]).to eq "http://github.com/sickill/rainbow"
         expect(updated_toml["rainbow"]["checked_at"]).not_to be nil
       end
-
-      it "has too many error message" do
-        doctor.diagnose
-        expect(doctor.message).to eq "Too many requested! Retry later."
-      end
     end
   end
 
@@ -120,12 +99,42 @@ RSpec.describe Bundler::Alive::Doctor do
       doctor.diagnose
 
       expected = <<~RESULT
+
         Name: journey
         URL: http://github.com/rails/journey
         Status: false
 
+        bundle-alive is not found in gems.org.
+        Unknown url:#{" "}
+
+        Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
+        Not alive gems are found!
       RESULT
       expect { doctor.report }.to output(expected).to_stdout
+    end
+  end
+
+  describe "#all_alive?" do
+    context "when all gems are alive" do
+      before do
+        collection = double(GemCollection)
+        allow(collection).to receive(:all_alive?).and_return(true)
+        allow(doctor).to receive(:result).and_return(collection)
+      end
+      it "returns true" do
+        expect(doctor.all_alive?).to eq true
+      end
+    end
+
+    context "when included not alive gems" do
+      before do
+        collection = double(GemCollection)
+        allow(collection).to receive(:all_alive?).and_return(false)
+        allow(doctor).to receive(:result).and_return(collection)
+      end
+      it "returns false" do
+        expect(doctor.all_alive?).to eq false
+      end
     end
   end
 end

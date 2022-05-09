@@ -19,10 +19,17 @@ $ gem install bunlder-alive
 
 ```
 $ bundle-alive
+6 gems are in Gemfile.lock
+......
+
 Name: journey
 URL: http://github.com/rails/journey
 Status: false
 
+bundle-alive is not found in gems.org.
+Unknown url:
+
+Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
 Not alive gems are found!
 ```
 

@@ -10,8 +10,6 @@ module Bundler
     # Diagnoses a `Gemfile.lock` with a TOML file
     #
     class Doctor
-      attr_reader :all_alive, :message
-
       #
       # A new instance of Doctor
       #
@@ -23,9 +21,11 @@ module Bundler
         @result_file = result_file
         @gem_client = Client::GemsApi.new
         @result = nil
-        @all_alive = nil
         @rate_limit_exceeded = false
-        @message = nil
+        @announcer = Announcer.new
+        @error_messages = []
+
+        @output = $stdout
       end
 
       #
@@ -38,14 +38,15 @@ module Bundler
       #   When raised unexpected error
       #
       def diagnose
-        @result = gems.each_with_object(GemCollection.new) do |spec, collection|
-          gem_name = spec.name
-          gem_status = diagnose_gem(gem_name)
-
-          collection.add(gem_name, gem_status)
+        announcer.announce(gems.size) do
+          collection = GemCollection.new
+          gems.each do |spec|
+            name = spec.name
+            gem = diagnose_gem_with_announce(name)
+            collection = collection.add(name, gem)
+          end
+          @result = collection
         end
-        @all_alive = result.all_alive?
-        @message = _message
 
         save_as_file
       end
@@ -54,31 +55,25 @@ module Bundler
       # Reports the result
       #
       def report
-        need_to_report_gems = result.need_to_report_gems
-        need_to_report_gems.each do |_name, gem_status|
-          print gem_status.report
-        end
+        reporter = Reporter.new(result: result,
+                                error_messages: error_messages,
+                                rate_limit_exceeded: rate_limit_exceeded)
+        reporter.report
+      end
+
+      def all_alive?
+        result.all_alive?
       end
 
       private
 
-      attr_reader :lock_file, :result_file, :gem_client, :result, :rate_limit_exceeded
-
-      def _message
-        return "Too many requested! Retry later." if rate_limit_exceeded
-
-        return "All gems are alive!" if all_alive
-
-        "Not alive gems are found!"
-      end
+      attr_reader :lock_file, :result_file, :gem_client, :result,
+                  :rate_limit_exceeded, :output, :announcer,
+                  :error_messages
 
       def save_as_file
         body = TomlRB.dump(result.to_h)
         File.write(result_file, body)
-      end
-
-      def diagnosed_gem?(gem_status)
-        !gem_status.nil? && !gem_status.unknown?
       end
 
       def collection_from_file
@@ -95,11 +90,11 @@ module Bundler
           url = v["repository_url"]
           next if url == Gem::REPOSITORY_URL_UNKNOWN
 
-          gem_status = Gem.new(name: gem_name,
-                               repository_url: SourceCodeRepositoryUrl.new(url),
-                               alive: v["alive"],
-                               checked_at: v["checked_at"])
-          collection.add(gem_name, gem_status)
+          gem = Gem.new(name: gem_name,
+                        repository_url: SourceCodeRepositoryUrl.new(url),
+                        alive: v["alive"],
+                        checked_at: v["checked_at"])
+          collection.add(gem_name, gem)
         end
       end
 
@@ -109,16 +104,22 @@ module Bundler
         lock_file.specs.each
       end
 
-      def diagnose_gem(gem_name)
-        gem_status = collection_from_file.get_unchecked(gem_name)
-        return gem_status if diagnosed_gem?(gem_status)
+      def diagnose_gem_with_announce(name)
+        announcer.announce_each do
+          diagnose_gem(name)
+        end
+      end
+
+      def diagnose_gem(name)
+        gem = collection_from_file.get_unchecked(name)
+        return gem if gem&.diagnosed?
 
         unless @rate_limit_exceeded
-          source_code_url = gem_source_code_url(gem_name)
+          source_code_url = gem_source_code_url(name)
           is_alive = gem_alive?(source_code_url)
         end
 
-        Gem.new(name: gem_name,
+        Gem.new(name: name,
                 repository_url: source_code_url,
                 alive: is_alive,
                 checked_at: Time.now)
@@ -128,18 +129,22 @@ module Bundler
         gem_client.get_repository_url(gem_name)
       rescue Client::SourceCodeClient::RateLimitExceededError => e
         @rate_limit_exceeded = true
-        puts e.message
+        error_messages << e.message
+        nil
       rescue StandardError => e
-        puts e.message
+        error_messages << e.message
+        nil
       end
 
       def gem_alive?(source_code_url)
         SourceCodeRepository.new(url: source_code_url).alive?
       rescue Client::SourceCodeClient::RateLimitExceededError => e
         @rate_limit_exceeded = true
-        puts e.message
+        error_messages << e.message
+        nil
       rescue StandardError => e
-        puts e.message
+        error_messages << e.message
+        nil
       end
     end
   end

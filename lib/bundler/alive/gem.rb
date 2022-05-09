@@ -57,6 +57,15 @@ module Bundler
         REPORT
       end
 
+      #
+      # Returns already diagnosed or not
+      #
+      # @return [Boolean]
+      #
+      def diagnosed?
+        !unknown?
+      end
+
       private
 
       def decorated_repository_url
