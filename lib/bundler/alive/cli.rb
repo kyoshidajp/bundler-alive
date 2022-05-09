@@ -20,16 +20,10 @@ module Bundler
 
       def check(_dir = Dir.pwd)
         doctor = check_by_doctor
+        puts doctor.message
 
-        if doctor.rate_limit_exceeded
-          puts "Too many requested! Retry later."
-          exit 1
-        end
-
-        exit 0 if doctor.all_alive
-
-        puts "Not alive gems are found!"
-        exit 1
+        exit_status = doctor.all_alive ? 0 : 1
+        exit exit_status
       end
 
       desc "version", "Prints the bundler-alive version"
@@ -48,7 +42,6 @@ module Bundler
 
         doctor.diagnose
         doctor.report
-        doctor.save_as_file
         doctor
       end
     end

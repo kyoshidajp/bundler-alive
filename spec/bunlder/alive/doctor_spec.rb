@@ -49,7 +49,6 @@ RSpec.describe Bundler::Alive::Doctor do
   describe "#diagnose" do
     it "diagnose gems" do
       doctor.diagnose
-      doctor.save_as_file
 
       updated_toml = TomlRB.load_file(result_file)
       expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
@@ -57,7 +56,6 @@ RSpec.describe Bundler::Alive::Doctor do
 
     it "updates status of gems only unknown" do
       doctor.diagnose
-      doctor.save_as_file
 
       updated_toml = TomlRB.load_file(result_file)
       original_toml = TomlRB.load_file(result_file_org)
@@ -70,6 +68,22 @@ RSpec.describe Bundler::Alive::Doctor do
       expect(updated_toml["journey"]["checked_at"]).to eq original_toml["journey"]["checked_at"]
     end
 
+    it "has not alive gems are found" do
+      doctor.diagnose
+      expect(doctor.message).to eq "Not alive gems are found!"
+    end
+
+    context "when all gems are alive" do
+      before do
+        allow(doctor).to receive(:all_alive).and_return(true)
+        allow(doctor).to receive(:rate_limit_exceeded).and_return(false)
+      end
+      it "has all gems are alive" do
+        doctor.diagnose
+        expect(doctor.message).to eq "All gems are alive!"
+      end
+    end
+
     context "when raised a GitHub's rate limit exceeded error" do
       before(:each) do
         VCR.insert_cassette("github.com/sickill/rate-limit-exceeded-rainbow")
@@ -80,7 +94,6 @@ RSpec.describe Bundler::Alive::Doctor do
 
       it "all of gems are exist" do
         doctor.diagnose
-        doctor.save_as_file
 
         updated_toml = TomlRB.load_file(result_file)
         expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
@@ -88,12 +101,16 @@ RSpec.describe Bundler::Alive::Doctor do
 
       it "gems that failed to get are added" do
         doctor.diagnose
-        doctor.save_as_file
 
         updated_toml = TomlRB.load_file(result_file)
         expect(updated_toml["rainbow"]["alive"]).to eq "unknown"
         expect(updated_toml["rainbow"]["repository_url"]).to eq "http://github.com/sickill/rainbow"
         expect(updated_toml["rainbow"]["checked_at"]).not_to be nil
+      end
+
+      it "has too many error message" do
+        doctor.diagnose
+        expect(doctor.message).to eq "Too many requested! Retry later."
       end
     end
   end

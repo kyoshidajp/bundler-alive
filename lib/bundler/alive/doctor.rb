@@ -10,7 +10,7 @@ module Bundler
     # Diagnoses a `Gemfile.lock` with a TOML file
     #
     class Doctor
-      attr_reader :all_alive, :rate_limit_exceeded
+      attr_reader :all_alive, :message
 
       #
       # A new instance of Doctor
@@ -25,6 +25,7 @@ module Bundler
         @result = nil
         @all_alive = nil
         @rate_limit_exceeded = false
+        @message = nil
       end
 
       #
@@ -36,15 +37,17 @@ module Bundler
       # @raise [StandardError]
       #   When raised unexpected error
       #
-      # @return [GemStatusCollection]
-      #
       def diagnose
-        @result = gems.each_with_object(GemStatusCollection.new) do |spec, collection|
+        @result = gems.each_with_object(GemCollection.new) do |spec, collection|
           gem_name = spec.name
           gem_status = diagnose_gem(gem_name)
 
           collection.add(gem_name, gem_status)
         end
+        @all_alive = result.all_alive?
+        @message = _message
+
+        save_as_file
       end
 
       #
@@ -52,23 +55,27 @@ module Bundler
       #
       def report
         need_to_report_gems = result.need_to_report_gems
-        @all_alive = need_to_report_gems.size.zero?
         need_to_report_gems.each do |_name, gem_status|
           print gem_status.report
         end
       end
 
-      #
-      # Saves result to file
-      #
+      private
+
+      attr_reader :lock_file, :result_file, :gem_client, :result, :rate_limit_exceeded
+
+      def _message
+        return "Too many requested! Retry later." if rate_limit_exceeded
+
+        return "All gems are alive!" if all_alive
+
+        "Not alive gems are found!"
+      end
+
       def save_as_file
         body = TomlRB.dump(result.to_h)
         File.write(result_file, body)
       end
-
-      private
-
-      attr_reader :lock_file, :result_file, :gem_client, :result
 
       def diagnosed_gem?(gem_status)
         !gem_status.nil? && !gem_status.unknown?
@@ -77,21 +84,21 @@ module Bundler
       def collection_from_file
         return @collection_from_file if instance_variable_defined?(:@collection_from_file)
 
-        return GemStatusCollection.new unless File.exist?(result_file)
+        return GemCollection.new unless File.exist?(result_file)
 
         toml_hash = TomlRB.load_file(result_file)
         @collection_from_file = collection_from_hash(toml_hash)
       end
 
       def collection_from_hash(hash)
-        hash.each_with_object(GemStatusCollection.new) do |(gem_name, v), collection|
+        hash.each_with_object(GemCollection.new) do |(gem_name, v), collection|
           url = v["repository_url"]
-          next if url.to_sym == GemStatus::REPOSITORY_URL_UNKNOWN
+          next if url == Gem::REPOSITORY_URL_UNKNOWN
 
-          gem_status = GemStatus.new(name: gem_name,
-                                     repository_url: SourceCodeRepositoryUrl.new(url),
-                                     alive: v["alive"],
-                                     checked_at: v["checked_at"])
+          gem_status = Gem.new(name: gem_name,
+                               repository_url: SourceCodeRepositoryUrl.new(url),
+                               alive: v["alive"],
+                               checked_at: v["checked_at"])
           collection.add(gem_name, gem_status)
         end
       end
@@ -111,10 +118,10 @@ module Bundler
           is_alive = gem_alive?(source_code_url)
         end
 
-        GemStatus.new(name: gem_name,
-                      repository_url: source_code_url,
-                      alive: is_alive,
-                      checked_at: Time.now)
+        Gem.new(name: gem_name,
+                repository_url: source_code_url,
+                alive: is_alive,
+                checked_at: Time.now)
       end
 
       def gem_source_code_url(gem_name)
