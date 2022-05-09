@@ -9,8 +9,16 @@ module Bundler
       extend Forwardable
       delegate each: :gems
 
+      attr_reader :total_size, :alive_size, :dead_size, :unknown_size
+
       def initialize(gems = {})
         @gems = gems
+        @gems_values = gems.values
+
+        @alive_size = _alive_size
+        @total_size = _total_size
+        @unknown_size = _unknown_size
+        @dead_size = _dead_size
         freeze
       end
 
@@ -52,7 +60,23 @@ module Bundler
 
       private
 
-      attr_reader :gems
+      attr_reader :gems, :gems_values
+
+      def _total_size
+        gems_values.size
+      end
+
+      def _alive_size
+        gems_values.count { |gem| !!gem.alive && !gem.unknown? }
+      end
+
+      def _dead_size
+        gems_values.count { |gem| !gem.alive && !gem.unknown? }
+      end
+
+      def _unknown_size
+        gems_values.count { |gem| gem.alive == Gem::ALIVE_UNKNOWN }
+      end
     end
   end
 end
