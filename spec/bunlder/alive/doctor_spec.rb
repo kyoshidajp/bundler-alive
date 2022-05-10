@@ -48,24 +48,24 @@ RSpec.describe Bundler::Alive::Doctor do
 
   describe "#diagnose" do
     it "diagnose gems" do
-      doctor.diagnose
+      report = doctor.diagnose
 
-      updated_toml = TomlRB.load_file(result_file)
-      expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
+      expect(report).to be_a_kind_of(Report)
+      expect(report.result.to_h.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
     end
 
     it "updates status of gems only unknown" do
-      doctor.diagnose
+      report = doctor.diagnose
 
-      updated_toml = TomlRB.load_file(result_file)
+      result = report.result
       original_toml = TomlRB.load_file(result_file_org)
 
-      expect(updated_toml["ast"]["alive"]).to eq original_toml["ast"]["alive"]
-      expect(updated_toml["ast"]["checked_at"]).to eq original_toml["ast"]["checked_at"]
-      expect(updated_toml["parallel"]["alive"]).to eq true
-      expect(updated_toml["parallel"]["checked_at"]).to be > Time.parse("2022-05-07T12:24:11Z")
-      expect(updated_toml["journey"]["alive"]).to eq original_toml["journey"]["alive"]
-      expect(updated_toml["journey"]["checked_at"]).to eq original_toml["journey"]["checked_at"]
+      expect(result["ast"].alive).to eq original_toml["ast"]["alive"]
+      expect(result["ast"].checked_at).to eq original_toml["ast"]["checked_at"]
+      expect(result["parallel"].alive).to eq true
+      expect(result["parallel"].checked_at).to be > Time.parse("2022-05-07T12:24:11Z")
+      expect(result["journey"].alive).to eq original_toml["journey"]["alive"]
+      expect(result["journey"].checked_at).to eq original_toml["journey"]["checked_at"]
     end
 
     context "when raised a GitHub's rate limit exceeded error" do
@@ -77,40 +77,19 @@ RSpec.describe Bundler::Alive::Doctor do
       end
 
       it "all of gems are exist" do
-        doctor.diagnose
+        report = doctor.diagnose
 
-        updated_toml = TomlRB.load_file(result_file)
-        expect(updated_toml.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
+        expect(report.result.to_h.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
       end
 
       it "gems that failed to get are added" do
-        doctor.diagnose
+        report = doctor.diagnose
 
-        updated_toml = TomlRB.load_file(result_file)
-        expect(updated_toml["rainbow"]["alive"]).to eq "unknown"
-        expect(updated_toml["rainbow"]["repository_url"]).to eq "http://github.com/sickill/rainbow"
-        expect(updated_toml["rainbow"]["checked_at"]).not_to be nil
+        result = report.result
+        expect(result["rainbow"].alive).to eq "unknown"
+        expect(result["rainbow"].repository_url.url).to eq "http://github.com/sickill/rainbow"
+        expect(result["rainbow"].checked_at).not_to be nil
       end
-    end
-  end
-
-  describe "#report" do
-    it "reports result" do
-      doctor.diagnose
-
-      expected = <<~RESULT
-
-        Name: journey
-        URL: http://github.com/rails/journey
-        Status: false
-
-        bundle-alive is not found in gems.org.
-        Unknown url:#{" "}
-
-        Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
-        Not alive gems are found!
-      RESULT
-      expect { doctor.report }.to output(expected).to_stdout
     end
   end
 

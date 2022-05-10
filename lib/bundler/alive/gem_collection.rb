@@ -22,6 +22,10 @@ module Bundler
         freeze
       end
 
+      def [](name)
+        gems[name]
+      end
+
       def add(name, gem)
         gems[name] = gem
 
