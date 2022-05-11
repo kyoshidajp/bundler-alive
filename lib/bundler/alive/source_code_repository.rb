@@ -20,15 +20,6 @@ module Bundler
         @client = Client::SourceCodeClient.new(service_name: url.service_name)
       end
 
-      #
-      # Returns alive or not
-      #
-      # @return [Boolean]
-      #
-      def alive?
-        !client.archived?(url)
-      end
-
       private
 
       attr_reader :url, :client

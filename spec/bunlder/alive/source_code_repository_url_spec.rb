@@ -3,11 +3,10 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::SourceCodeRepositoryUrl do
-  let(:repository_url) { described_class.new(url) }
-
   describe "#initialize" do
     context "with a valid github.com URL" do
       let(:url) { "https://github.com/rails/rails" }
+      let(:repository_url) { described_class.new(url, "rails") }
 
       it "returns `Bundler::Alive::RepositoryUrl`" do
         expect(repository_url).to be_a(Bundler::Alive::SourceCodeRepositoryUrl)
@@ -23,7 +22,7 @@ RSpec.describe Bundler::Alive::SourceCodeRepositoryUrl do
     end
 
     context "with an invalid URL" do
-      let(:url) { "https://example.com/owner/name" }
+      let(:repository_url) { described_class.new("https://example.com/owner/name", "name") }
 
       it "returns `Bundler::Alive::RepositoryUrl::UnSupportedUrl`" do
         expect { repository_url }.to raise_error(Bundler::Alive::SourceCodeRepositoryUrl::UnSupportedUrl)

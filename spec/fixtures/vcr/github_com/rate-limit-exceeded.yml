@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/search/repositories?q=repo:rate-limit/exceeded
+    uri: https://api.github.com/search/repositories?q=repo:whitequark/ast%20repo:rails/journey%20repo:grosser/parallel%20repo:whitequark/parser%20repo:sickill/rainbow
     body:
       encoding: US-ASCII
       string: ''
@@ -13,8 +13,6 @@ http_interactions:
       - Octokit Ruby Gem 4.22.0
       Content-Type:
       - application/json
-      Authorization:
-      - token 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
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:

@@ -35,6 +35,7 @@ module Bundler
           extend service
 
           @client = create_client
+          @error_messages = []
 
           super()
         end

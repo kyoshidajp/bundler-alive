@@ -3,15 +3,27 @@
 module Bundler
   module Alive
     #
-    # Represents Gem
+    # Represents Status
     #
-    class Gem
+    class Status
       REPOSITORY_URL_UNKNOWN = "unknown"
       ALIVE_UNKNOWN = "unknown"
 
       attr_reader :name, :repository_url, :alive, :checked_at
 
+      #
+      # Creates instance od `Status`
+      #
+      # @param [String] :name
+      # @param [SourceCodeRepositoryUrl] :repository_url
+      # @param [Boolean] :alive
+      # @param [] :checked_at
+      #
+      # @return [Status]
+      #
       def initialize(name:, repository_url:, alive:, checked_at:)
+        raise ArgumentError if !repository_url.nil? && !repository_url.instance_of?(SourceCodeRepositoryUrl)
+
         repository_url = REPOSITORY_URL_UNKNOWN if repository_url.nil?
         alive = ALIVE_UNKNOWN if alive.nil?
 
@@ -39,7 +51,7 @@ module Bundler
         {
           repository_url: decorated_repository_url,
           alive: decorated_alive,
-          checked_at: checked_at
+          checked_at: checked_at || ""
         }
       end
 
@@ -55,15 +67,6 @@ module Bundler
           Status: #{decorated_alive}
 
         REPORT
-      end
-
-      #
-      # Returns already diagnosed or not
-      #
-      # @return [Boolean]
-      #
-      def diagnosed?
-        !unknown?
       end
 
       private

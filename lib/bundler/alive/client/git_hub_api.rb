@@ -9,8 +9,21 @@ module Bundler
       #
       # API Client for GitHub API
       #
+      # @see https://docs.github.com/en/rest/search#search-repositories
+      #
       module GitHubApi
         ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITHUB_TOKEN"
+
+        QUERY_CONDITION_SEPARATOR = " "
+
+        # @see https://docs.github.com/en/rest/search#limitations-on-query-length
+        QUERY_MAX_OPERATORS_AT_ONCE = 6
+
+        private_constant :QUERY_MAX_OPERATORS_AT_ONCE
+
+        def self.extended(_obj)
+          @rate_limit_exceeded = false
+        end
 
         #
         # Creates a GitHub client
@@ -22,50 +35,94 @@ module Bundler
         end
 
         #
-        # Returns repository URL is archived?
+        # Query repository statuses
         #
-        # @param [SourceCodeRepositoryUrl] repository_url
+        # @param [Array<RepositoryUrl>] :urls
         #
-        # @raise [ArgumentError]
-        #   when repository_uri is not `SourceCodeRepositoryUrl`
+        # @return [StatusResult]
         #
-        # @raise [Octokit::TooManyRequests]
-        #   when too many requested to GitHub.com
-        #
-        # @raise [SourceCodeClient::SearchRepositoryError]
-        #   when Error without `Octokit::TooManyRequests`
-        #
-        # @return [Boolean]
-        #
-        def archived?(repository_url)
-          unless repository_url.instance_of?(SourceCodeRepositoryUrl)
-            raise ArgumentError, "UnSupported url: #{repository_url}"
+        # rubocop:disable Metrics/MethodLength
+        def query(urls:)
+          collection = StatusCollection.new
+          name_with_archived = get_name_with_statuses(urls)
+          urls.each do |url|
+            yield if block_given?
+
+            gem_name = url.gem_name
+            alive = !name_with_archived[gem_name]
+            status = Status.new(name: gem_name, repository_url: url, alive: alive, checked_at: Time.now)
+            collection = collection.add(gem_name, status)
           end
 
-          query = "repo:#{slug(repository_url.url)}"
-          query_archived?(query)
+          StatusResult.new(collection: collection, error_messages: @error_messages,
+                           rate_limit_exceeded: @rate_limit_exceeded)
+        end
+        # rubocop:enable Metrics/MethodLength
+
+        private
+
+        #
+        # Search status of repositories
+        #
+        # @param [Array<RepositoryUrl>] urls
+        #
+        # @return [Hash<String, Boolean>]
+        #   gem name with archived or not
+        #
+        # rubocop:disable Metrics/MethodLength
+        def get_name_with_statuses(urls)
+          raise ArgumentError unless urls.instance_of?(Array)
+
+          name_with_status = {}
+          urls.each_slice(QUERY_MAX_OPERATORS_AT_ONCE) do |sliced_urls|
+            q = search_query(sliced_urls)
+            repositories = search_repositories(q)
+            next if repositories.nil?
+
+            repositories.each do |repository|
+              name = repository["name"]
+              name_with_status[name] = repository["archived"]
+            end
+          end
+          name_with_status
+        end
+        # rubocop:enable Metrics/MethodLength
+
+        #
+        # Search query of repositories
+        #
+        # @param [Array<RepositoryUrl>] urls
+        #
+        # @return [String]
+        #
+        def search_query(urls)
+          urls.map do |url|
+            "repo:#{slug(url.url)}"
+          end.join(QUERY_CONDITION_SEPARATOR)
         end
 
         #
-        # Query the repository archived?
+        # Search repositories
         #
         # @param [String] query
         #
         # @raise [Octokit::TooManyRequests]
         #   when too many requested to GitHub.com
-        #
         # @raise [SourceCodeClient::SearchRepositoryError]
         #   when Error without `Octokit::TooManyRequests`
         #
-        # @return [Boolean]
+        # @return [Array<Sawyer::Resource>|nil]
         #
-        def query_archived?(query)
+        def search_repositories(query)
           result = @client.search_repositories(query)
-          result[:items][0][:archived]
+          result[:items]
         rescue Octokit::TooManyRequests => e
-          raise SourceCodeClient::RateLimitExceededError, e.message
+          @error_messages << e.message
+          @rate_limit_exceeded = true
+          []
         rescue StandardError => e
-          raise SourceCodeClient::SearchRepositoryError, e.message
+          @error_messages << e.message
+          []
         end
 
         #

@@ -11,16 +11,15 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
 
   describe "#print_report" do
     context "when including not alive gems" do
+      let!(:report) do
+        gem1 = build(:status, name: "gem1")
+        gem2 = build(:status, name: "gem2")
+        collection = Bundler::Alive::StatusCollection.new
+                                                     .add(gem1.name, gem1).add(gem2.name, gem2)
+        result = build(:status_result, collection: collection)
+        build(:report, result: result)
+      end
       it "reports result" do
-        gem1 = Bundler::Alive::Gem.new(name: "gem1",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem1"),
-                                       alive: true, checked_at: Time.now)
-        gem2 = Bundler::Alive::Gem.new(name: "gem2",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem2"),
-                                       alive: true, checked_at: Time.now)
-        collection = Bundler::Alive::GemCollection.new
-                                                  .add(gem1.name, gem1).add(gem2.name, gem2)
-        report = Report.new(result: collection, error_messages: [], rate_limit_exceeded: false)
         expected = <<~RESULT
 
 
@@ -35,16 +34,15 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
     end
 
     context "when rate limit exceeded" do
+      let!(:report) do
+        gem1 = build(:status, name: "gem1", alive: true)
+        gem2 = build(:status, name: "gem2", alive: Bundler::Alive::Status::ALIVE_UNKNOWN)
+        collection = Bundler::Alive::StatusCollection.new
+                                                     .add(gem1.name, gem1).add(gem2.name, gem2)
+        result = build(:status_result, collection: collection, rate_limit_exceeded: true)
+        build(:report, result: result)
+      end
       it "reports result" do
-        gem1 = Bundler::Alive::Gem.new(name: "gem1",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem1"),
-                                       alive: true, checked_at: Time.now)
-        gem2 = Bundler::Alive::Gem.new(name: "gem2",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem2"),
-                                       alive: "unknown", checked_at: Time.now)
-        collection = Bundler::Alive::GemCollection.new
-                                                  .add(gem1.name, gem1).add(gem2.name, gem2)
-        report = Report.new(result: collection, error_messages: [], rate_limit_exceeded: true)
         expected = <<~RESULT
 
 
@@ -59,41 +57,45 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
     end
 
     context "when including not alive gems" do
-      it "reports result" do
-        gem1 = Bundler::Alive::Gem.new(name: "journey",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/rails/journey"),
-                                       alive: false, checked_at: Time.now)
-        gem2 = Bundler::Alive::Gem.new(name: "gem2",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem2"),
-                                       alive: true, checked_at: Time.now)
-        gem3 = Bundler::Alive::Gem.new(name: "gem3",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem3"),
-                                       alive: "unknown", checked_at: Time.now)
-        gem4 = Bundler::Alive::Gem.new(name: "gem4",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem4"),
-                                       alive: true, checked_at: Time.now)
-        gem5 = Bundler::Alive::Gem.new(name: "gem5",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem5"),
-                                       alive: true, checked_at: Time.now)
-        gem6 = Bundler::Alive::Gem.new(name: "gem6",
-                                       repository_url: Bundler::Alive::SourceCodeRepositoryUrl.new("http://github.com/kyoshidajp/gem6"),
-                                       alive: true, checked_at: Time.now)
-        collection = Bundler::Alive::GemCollection.new
-                                                  .add(gem1.name, gem1).add(gem2.name, gem2)
-                                                  .add(gem3.name, gem3).add(gem4.name, gem4)
-                                                  .add(gem5.name, gem5).add(gem6.name, gem6)
+      let!(:report) do
+        gem1 = build(:status, name: "gem1", alive: false,
+                              repository_url: build(:source_code_repository_url,
+                                                    url: "http://github.com/kyoshidajp/gem1", name: "gem1"))
+        gem2 = build(:status, name: "gem2", alive: Bundler::Alive::Status::ALIVE_UNKNOWN,
+                              repository_url: build(:source_code_repository_url,
+                                                    url: "http://github.com/kyoshidajp/gem2", name: "gem2"))
+        gem3 = build(:status, name: "gem3", alive: true,
+                              repository_url: build(:source_code_repository_url,
+                                                    url: "http://github.com/kyoshidajp/gem3", name: "gem3"))
+        gem4 = build(:status, name: "gem4", alive: true,
+                              repository_url: build(:source_code_repository_url,
+                                                    url: "http://github.com/kyoshidajp/gem4", name: "gem4"))
+        gem5 = build(:status, name: "gem5", alive: true,
+                              repository_url: build(:source_code_repository_url,
+                                                    url: "http://github.com/kyoshidajp/gem5", name: "gem5"))
+        gem6 = build(:status, name: "gem6", alive: true,
+                              repository_url: build(:source_code_repository_url,
+                                                    url: "http://github.com/kyoshidajp/gem6", name: "gem6"))
+        collection = Bundler::Alive::StatusCollection.new
+                                                     .add(gem1.name, gem1).add(gem2.name, gem2)
+                                                     .add(gem3.name, gem3).add(gem4.name, gem4)
+                                                     .add(gem5.name, gem5).add(gem6.name, gem6)
         messages = [
-          "bundle-alive is not found in gems.org.",
+          "gem2 is not found in gems.org.",
           "Unknown url: "
         ]
-        report = Report.new(result: collection, error_messages: messages, rate_limit_exceeded: false)
+        result = build(:status_result, collection: collection, rate_limit_exceeded: false,
+                                       error_messages: messages)
+        build(:report, result: result)
+      end
+      it "reports result" do
         expected = <<~RESULT
 
-          Name: journey
-          URL: http://github.com/rails/journey
+          Name: gem1
+          URL: http://github.com/kyoshidajp/gem1
           Status: false
 
-          bundle-alive is not found in gems.org.
+          gem2 is not found in gems.org.
           Unknown url:#{" "}
 
           Total: 6 (Dead: 1, Alive: 4, Unknown: 1)

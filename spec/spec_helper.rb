@@ -4,6 +4,7 @@ require "simplecov"
 SimpleCov.start
 
 require "rspec"
+require "factory_bot"
 require "bundler/alive"
 require "vcr"
 
@@ -18,6 +19,12 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.include FactoryBot::Syntax::Methods
+
+  config.before(:suite) do
+    FactoryBot.find_definitions
   end
 end
 
