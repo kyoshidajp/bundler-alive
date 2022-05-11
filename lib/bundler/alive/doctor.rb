@@ -16,7 +16,7 @@ module Bundler
       # @param [String] lock_file lock file of gem
       # @param [String] result_file file of result
       #
-      def initialize(lock_file, result_file = "result.toml")
+      def initialize(lock_file, result_file)
         @lock_file = lock_file
         @result_file = result_file
         @gem_client = Client::GemsApi.new
@@ -24,8 +24,6 @@ module Bundler
         @rate_limit_exceeded = false
         @announcer = Announcer.new
         @error_messages = []
-
-        @output = $stdout
       end
 
       #
@@ -36,6 +34,8 @@ module Bundler
       #
       # @raise [StandardError]
       #   When raised unexpected error
+      #
+      # @return [Report]
       #
       def diagnose
         announcer.announce(gems.size) do
@@ -48,17 +48,7 @@ module Bundler
           @result = collection
         end
 
-        save_as_file
-      end
-
-      #
-      # Reports the result
-      #
-      def report
-        reporter = Reporter.new(result: result,
-                                error_messages: error_messages,
-                                rate_limit_exceeded: rate_limit_exceeded)
-        reporter.report
+        Report.new(result: result, error_messages: error_messages, rate_limit_exceeded: rate_limit_exceeded)
       end
 
       def all_alive?
@@ -67,14 +57,8 @@ module Bundler
 
       private
 
-      attr_reader :lock_file, :result_file, :gem_client, :result,
-                  :rate_limit_exceeded, :output, :announcer,
-                  :error_messages
-
-      def save_as_file
-        body = TomlRB.dump(result.to_h)
-        File.write(result_file, body)
-      end
+      attr_reader :lock_file, :result_file, :gem_client, :announcer,
+                  :result, :error_messages, :rate_limit_exceeded
 
       def collection_from_file
         return @collection_from_file if instance_variable_defined?(:@collection_from_file)
