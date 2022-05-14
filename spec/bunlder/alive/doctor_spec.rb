@@ -3,14 +3,14 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::Doctor do
-  let(:lock_file) { "spec/fixtures/files/Gemfile.lock" }
-  let(:result_file) { "spec/fixtures/files/result.toml" }
-  let(:result_file_org) do
+  let!(:lock_file) { "spec/fixtures/files/Gemfile.lock" }
+  let!(:result_file) { "spec/fixtures/files/result.toml" }
+  let!(:result_file_org) do
     file_path = "#{lock_file}.org"
     FileUtils.cp(result_file, file_path)
     file_path
   end
-  let(:doctor) { described_class.new(lock_file, result_file) }
+  let!(:doctor) { described_class.new(lock_file, result_file) }
 
   before(:each) do
     result_file_org

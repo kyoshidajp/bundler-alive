@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::Client::GitHubApi do
-  let(:client) do
+  let!(:client) do
     client = Client::SourceCodeClient.new(service_name: :github)
     client.extend described_class
     client

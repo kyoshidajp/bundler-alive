@@ -12,10 +12,15 @@ module Bundler
       # @see https://docs.github.com/en/rest/search#search-repositories
       #
       module GitHubApi
+        # Environment variable name of GitHub Access Token
         ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITHUB_TOKEN"
 
+        # Separator of query condition
         QUERY_CONDITION_SEPARATOR = " "
 
+        #
+        # Max number of conditional operator at once
+        #
         # @see https://docs.github.com/en/rest/search#limitations-on-query-length
         QUERY_MAX_OPERATORS_AT_ONCE = 6
 

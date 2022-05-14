@@ -4,6 +4,7 @@ module Bundler
   module Alive
     # Represents a source code repository
     class SourceCodeRepositoryUrl
+      # service domain with service
       DOMAIN_WITH_SERVICES = {
         "github.com" => SourceCodeRepository::Service::GITHUB
       }.freeze

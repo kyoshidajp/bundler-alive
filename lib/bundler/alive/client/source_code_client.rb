@@ -7,9 +7,11 @@ module Bundler
       # Represents a source code client
       #
       class SourceCodeClient
+        # Error of searching repository
         class SearchRepositoryError < StandardError
         end
 
+        # Error of rate limit exceeded
         class RateLimitExceededError < StandardError
         end
 
@@ -31,8 +33,8 @@ module Bundler
         def initialize(service_name:)
           raise ArgumentError, "Unknown service: #{service_name}" unless SERVICE_WITH_STRATEGIES.key?(service_name)
 
-          service = SERVICE_WITH_STRATEGIES[service_name]
-          extend service
+          strategy = SERVICE_WITH_STRATEGIES[service_name]
+          extend strategy
 
           @client = create_client
           @error_messages = []

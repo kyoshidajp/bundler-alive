@@ -12,6 +12,13 @@ module Bundler
 
       attr_reader :alive_size, :dead_size, :unknown_size
 
+      #
+      # Creates `StatusCollection` from TOML file
+      #
+      # @param [String] path
+      #
+      # @return [StatusCollection]
+      #
       def self.new_from_toml_file(path)
         return new unless File.exist?(path)
 
@@ -28,6 +35,13 @@ module Bundler
         collection
       end
 
+      #
+      # Generates instance of `StatusCollection`
+      #
+      # @param [StatusCollection|nil] collection
+      #
+      # @return [StatusCollection]
+      #
       def initialize(collection = {})
         @collection = collection
         @statuses_values = collection.values || []
@@ -38,10 +52,22 @@ module Bundler
         freeze
       end
 
+      #
+      # Fetch `Status` of `name`
+      #
+      # @param [String] name
+      #
+      # @return [Status]
+      #
       def [](name)
         collection[name]
       end
 
+      #
+      # Names of gems
+      #
+      # @return [Array<String>]
+      #
       def names
         values.map(&:name)
       end
@@ -78,11 +104,7 @@ module Bundler
       end
 
       def to_h
-        hash = {}
-        collection.each do |name, status|
-          hash[name] = status.to_h
-        end
-        hash
+        collection.transform_values(&:to_h)
       end
 
       def need_to_report_gems
@@ -98,6 +120,11 @@ module Bundler
         collection.find { |_name, status| !!!status.alive || status.unknown? }.nil?
       end
 
+      #
+      # Total size of collection
+      #
+      # @return [Integer]
+      #
       def total_size
         collection.size
       end
