@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::Client::GemsApi do
-  let(:client) { described_class.new }
+  let!(:client) { described_class.new }
 
   describe "#get_source_code_url" do
     context "with a exists gem on gems.org" do

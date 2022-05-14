@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "../../spec_helper"
+require "spec_helper"
 
 RSpec.describe Bundler::Alive::CLI::Reportable do
-  let(:cli_instance) do
+  let!(:cli_instance) do
     base = ::Thor::Shell::Basic.new
     base.extend described_class
     base
