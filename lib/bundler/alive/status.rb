@@ -6,13 +6,16 @@ module Bundler
     # Represents Status
     #
     class Status
+      # Value of repository URL unknown
       REPOSITORY_URL_UNKNOWN = "unknown"
+
+      # Value off alive unknown
       ALIVE_UNKNOWN = "unknown"
 
       attr_reader :name, :repository_url, :alive, :checked_at
 
       #
-      # Creates instance od `Status`
+      # Creates instance of `Status`
       #
       # @param [String] :name
       # @param [SourceCodeRepositoryUrl] :repository_url

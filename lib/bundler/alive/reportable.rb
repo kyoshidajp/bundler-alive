@@ -14,6 +14,8 @@ module Bundler
         #
         # Reports result
         #
+        # @param [Report] report
+        #
         def print_report(report)
           result = report.result
           error_messages = report.error_messages

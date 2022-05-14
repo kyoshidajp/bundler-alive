@@ -17,12 +17,11 @@ module Bundler
         raise ArgumentError, "Unknown url: #{url}" unless url.instance_of?(SourceCodeRepositoryUrl)
 
         @url = url
-        @client = Client::SourceCodeClient.new(service_name: url.service_name)
       end
 
       private
 
-      attr_reader :url, :client
+      attr_reader :url
     end
   end
 end

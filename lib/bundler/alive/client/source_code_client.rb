@@ -7,9 +7,11 @@ module Bundler
       # Represents a source code client
       #
       class SourceCodeClient
+        # Error of searching repository
         class SearchRepositoryError < StandardError
         end
 
+        # Error of rate limit exceeded
         class RateLimitExceededError < StandardError
         end
 
