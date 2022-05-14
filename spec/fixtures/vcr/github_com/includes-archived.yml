@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.github.com/search/repositories?q=repo:rails/rails%20repo:rails/journey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.github.v3+json
+      User-Agent:
+      - Octokit Ruby Gem 4.22.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - token github-access-token
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sat, 14 May 2022 00:35:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Oauth-Scopes:
+      - ''
+      X-Accepted-Oauth-Scopes:
+      - ''
+      X-Github-Media-Type:
+      - github.v3; format=json
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Remaining:
+      - '29'
+      X-Ratelimit-Reset:
+      - '1652488574'
+      X-Ratelimit-Used:
+      - '1'
+      X-Ratelimit-Resource:
+      - search
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      X-Github-Request-Id:
+      - E6C1:584A:1D76C2:210F71:627EF942
+    body:
+      encoding: ASCII-8BIT
+      string: '{"total_count":2,"incomplete_results":false,"items":[{"id":8514,"node_id":"MDEwOlJlcG9zaXRvcnk4NTE0","name":"rails","full_name":"rails/rails","private":false,"owner":{"login":"rails","id":4223,"node_id":"MDEyOk9yZ2FuaXphdGlvbjQyMjM=","avatar_url":"https://avatars.githubusercontent.com/u/4223?v=4","gravatar_id":"","url":"https://api.github.com/users/rails","html_url":"https://github.com/rails","followers_url":"https://api.github.com/users/rails/followers","following_url":"https://api.github.com/users/rails/following{/other_user}","gists_url":"https://api.github.com/users/rails/gists{/gist_id}","starred_url":"https://api.github.com/users/rails/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rails/subscriptions","organizations_url":"https://api.github.com/users/rails/orgs","repos_url":"https://api.github.com/users/rails/repos","events_url":"https://api.github.com/users/rails/events{/privacy}","received_events_url":"https://api.github.com/users/rails/received_events","type":"Organization","site_admin":false},"html_url":"https://github.com/rails/rails","description":"Ruby
+        on Rails","fork":false,"url":"https://api.github.com/repos/rails/rails","forks_url":"https://api.github.com/repos/rails/rails/forks","keys_url":"https://api.github.com/repos/rails/rails/keys{/key_id}","collaborators_url":"https://api.github.com/repos/rails/rails/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/rails/rails/teams","hooks_url":"https://api.github.com/repos/rails/rails/hooks","issue_events_url":"https://api.github.com/repos/rails/rails/issues/events{/number}","events_url":"https://api.github.com/repos/rails/rails/events","assignees_url":"https://api.github.com/repos/rails/rails/assignees{/user}","branches_url":"https://api.github.com/repos/rails/rails/branches{/branch}","tags_url":"https://api.github.com/repos/rails/rails/tags","blobs_url":"https://api.github.com/repos/rails/rails/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/rails/rails/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/rails/rails/git/refs{/sha}","trees_url":"https://api.github.com/repos/rails/rails/git/trees{/sha}","statuses_url":"https://api.github.com/repos/rails/rails/statuses/{sha}","languages_url":"https://api.github.com/repos/rails/rails/languages","stargazers_url":"https://api.github.com/repos/rails/rails/stargazers","contributors_url":"https://api.github.com/repos/rails/rails/contributors","subscribers_url":"https://api.github.com/repos/rails/rails/subscribers","subscription_url":"https://api.github.com/repos/rails/rails/subscription","commits_url":"https://api.github.com/repos/rails/rails/commits{/sha}","git_commits_url":"https://api.github.com/repos/rails/rails/git/commits{/sha}","comments_url":"https://api.github.com/repos/rails/rails/comments{/number}","issue_comment_url":"https://api.github.com/repos/rails/rails/issues/comments{/number}","contents_url":"https://api.github.com/repos/rails/rails/contents/{+path}","compare_url":"https://api.github.com/repos/rails/rails/compare/{base}...{head}","merges_url":"https://api.github.com/repos/rails/rails/merges","archive_url":"https://api.github.com/repos/rails/rails/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/rails/rails/downloads","issues_url":"https://api.github.com/repos/rails/rails/issues{/number}","pulls_url":"https://api.github.com/repos/rails/rails/pulls{/number}","milestones_url":"https://api.github.com/repos/rails/rails/milestones{/number}","notifications_url":"https://api.github.com/repos/rails/rails/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/rails/rails/labels{/name}","releases_url":"https://api.github.com/repos/rails/rails/releases{/id}","deployments_url":"https://api.github.com/repos/rails/rails/deployments","created_at":"2008-04-11T02:19:47Z","updated_at":"2022-05-13T21:29:33Z","pushed_at":"2022-05-13T23:29:17Z","git_url":"git://github.com/rails/rails.git","ssh_url":"git@github.com:rails/rails.git","clone_url":"https://github.com/rails/rails.git","svn_url":"https://github.com/rails/rails","homepage":"https://rubyonrails.org","size":244566,"stargazers_count":50677,"watchers_count":50677,"language":"Ruby","has_issues":true,"has_projects":true,"has_downloads":true,"has_wiki":false,"has_pages":false,"forks_count":20334,"mirror_url":null,"archived":false,"disabled":false,"open_issues_count":609,"license":{"key":"mit","name":"MIT
+        License","spdx_id":"MIT","url":"https://api.github.com/licenses/mit","node_id":"MDc6TGljZW5zZTEz"},"allow_forking":true,"is_template":false,"topics":["activejob","activerecord","framework","html","mvc","rails","ruby"],"visibility":"public","forks":20334,"open_issues":609,"watchers":50677,"default_branch":"main","permissions":{"admin":false,"maintain":false,"push":false,"triage":false,"pull":true},"score":1.0},{"id":2305307,"node_id":"MDEwOlJlcG9zaXRvcnkyMzA1MzA3","name":"journey","full_name":"rails/journey","private":false,"owner":{"login":"rails","id":4223,"node_id":"MDEyOk9yZ2FuaXphdGlvbjQyMjM=","avatar_url":"https://avatars.githubusercontent.com/u/4223?v=4","gravatar_id":"","url":"https://api.github.com/users/rails","html_url":"https://github.com/rails","followers_url":"https://api.github.com/users/rails/followers","following_url":"https://api.github.com/users/rails/following{/other_user}","gists_url":"https://api.github.com/users/rails/gists{/gist_id}","starred_url":"https://api.github.com/users/rails/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rails/subscriptions","organizations_url":"https://api.github.com/users/rails/orgs","repos_url":"https://api.github.com/users/rails/repos","events_url":"https://api.github.com/users/rails/events{/privacy}","received_events_url":"https://api.github.com/users/rails/received_events","type":"Organization","site_admin":false},"html_url":"https://github.com/rails/journey","description":"A
+        router for rails","fork":false,"url":"https://api.github.com/repos/rails/journey","forks_url":"https://api.github.com/repos/rails/journey/forks","keys_url":"https://api.github.com/repos/rails/journey/keys{/key_id}","collaborators_url":"https://api.github.com/repos/rails/journey/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/rails/journey/teams","hooks_url":"https://api.github.com/repos/rails/journey/hooks","issue_events_url":"https://api.github.com/repos/rails/journey/issues/events{/number}","events_url":"https://api.github.com/repos/rails/journey/events","assignees_url":"https://api.github.com/repos/rails/journey/assignees{/user}","branches_url":"https://api.github.com/repos/rails/journey/branches{/branch}","tags_url":"https://api.github.com/repos/rails/journey/tags","blobs_url":"https://api.github.com/repos/rails/journey/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/rails/journey/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/rails/journey/git/refs{/sha}","trees_url":"https://api.github.com/repos/rails/journey/git/trees{/sha}","statuses_url":"https://api.github.com/repos/rails/journey/statuses/{sha}","languages_url":"https://api.github.com/repos/rails/journey/languages","stargazers_url":"https://api.github.com/repos/rails/journey/stargazers","contributors_url":"https://api.github.com/repos/rails/journey/contributors","subscribers_url":"https://api.github.com/repos/rails/journey/subscribers","subscription_url":"https://api.github.com/repos/rails/journey/subscription","commits_url":"https://api.github.com/repos/rails/journey/commits{/sha}","git_commits_url":"https://api.github.com/repos/rails/journey/git/commits{/sha}","comments_url":"https://api.github.com/repos/rails/journey/comments{/number}","issue_comment_url":"https://api.github.com/repos/rails/journey/issues/comments{/number}","contents_url":"https://api.github.com/repos/rails/journey/contents/{+path}","compare_url":"https://api.github.com/repos/rails/journey/compare/{base}...{head}","merges_url":"https://api.github.com/repos/rails/journey/merges","archive_url":"https://api.github.com/repos/rails/journey/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/rails/journey/downloads","issues_url":"https://api.github.com/repos/rails/journey/issues{/number}","pulls_url":"https://api.github.com/repos/rails/journey/pulls{/number}","milestones_url":"https://api.github.com/repos/rails/journey/milestones{/number}","notifications_url":"https://api.github.com/repos/rails/journey/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/rails/journey/labels{/name}","releases_url":"https://api.github.com/repos/rails/journey/releases{/id}","deployments_url":"https://api.github.com/repos/rails/journey/deployments","created_at":"2011-09-01T01:43:56Z","updated_at":"2022-05-11T14:36:01Z","pushed_at":"2017-09-01T21:31:03Z","git_url":"git://github.com/rails/journey.git","ssh_url":"git@github.com:rails/journey.git","clone_url":"https://github.com/rails/journey.git","svn_url":"https://github.com/rails/journey","homepage":"","size":662,"stargazers_count":220,"watchers_count":220,"language":"Ruby","has_issues":true,"has_projects":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"forks_count":58,"mirror_url":null,"archived":true,"disabled":false,"open_issues_count":6,"license":null,"allow_forking":true,"is_template":false,"topics":[],"visibility":"public","forks":58,"open_issues":6,"watchers":220,"default_branch":"master","permissions":{"admin":false,"maintain":false,"push":false,"triage":false,"pull":true},"score":1.0}]}'
+  recorded_at: Sat, 14 May 2022 00:35:14 GMT
+recorded_with: VCR 6.1.0

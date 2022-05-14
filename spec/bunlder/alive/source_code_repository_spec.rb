@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::SourceCodeRepository do
-  let(:url) { SourceCodeRepositoryUrl.new("https://github.com/rails/rails") }
+  let(:url) { SourceCodeRepositoryUrl.new("https://github.com/rails/rails", "rails") }
   let(:repository) { described_class.new(url: url) }
 
   describe "#new" do

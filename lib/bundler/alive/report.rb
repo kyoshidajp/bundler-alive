@@ -11,14 +11,12 @@ module Bundler
       #
       # A result of report
       #
-      # @param [GemCollection] :result
-      # @param [Array] :error_messages
-      # @param [Boolean] :rate_limit_exceeded
+      # @param [StatusResult] result
       #
-      def initialize(result:, error_messages:, rate_limit_exceeded:)
-        @result = result
-        @error_messages = error_messages
-        @rate_limit_exceeded = rate_limit_exceeded
+      def initialize(result)
+        @result = result.collection
+        @error_messages = result.error_messages
+        @rate_limit_exceeded = result.rate_limit_exceeded
 
         freeze
       end

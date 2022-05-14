@@ -18,18 +18,20 @@ module Bundler
         end
       end
 
-      attr_reader :url, :service_name
+      attr_reader :url, :service_name, :gem_name
 
       #
       # Creates a `SourceCodeRepositoryUrl`
       #
       # @param [String] url
+      # @param [String] name
       #
       # @raise [UnSupportedUrl]
       #
-      def initialize(url)
+      def initialize(url, name)
         @url = url
         @service_name = service(url)
+        @gem_name = name
       end
 
       private

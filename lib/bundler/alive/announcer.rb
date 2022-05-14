@@ -10,6 +10,8 @@ module Bundler
     class Announcer
       DOT = "."
 
+      private_constant :DOT
+
       #
       # A new instance of Reporter
       #
@@ -17,18 +19,8 @@ module Bundler
         @output = $stdout
       end
 
-      def announce(total_gem_size)
-        output.puts "#{total_gem_size} gems are in Gemfile.lock"
-
-        yield
-
-        output.puts
-      end
-
-      def announce_each
+      def announce
         output.write DOT
-
-        yield
       end
 
       private
