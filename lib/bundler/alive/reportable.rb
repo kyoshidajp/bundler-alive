@@ -19,30 +19,36 @@ module Bundler
         def print_report(report)
           result = report.result
           error_messages = report.error_messages
-
-          output = $stdout
-          output.puts
+          print_error(error_messages)
 
           gems = result.need_to_report_gems
+          $stdout.puts if gems.size.positive?
           gems.each do |_name, gem|
-            output.puts gem.report
+            $stdout.puts gem.report
           end
 
-          output.puts summary(result, error_messages)
-          message(result, report.rate_limit_exceeded)
+          print_summary(result)
+          print_message(result, report.rate_limit_exceeded)
         end
 
         private
 
-        def summary(result, error_messages)
-          <<~RESULT
-            #{error_messages.join("\n")}
+        def print_error(error_messages)
+          return if error_messages.nil?
 
+          $stdout.puts <<~ERROR
+
+            #{error_messages.join("\n")}
+          ERROR
+        end
+
+        def print_summary(result)
+          $stdout.puts <<~RESULT
             Total: #{result.total_size} (Dead: #{result.dead_size}, Alive: #{result.alive_size}, Unknown: #{result.unknown_size})
           RESULT
         end
 
-        def message(result, rate_limit_exceeded)
+        def print_message(result, rate_limit_exceeded)
           if result.all_alive?
             say "All gems are alive!", :green
             return

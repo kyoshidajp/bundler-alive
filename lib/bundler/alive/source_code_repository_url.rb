@@ -25,7 +25,7 @@ module Bundler
                           else
                             url
                           end
-          message = "#{name}'s is not support: #{decorated_url}"
+          message = "[#{name}] is not support URL: #{decorated_url}"
           super(message)
         end
       end
