@@ -18,7 +18,10 @@ module Bundler
         # Separator of query condition
         QUERY_CONDITION_SEPARATOR = " "
 
+        # Number of attempts to request after too many requests
         RETRIES_ON_TOO_MANY_REQUESTS = 3
+
+        # Interval second when retrying request
         RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS = 120
 
         #
