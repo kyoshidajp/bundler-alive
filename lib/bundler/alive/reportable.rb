@@ -44,7 +44,7 @@ module Bundler
 
         def message(result, rate_limit_exceeded)
           if result.all_alive?
-            say "All gems are alive!"
+            say "All gems are alive!", :green
             return
           end
 
