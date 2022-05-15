@@ -49,6 +49,7 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
 
           Total: 2 (Dead: 0, Alive: 1, Unknown: 1)
           Too many requested! Retry later.
+          Unknown gems are found!
         RESULT
         expect do
           cli_instance.print_report(report)

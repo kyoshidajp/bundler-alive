@@ -48,11 +48,12 @@ module Bundler
             return
           end
 
-          if rate_limit_exceeded
-            say "Too many requested! Retry later.", :yellow
-          else
+          say "Too many requested! Retry later.", :yellow if rate_limit_exceeded
+          if result.dead_size.positive?
             say "Not alive gems are found!", :red
+            return
           end
+          say "Unknown gems are found!", :yellow if result.unknown_size.positive?
         end
       end
     end
