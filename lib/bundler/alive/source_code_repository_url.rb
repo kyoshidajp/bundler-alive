@@ -12,6 +12,22 @@ module Bundler
 
       private_constant :DOMAIN_WITH_SERVICES
 
+      #
+      # Judge supported url or not
+      #
+      # @param [String] url
+      #
+      # @return [Boolean]
+      #
+      def self.support_url?(url)
+        return false if url.nil?
+
+        uri = URI.parse(url)
+        host = uri.host
+
+        DOMAIN_WITH_SERVICES.key?(host)
+      end
+
       # No supported URL Error
       class UnSupportedUrl < StandardError
         #

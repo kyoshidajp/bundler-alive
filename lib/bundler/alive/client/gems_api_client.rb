@@ -77,8 +77,18 @@ module Bundler
           raise NotFound, "Gem: #{gem_name} is not found in RubyGems.org." unless response.success?
 
           body = JSON.parse(response.body)
-          raw_url = body["source_code_uri"] || body["homepage_uri"]
+          raw_url = source_code_url(body: body, gem_name: gem_name)
           SourceCodeRepositoryUrl.new(raw_url, gem_name)
+        end
+
+        def source_code_url(body:, gem_name:)
+          url = body["source_code_uri"]
+          return url if SourceCodeRepositoryUrl.support_url?(url)
+
+          url = body["homepage_uri"]
+          return url if SourceCodeRepositoryUrl.support_url?(url)
+
+          raise NotFound, "[#{gem_name}] source code repository is not found in RubyGems.org."
         end
 
         def get_repository_urls(gem_names)
