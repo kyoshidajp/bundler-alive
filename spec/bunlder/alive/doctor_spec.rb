@@ -23,39 +23,46 @@ RSpec.describe Bundler::Alive::Doctor do
   end
 
   describe "#diagnose" do
-    it "diagnose gems" do
-      VCR.use_cassette "rubygems.org/multi_search" do
-        VCR.use_cassette "github/bulk_search2" do
-          report = doctor.diagnose
+    context "when not exceeding GitHub's rate limit" do
+      it "diagnose gems" do
+        VCR.use_cassette "rubygems.org/multi_search" do
+          VCR.use_cassette "github/bulk_search2" do
+            report = doctor.diagnose
 
-          expect(report).to be_a_kind_of(Report)
-          expect(report.result.to_h.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
+            expect(report).to be_a_kind_of(Report)
+            expect(report.result.to_h.keys).to eq %w[ast bundle-alive journey parallel parser rainbow]
+          end
         end
       end
-    end
 
-    it "updates status only alive is true or unknown" do
-      VCR.use_cassette "rubygems.org/multi_search" do
-        report = doctor.diagnose
+      it "updates status only alive is true or unknown" do
+        VCR.use_cassette "rubygems.org/multi_search" do
+          report = doctor.diagnose
 
-        result = report.result
-        original_toml = TomlRB.load_file(result_file_org)
+          result = report.result
+          original_toml = TomlRB.load_file(result_file_org)
 
-        expect(result["ast"].alive).to eq true
-        expect(result["ast"].checked_at).to be > Time.parse("2022-05-07T10:58:50Z")
-        expect(result["parallel"].alive).to eq true
-        expect(result["parallel"].checked_at).to be > Time.parse("2022-05-07T12:24:11Z")
-        expect(result["journey"].alive).to eq original_toml["journey"]["alive"]
-        expect(result["journey"].checked_at).to eq original_toml["journey"]["checked_at"]
+          expect(result["ast"].alive).to eq true
+          expect(result["ast"].checked_at).to be > Time.parse("2022-05-07T10:58:50Z")
+          expect(result["parallel"].alive).to eq true
+          expect(result["parallel"].checked_at).to be > Time.parse("2022-05-07T12:24:11Z")
+          expect(result["journey"].alive).to eq original_toml["journey"]["alive"]
+          expect(result["journey"].checked_at).to eq original_toml["journey"]["checked_at"]
+        end
       end
     end
 
     context "when exceeding GitHub's rate limit" do
       it "report rate limit exceeded" do
-        VCR.insert_cassette("github.com/rate-limit-exceeded") do
-          report = doctor.diagnose
+        # without retrying
+        stub_const("Bundler::Alive::Client::GitHubApi::RETRIES_ON_TOO_MANY_REQUESTS", 0)
 
-          expect(report.rate_limit_exceeded).to eq true
+        VCR.use_cassette "rubygems.org/multi_search" do
+          VCR.use_cassette("github.com/rate-limit-exceeded2") do
+            report = doctor.diagnose
+
+            expect(report.rate_limit_exceeded).to eq true
+          end
         end
       end
     end

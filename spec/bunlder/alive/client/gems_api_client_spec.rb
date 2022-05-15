@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Bundler::Alive::Client::GemsApi do
+RSpec.describe Bundler::Alive::Client::GemsApiClient do
   let!(:client) { described_class.new }
 
   describe "#get_source_code_url" do
@@ -21,17 +21,17 @@ RSpec.describe Bundler::Alive::Client::GemsApi do
         VCR.use_cassette "rubygems.org/api/v1/gems/not-found-gem" do
           expect do
             client.send(:get_repository_url, "not-found-gem")
-          end.to raise_error(Client::GemsApi::NotFound)
+          end.to raise_error(Client::GemsApiClient::NotFound)
         end
       end
     end
   end
 
-  describe "#service_with_urls" do
+  describe "#gems_api_response" do
     context "all gems are found" do
-      it "returns a Hash<String, Array<SourceCodeRepositoryUrl>>" do
+      it "returns a `Client::GemsApiResponse`" do
         VCR.use_cassette "rubygems.org/multi_search" do
-          service_with_urls = client.service_with_urls(%w[ast journey parallel parser rainbow])
+          gems_api_response = client.gems_api_response(%w[ast journey parallel parser rainbow])
           expected = {
             github:
               [
@@ -42,6 +42,9 @@ RSpec.describe Bundler::Alive::Client::GemsApi do
                 SourceCodeRepositoryUrl.new("http://github.com/sickill/rainbow", "rainbow")
               ]
           }
+          expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
+
+          service_with_urls = gems_api_response.service_with_urls
           expect(service_with_urls.keys).to eq expected.keys
           expect(service_with_urls[:github].map(&:url)).to eq expected[:github].map(&:url)
         end
@@ -52,13 +55,17 @@ RSpec.describe Bundler::Alive::Client::GemsApi do
       it "returns only found gems result" do
         VCR.use_cassette "rubygems.org/api/v1/gems/ast" do
           VCR.use_cassette "rubygems.org/api/v1/gems/not-found-gem" do
-            service_with_urls = client.service_with_urls(%w[ast not-found-gem])
+            gems_api_response = client.gems_api_response(%w[ast not-found-gem])
             expected = {
               github:
                 [
                   SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "ast")
                 ]
             }
+            expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
+            expect(gems_api_response.error_messages).to eq ["Gem: not-found-gem is not found in RubyGems.org."]
+
+            service_with_urls = gems_api_response.service_with_urls
             expect(service_with_urls.keys).to eq expected.keys
             expect(service_with_urls[:github].map(&:url)).to eq expected[:github].map(&:url)
           end
