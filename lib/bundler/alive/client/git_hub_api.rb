@@ -18,6 +18,9 @@ module Bundler
         # Separator of query condition
         QUERY_CONDITION_SEPARATOR = " "
 
+        RETRIES_ON_TOO_MANY_REQUESTS = 3
+        RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS = 120
+
         #
         # Max number of conditional operator at once
         #
@@ -26,8 +29,11 @@ module Bundler
 
         private_constant :QUERY_MAX_OPERATORS_AT_ONCE
 
-        def self.extended(_obj)
-          @rate_limit_exceeded = false
+        def self.extended(base)
+          base.instance_eval do
+            @rate_limit_exceeded = false
+            @retries_on_too_many_requests = 0
+          end
         end
 
         #
@@ -81,7 +87,7 @@ module Bundler
           name_with_status = {}
           urls.each_slice(QUERY_MAX_OPERATORS_AT_ONCE) do |sliced_urls|
             q = search_query(sliced_urls)
-            repositories = search_repositories(q)
+            repositories = search_repositories_with_retry(q)
             next if repositories.nil?
 
             repositories.each do |repository|
@@ -122,12 +128,29 @@ module Bundler
           result = @client.search_repositories(query)
           result[:items]
         rescue Octokit::TooManyRequests => e
-          @error_messages << e.message
-          @rate_limit_exceeded = true
-          []
+          raise e
         rescue StandardError => e
           @error_messages << e.message
           []
+        end
+
+        def search_repositories_with_retry(query)
+          search_repositories(query)
+        rescue Octokit::TooManyRequests
+          if @retries_on_too_many_requests < RETRIES_ON_TOO_MANY_REQUESTS
+            @retries_on_too_many_requests += 1
+            sleep_with_message
+            retry
+          end
+
+          @rate_limit_exceeded = true
+          []
+        end
+
+        def sleep_with_message
+          puts "Too many requested. Sleep #{RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS} sec."
+          sleep RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS
+          puts "Retry request (#{@retries_on_too_many_requests}/#{RETRIES_ON_TOO_MANY_REQUESTS})"
         end
 
         #
