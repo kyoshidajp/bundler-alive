@@ -20,7 +20,7 @@ module Bundler
         # @return [UnSupportedUrl]
         #
         def initialize(url:, name:)
-          decorated_url = if url.blank?
+          decorated_url = if url.nil? || url == ""
                             "(blank)"
                           else
                             url
