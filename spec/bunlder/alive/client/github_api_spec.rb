@@ -62,6 +62,9 @@ RSpec.describe Bundler::Alive::Client::GitHubApi do
 
     context "when API rate limit exceeded" do
       it "returns `StatusResult` includes an error" do
+        # without retrying
+        stub_const("Bundler::Alive::Client::GitHubApi::RETRIES_ON_TOO_MANY_REQUESTS", 0)
+
         VCR.use_cassette "github.com/rate-limit-exceeded" do
           urls = [
             Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "aws"),
