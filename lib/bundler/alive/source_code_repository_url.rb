@@ -13,8 +13,19 @@ module Bundler
 
       # No supported URL Error
       class UnSupportedUrl < StandardError
-        def initialize(url)
-          message = "UnSupported URL: #{url}"
+        #
+        # @param [String] :url
+        # @param [String] :name
+        #
+        # @return [UnSupportedUrl]
+        #
+        def initialize(url:, name:)
+          decorated_url = if url.nil? || url == ""
+                            "(blank)"
+                          else
+                            url
+                          end
+          message = "[#{name}] is not support URL: #{decorated_url}"
           super(message)
         end
       end
@@ -30,18 +41,20 @@ module Bundler
       # @raise [UnSupportedUrl]
       #
       def initialize(url, name)
+        raise UnSupportedUrl.new(url: url, name: name) if url.nil?
+
         @url = url
-        @service_name = service(url)
+        @service_name = service(url: url, name: name)
         @gem_name = name
       end
 
       private
 
-      def service(url)
+      def service(url:, name:)
         uri = URI.parse(url)
         host = uri.host
 
-        raise UnSupportedUrl, url unless DOMAIN_WITH_SERVICES.key?(host)
+        raise UnSupportedUrl.new(url: url, name: name) unless DOMAIN_WITH_SERVICES.key?(host)
 
         DOMAIN_WITH_SERVICES[host]
       end

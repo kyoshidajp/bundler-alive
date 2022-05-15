@@ -23,7 +23,6 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
         expected = <<~RESULT
 
 
-
           Total: 2 (Dead: 0, Alive: 2, Unknown: 0)
           All gems are alive!
         RESULT
@@ -46,9 +45,9 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
         expected = <<~RESULT
 
 
-
           Total: 2 (Dead: 0, Alive: 1, Unknown: 1)
           Too many requested! Retry later.
+          Unknown gems are found!
         RESULT
         expect do
           cli_instance.print_report(report)
@@ -91,12 +90,12 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
       it "reports result" do
         expected = <<~RESULT
 
+          gem2 is not found in gems.org.
+          Unknown url:#{" "}
+
           Name: gem1
           URL: http://github.com/kyoshidajp/gem1
           Status: false
-
-          gem2 is not found in gems.org.
-          Unknown url:#{" "}
 
           Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
           Not alive gems are found!

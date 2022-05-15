@@ -20,14 +20,14 @@ $ gem install bunlder-alive
 ```
 $ bundle-alive
 6 gems are in Gemfile.lock
-......
-
+..W....
+Get all source code repository URLs of gems are done!
+.....
 Name: journey
 URL: http://github.com/rails/journey
 Status: false
 
-bundle-alive is not found in gems.org.
-Unknown url:
+Gem: bundle-alive is not found in RubyGems.org.
 
 Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
 Not alive gems are found!
@@ -39,7 +39,7 @@ Default `Gemfile.lock` location is in your current directory. You can specify it
 $ bundle-alive -G /path/to/Gemfile.lock
 ```
 
-In most cases, the following error is output.
+In some cases, the following error is output.
 
 ```
 Too many requested! Retry later.

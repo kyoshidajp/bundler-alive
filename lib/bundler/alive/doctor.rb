@@ -19,7 +19,7 @@ module Bundler
       def initialize(lock_file, result_file)
         @lock_file = lock_file
         @result_file = result_file
-        @gem_client = Client::GemsApi.new
+        @gem_client = Client::GemsApiClient.new
         @result = nil
         @rate_limit_exceeded = false
         @announcer = Announcer.new
@@ -69,9 +69,13 @@ module Bundler
       end
 
       def result_by_search(collection)
-        service_with_urls = gem_client.service_with_urls(collection.names) do
+        gems_api_response = gem_client.gems_api_response(collection.names) do
           announcer.announce
         end
+
+        service_with_urls = gems_api_response.service_with_urls
+        error_messages.concat(gems_api_response.error_messages)
+
         result = StatusResult.new
         service_with_urls.each do |service, urls|
           result = result.merge(diagnose_by_service(service, urls))
@@ -106,8 +110,10 @@ module Bundler
         collection_from_toml_file = StatusCollection.new_from_toml_file(result_file)
         new_collection = collection_from_gemfile.merge(collection_from_toml_file)
                                                 .merge(result.collection)
+
+        messages = error_messages.concat(result.error_messages)
         StatusResult.new(collection: new_collection,
-                         error_messages: result.error_messages,
+                         error_messages: messages,
                          rate_limit_exceeded: result.rate_limit_exceeded)
       end
 
