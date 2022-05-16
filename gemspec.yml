@@ -1,0 +1,36 @@
+name: bundler-alive
+summary: Are your gems alive?
+description: bundler-alive reports gems are archived or not.
+authors: Katsuhiko YOSHIDA
+email: claddvd@gmail.com
+homepage: https://github.com/kyoshidajp/bundler-alive
+
+metadata:
+  homepage_uri: https://github.com/kyoshidajp/bundler-alive
+  source_code_uri: https://github.com/kyoshidajp/bundler-alive
+  changelog_uri: https://github.com/kyoshidajp/bundler-alive
+
+required_ruby_version: ">= 2.6.0"
+bindir: bin
+require_paths: lib
+
+dependencies:
+  faraday:
+  octokit:
+  rake:
+  thor:
+  toml-rb:
+
+development_dependencies:
+  rspec:
+  rubocop:
+  yard:
+
+  # Workaround for cc-test-reporter with SimpleCov 0.18.
+  # Stop upgrading SimpleCov until the following issue will be resolved.
+  # https://github.com/codeclimate/test-reporter/issues/418
+  simplecov: "~> 0.10, < 0.18"
+
+  factory_bot:
+  vcr:
+  webmock:
