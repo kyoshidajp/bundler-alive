@@ -10,7 +10,7 @@ module Bundler
       delegate each: :collection
       delegate values: :collection
 
-      attr_reader :alive_size, :dead_size, :unknown_size
+      attr_reader :alive_size, :archived_size, :unknown_size
 
       #
       # Generates instance of `StatusCollection`
@@ -25,7 +25,7 @@ module Bundler
 
         @alive_size = _alive_size
         @unknown_size = _unknown_size
-        @dead_size = _dead_size
+        @archived_size = _archived_size
         freeze
       end
 
@@ -114,7 +114,7 @@ module Bundler
         statuses_values.count { |gem| !!gem.alive && !gem.unknown? }
       end
 
-      def _dead_size
+      def _archived_size
         statuses_values.count { |gem| !gem.alive && !gem.unknown? }
       end
 

@@ -44,7 +44,7 @@ module Bundler
 
         def print_summary(result)
           $stdout.puts <<~RESULT
-            Total: #{result.total_size} (Dead: #{result.dead_size}, Alive: #{result.alive_size}, Unknown: #{result.unknown_size})
+            Total: #{result.total_size} (Archived: #{result.archived_size}, Alive: #{result.alive_size}, Unknown: #{result.unknown_size})
           RESULT
         end
 
@@ -55,7 +55,7 @@ module Bundler
           end
 
           say "Too many requested! Retry later.", :yellow if rate_limit_exceeded
-          if result.dead_size.positive?
+          if result.archived_size.positive?
             say "Not alive gems are found!", :red
             return
           end

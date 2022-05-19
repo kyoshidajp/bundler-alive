@@ -23,7 +23,7 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
         expected = <<~RESULT
 
 
-          Total: 2 (Dead: 0, Alive: 2, Unknown: 0)
+          Total: 2 (Archived: 0, Alive: 2, Unknown: 0)
           All gems are alive!
         RESULT
         expect do
@@ -45,7 +45,7 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
         expected = <<~RESULT
 
 
-          Total: 2 (Dead: 0, Alive: 1, Unknown: 1)
+          Total: 2 (Archived: 0, Alive: 1, Unknown: 1)
           Too many requested! Retry later.
           Unknown gems are found!
         RESULT
@@ -97,7 +97,7 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
           URL: http://github.com/kyoshidajp/gem1
           Status: false
 
-          Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
+          Total: 6 (Archived: 1, Alive: 4, Unknown: 1)
           Not alive gems are found!
         RESULT
         expect do
