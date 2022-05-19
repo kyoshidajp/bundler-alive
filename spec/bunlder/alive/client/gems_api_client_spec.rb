@@ -3,9 +3,20 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::Client::GemsApiClient do
-  let!(:client) { described_class.new }
+  describe "#new" do
+    context "with `config_path`" do
+      let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
+      let!(:client) { described_class.new(config) }
+      it "has merged `@config_gems`" do
+        config_gems = client.instance_variable_get(:@config_gems)
+        expect(config_gems.keys).to eq %w[fog-sakuracloud gli]
+      end
+    end
+  end
 
   describe "#get_source_code_url" do
+    let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
+    let!(:client) { described_class.new(config) }
     context "with a exists gem on gems.org" do
       it "returns a `SourceCodeRepositoryUrl`" do
         VCR.use_cassette "rubygems.org/api/v1/gems/rails" do
@@ -28,6 +39,8 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
   end
 
   describe "#gems_api_response" do
+    let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
+    let!(:client) { described_class.new(config) }
     context "all gems are found" do
       it "returns a `Client::GemsApiResponse`" do
         VCR.use_cassette "rubygems.org/multi_search" do
@@ -36,6 +49,31 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
             github:
               [
                 SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "ast"),
+                SourceCodeRepositoryUrl.new("http://github.com/rails/journey", "journey"),
+                SourceCodeRepositoryUrl.new("https://github.com/grosser/parallel/tree/v1.22.1", "parallel"),
+                SourceCodeRepositoryUrl.new("https://github.com/whitequark/parser/tree/v3.1.2.0", "parser"),
+                SourceCodeRepositoryUrl.new("http://github.com/sickill/rainbow", "rainbow")
+              ]
+          }
+          expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
+
+          service_with_urls = gems_api_response.service_with_urls
+          expect(service_with_urls.keys).to eq expected.keys
+          expect(service_with_urls[:github].map(&:url)).to eq expected[:github].map(&:url)
+        end
+      end
+    end
+
+    context "when having urls in configgems" do
+      it "returns a `Client::GemsApiResponse`" do
+        VCR.use_cassette "rubygems.org/multi_search" do
+          gems_api_response = client.gems_api_response(%w[ast fog-sakuracloud gli journey parallel parser rainbow])
+          expected = {
+            github:
+              [
+                SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "ast"),
+                SourceCodeRepositoryUrl.new("https://github.com/fog/fog-sakuracloud", "fog-sakuracloud"),
+                SourceCodeRepositoryUrl.new("https://github.com/davetron5000/gli", "gli"),
                 SourceCodeRepositoryUrl.new("http://github.com/rails/journey", "journey"),
                 SourceCodeRepositoryUrl.new("https://github.com/grosser/parallel/tree/v1.22.1", "parallel"),
                 SourceCodeRepositoryUrl.new("https://github.com/whitequark/parser/tree/v3.1.2.0", "parser"),

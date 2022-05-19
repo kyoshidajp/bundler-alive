@@ -18,8 +18,9 @@ module Bundler
         class NotFound < StandardError
         end
 
-        def initialize
+        def initialize(config_path = nil)
           @error_messages = []
+          @config_gems = get_config_gems(config_path)
         end
 
         #
@@ -43,7 +44,7 @@ module Bundler
 
         private
 
-        attr_accessor :error_messages
+        attr_accessor :error_messages, :config_gems
 
         def api_url(gem_name)
           "https://rubygems.org/api/v1/gems/#{gem_name}.json"
@@ -53,6 +54,13 @@ module Bundler
           Faraday.new do |connection|
             connection.adapter :net_http
           end
+        end
+
+        def get_config_gems(path)
+          return {} if path.nil?
+
+          config = YAML.load_file(path)
+          config["gems"]
         end
 
         def service_with_urls(gem_names, &block)
@@ -71,6 +79,9 @@ module Bundler
         # @return [SourceCodeRepositoryUrl]
         #
         def get_repository_url(gem_name)
+          url_from_config = get_repository_url_from_config(gem_name)
+          return url_from_config unless url_from_config.nil?
+
           url = api_url(gem_name)
           response = connection.get(url)
 
@@ -79,6 +90,14 @@ module Bundler
           body = JSON.parse(response.body)
           raw_url = source_code_url(body: body, gem_name: gem_name)
           SourceCodeRepositoryUrl.new(raw_url, gem_name)
+        end
+
+        def get_repository_url_from_config(gem_name)
+          return nil if config_gems.nil?
+          return nil unless config_gems.key?(gem_name)
+
+          gem = config_gems[gem_name]
+          SourceCodeRepositoryUrl.new(gem["url"], gem_name)
         end
 
         def source_code_url(body:, gem_name:)
