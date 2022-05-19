@@ -3,24 +3,6 @@
 require "spec_helper"
 
 RSpec.describe Bundler::Alive::StatusCollection do
-  describe ".new_from_toml_file" do
-    context "with not exists path" do
-      it "returns instance of `Bundler::Alive::StatusCollection`" do
-        expect(
-          described_class.new_from_toml_file("/tmp/not-exists-path")
-        ).to be_an_instance_of(described_class)
-      end
-    end
-
-    context "with exists path" do
-      it "returns instance of `Bundler::Alive::StatusCollection`" do
-        collection = described_class.new_from_toml_file("spec/fixtures/files/result.toml")
-        expect(collection).to be_an_instance_of(described_class)
-        expect(collection.names).to eq %w[ast journey]
-      end
-    end
-  end
-
   describe "#all_alive?" do
     context "all gems are alive" do
       subject(:collection) do

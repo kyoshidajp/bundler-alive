@@ -2,23 +2,20 @@
 
 require "bundler"
 require "octokit"
-require "toml-rb"
 
 module Bundler
   module Alive
     #
-    # Diagnoses a `Gemfile.lock` with a TOML file
+    # Diagnoses a `Gemfile.lock`
     #
     class Doctor
       #
       # A new instance of Doctor
       #
       # @param [String] lock_file lock file of gem
-      # @param [String] result_file file of result
       #
-      def initialize(lock_file, result_file)
+      def initialize(lock_file)
         @lock_file = lock_file
-        @result_file = result_file
         @gem_client = Client::GemsApiClient.new
         @result = nil
         @rate_limit_exceeded = false
@@ -45,21 +42,8 @@ module Bundler
 
       private
 
-      attr_reader :lock_file, :result_file, :gem_client, :announcer,
+      attr_reader :lock_file, :gem_client, :announcer,
                   :result, :error_messages, :rate_limit_exceeded
-
-      #
-      # @return [Array<String>]
-      #
-      def no_need_to_get_gems
-        return [] unless File.exist?(result_file)
-
-        toml_hash = TomlRB.load_file(result_file)
-        toml_hash.each_with_object([]) do |(gem_name, v), array|
-          alive = v["alive"]
-          array << gem_name unless alive
-        end
-      end
 
       def diagnose_by_service(service, urls)
         client = Client::SourceCodeClient.new(service_name: service)
@@ -83,16 +67,6 @@ module Bundler
         result
       end
 
-      def fetch_target_collection(base_collection, gem_names)
-        collection = StatusCollection.new
-        base_collection.each do |name, status|
-          next if gem_names.include?(name)
-
-          collection = collection.add(name, status)
-        end
-        collection
-      end
-
       def collection_from_gemfile
         gems_from_lockfile.each_with_object(StatusCollection.new) do |gem, collection|
           gem_name = gem.name
@@ -105,11 +79,9 @@ module Bundler
       end
 
       def _diagnose
-        collection = fetch_target_collection(collection_from_gemfile, no_need_to_get_gems)
+        collection = collection_from_gemfile
         result = result_by_search(collection)
-        collection_from_toml_file = StatusCollection.new_from_toml_file(result_file)
-        new_collection = collection_from_gemfile.merge(collection_from_toml_file)
-                                                .merge(result.collection)
+        new_collection = collection_from_gemfile.merge(result.collection)
 
         messages = error_messages.concat(result.error_messages)
         StatusResult.new(collection: new_collection,

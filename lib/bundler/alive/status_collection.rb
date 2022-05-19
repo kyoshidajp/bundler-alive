@@ -13,29 +13,6 @@ module Bundler
       attr_reader :alive_size, :dead_size, :unknown_size
 
       #
-      # Creates `StatusCollection` from TOML file
-      #
-      # @param [String] path
-      #
-      # @return [StatusCollection]
-      #
-      def self.new_from_toml_file(path)
-        return new unless File.exist?(path)
-
-        collection = new
-        TomlRB.load_file(path).each do |name, v|
-          next if v["alive"] == Status::ALIVE_UNKNOWN
-
-          url = SourceCodeRepositoryUrl.new(v["repository_url"], name)
-          status = Status.new(name: name, repository_url: url,
-                              alive: v["alive"], checked_at: v["checked_at"])
-          collection = collection.add(name, status)
-        end
-
-        collection
-      end
-
-      #
       # Generates instance of `StatusCollection`
       #
       # @param [StatusCollection|nil] collection

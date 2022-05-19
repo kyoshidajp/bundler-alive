@@ -18,13 +18,10 @@ module Bundler
       desc "check [DIR]", "Checks the Gemfile.lock"
       method_option :gemfile_lock, type: :string, aliases: "-G",
                                    default: "Gemfile.lock"
-      method_option :result, type: :string, aliases: "-r",
-                             default: "result.toml"
 
       def check(_dir = Dir.pwd)
         extend Reportable
         report = check_by_doctor
-        report.save_as_file(options[:result])
         print_report(report)
 
         exit_status = report.result.all_alive? ? 0 : 1
@@ -40,7 +37,7 @@ module Bundler
 
       def check_by_doctor
         doctor = begin
-          Doctor.new(options[:gemfile_lock], options[:result])
+          Doctor.new(options[:gemfile_lock])
         rescue Bundler::GemfileLockNotFound
           exit 1
         end

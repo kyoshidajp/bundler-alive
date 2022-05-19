@@ -19,7 +19,6 @@ dependencies:
   octokit:
   rake:
   thor:
-  toml-rb:
 
 development_dependencies:
   rspec:
