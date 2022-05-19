@@ -84,7 +84,7 @@ module Bundler
         collection.transform_values(&:to_h)
       end
 
-      def need_to_report_gems
+      def archived_gems
         collection.find_all { |_name, gem| !!!gem.alive }
       end
 
