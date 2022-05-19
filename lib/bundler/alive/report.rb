@@ -20,16 +20,6 @@ module Bundler
 
         freeze
       end
-
-      #
-      # Save result to file
-      #
-      # @param [String] file_path
-      #
-      def save_as_file(file_path)
-        body = TomlRB.dump(result.to_h)
-        File.write(file_path, body)
-      end
     end
   end
 end
