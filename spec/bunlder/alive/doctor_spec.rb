@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Bundler::Alive::Doctor do
   let!(:lock_file) { "spec/fixtures/files/Gemfile.lock" }
   let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
-  let!(:doctor) { described_class.new(lock_file, config) }
+  let!(:doctor) { described_class.new(lock_file, config, []) }
 
   describe "#diagnose" do
     context "when not exceeding GitHub's rate limit" do

@@ -16,6 +16,7 @@ module Bundler
       map "--version" => :version
 
       desc "check [DIR]", "Checks the Gemfile.lock"
+      method_option :ignore, type: :array, aliases: "-i", default: []
       method_option :gemfile_lock, type: :string, aliases: "-G",
                                    default: "Gemfile.lock"
       method_option :config, type: :string, aliases: "-c", default: ".bundler-alive.yml"
@@ -38,7 +39,7 @@ module Bundler
 
       def check_by_doctor
         doctor = begin
-          Doctor.new(options[:gemfile_lock], options[:config])
+          Doctor.new(options[:gemfile_lock], options[:config], options[:ignore])
         rescue Bundler::GemfileLockNotFound
           exit 1
         end
