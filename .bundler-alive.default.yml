@@ -1,0 +1,30 @@
+---
+gems:
+  coffee-script-source:
+    url: https://github.com/jashkenas/coffeescript/
+  erubis:
+    url: https://github.com/kwatch/erubis
+  ffi-compiler:
+    url: https://github.com/ffi/ffi
+  foundation-rails:
+    url: https://github.com/foundation/foundation-rails
+  guard-compat:
+    url: https://github.com/guard/guard-compat
+  spoon:
+    url: https://github.com/headius/spoon
+  shellany:
+    url: https://github.com/guard/shellany
+  vegas:
+    url: https://github.com/quirkey/vegas
+  zipruby:
+    url: https://github.com/fjg/zipruby
+  gli:
+    url: https://github.com/davetron5000/gli
+  zen_to_i:
+    url: https://github.com/yoshitsugu/zen_to_i
+  trailblazer-option:
+    url: https://github.com/trailblazer/trailblazer-option
+  fog-sakuracloud:
+    url: https://github.com/fog/fog-sakuracloud
+  ovirt-engine-sdk:
+    url: https://github.com/oVirt/ovirt-engine-sdk-ruby

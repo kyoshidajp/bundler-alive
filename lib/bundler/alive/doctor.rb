@@ -13,10 +13,11 @@ module Bundler
       # A new instance of Doctor
       #
       # @param [String] lock_file lock file of gem
+      # @param [String] config_file config file
       #
-      def initialize(lock_file)
+      def initialize(lock_file, config_file)
         @lock_file = lock_file
-        @gem_client = Client::GemsApiClient.new
+        @gem_client = Client::GemsApiClient.new(config_file)
         @result = nil
         @rate_limit_exceeded = false
         @announcer = Announcer.new

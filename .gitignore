@@ -12,6 +12,7 @@ vendor/bundle/
 .ruby-version
 .ruby-gemset
 .rspec_status
+.bundler-alive.yml
 
 Gemfile.lock
 result.toml

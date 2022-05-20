@@ -1,0 +1,6 @@
+---
+gems:
+  fog-sakuracloud:
+    url: https://github.com/fog/fog-sakuracloud
+  gli:
+    url: https://github.com/davetron5000/gli

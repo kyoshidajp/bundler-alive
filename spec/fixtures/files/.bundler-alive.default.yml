@@ -1,0 +1,20 @@
+---
+gems:
+  coffee-script-source:
+    url: https://github.com/jashkenas/coffeescript/
+  erubis:
+    url: https://github.com/kwatch/erubis
+  ffi-compiler:
+    url: https://github.com/ffi/ffi
+  foundation-rails:
+    url: https://github.com/foundation/foundation-rails
+  guard-compat:
+    url: https://github.com/guard/guard-compat
+  spoon:
+    url: https://github.com/headius/spoon
+  vegas:
+    url: https://github.com/quirkey/vegas
+  zip-ruby:
+    url: https://github.com/fjg/zipruby
+  trailblazer-option:
+    url: https://github.com/trailblazer/trailblazer-option
