@@ -101,7 +101,7 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
                 ]
             }
             expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
-            expect(gems_api_response.error_messages).to eq ["Gem: not-found-gem is not found in RubyGems.org."]
+            expect(gems_api_response.error_messages).to eq ["[not-found-gem] Not found in RubyGems.org."]
 
             service_with_urls = gems_api_response.service_with_urls
             expect(service_with_urls.keys).to eq expected.keys

@@ -67,7 +67,6 @@ module Bundler
         <<~REPORT
           Name: #{name}
           URL: #{decorated_repository_url}
-          Status: #{decorated_alive}
 
         REPORT
       end

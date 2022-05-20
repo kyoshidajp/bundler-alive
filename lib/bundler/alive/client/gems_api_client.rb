@@ -85,7 +85,7 @@ module Bundler
           url = api_url(gem_name)
           response = connection.get(url)
 
-          raise NotFound, "Gem: #{gem_name} is not found in RubyGems.org." unless response.success?
+          raise NotFound, "[#{gem_name}] Not found in RubyGems.org." unless response.success?
 
           body = JSON.parse(response.body)
           raw_url = source_code_url(body: body, gem_name: gem_name)
@@ -107,7 +107,9 @@ module Bundler
           url = body["homepage_uri"]
           return url if SourceCodeRepositoryUrl.support_url?(url)
 
-          raise NotFound, "[#{gem_name}] source code repository is not found in RubyGems.org."
+          message = "[#{gem_name}] Source code repository is not found in RubyGems.org,"\
+                    "or not supported. URL: https://rubygems.org/gems/#{gem_name}"
+          raise NotFound, message
         end
 
         def get_repository_urls(gem_names)

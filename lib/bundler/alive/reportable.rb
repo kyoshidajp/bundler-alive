@@ -21,11 +21,8 @@ module Bundler
           error_messages = report.error_messages
           print_error(error_messages)
 
-          gems = result.need_to_report_gems
-          $stdout.puts if gems.size.positive?
-          gems.each do |_name, gem|
-            $stdout.puts gem.report
-          end
+          gems = result.archived_gems
+          print_archived_gems(gems) if gems.size.positive?
 
           print_summary(result)
           print_message(result, report.rate_limit_exceeded)
@@ -33,18 +30,33 @@ module Bundler
 
         private
 
+        # soo messy
+        def print_archived_gems(gems)
+          $stdout.puts
+          $stdout.puts "Archived gems:"
+          archived_gems = gems.map do |_name, gem|
+            gem.report.split("\n").each_with_object([]) do |line, gem_str|
+              gem_str << "    #{line}"
+            end.join("\n")
+          end
+          $stdout.puts archived_gems.join("\n\n")
+        end
+
         def print_error(error_messages)
-          return if error_messages.nil?
+          return if error_messages.empty?
 
           $stdout.puts <<~ERROR
 
-            #{error_messages.join("\n")}
+
+            Errors:
+                #{error_messages.join("\n    ")}
           ERROR
         end
 
         def print_summary(result)
           $stdout.puts <<~RESULT
-            Total: #{result.total_size} (Dead: #{result.dead_size}, Alive: #{result.alive_size}, Unknown: #{result.unknown_size})
+
+            Total: #{result.total_size} (Archived: #{result.archived_size}, Alive: #{result.alive_size}, Unknown: #{result.unknown_size})
           RESULT
         end
 
@@ -55,7 +67,7 @@ module Bundler
           end
 
           say "Too many requested! Retry later.", :yellow if rate_limit_exceeded
-          if result.dead_size.positive?
+          if result.archived_size.positive?
             say "Not alive gems are found!", :red
             return
           end

@@ -72,7 +72,7 @@ RSpec.describe Bundler::Alive::StatusCollection do
     end
   end
 
-  describe "#dead_size" do
+  describe "#archived_size" do
     subject(:collection) do
       gem1 = build(:status, name: "gem1", alive: false)
       gem2 = build(:status, name: "gem2", alive: true)
@@ -84,7 +84,7 @@ RSpec.describe Bundler::Alive::StatusCollection do
     end
 
     it "returns 3" do
-      expect(collection.dead_size).to eq 3
+      expect(collection.archived_size).to eq 3
     end
   end
 

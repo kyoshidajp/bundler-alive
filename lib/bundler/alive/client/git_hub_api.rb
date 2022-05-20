@@ -151,7 +151,7 @@ module Bundler
         end
 
         def sleep_with_message
-          puts "Too many requested. Sleep #{RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS} sec."
+          puts "Too many requested to GitHub. Sleep #{RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS} sec."
           sleep RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS
           puts "Retry request (#{@retries_on_too_many_requests}/#{RETRIES_ON_TOO_MANY_REQUESTS})"
         end
