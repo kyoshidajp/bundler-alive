@@ -108,7 +108,7 @@ module Bundler
           return url if SourceCodeRepositoryUrl.support_url?(url)
 
           message = "[#{gem_name}] Source code repository is not found in RubyGems.org,"\
-                    "or not supported. URL: https://rubygems.org/gems/#{gem_name}"
+                    " or not supported. URL: https://rubygems.org/gems/#{gem_name}"
           raise NotFound, message
         end
 

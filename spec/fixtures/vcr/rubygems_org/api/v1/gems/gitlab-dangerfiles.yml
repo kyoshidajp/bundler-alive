@@ -1,0 +1,92 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/gitlab-dangerfiles.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Security-Policy:
+      - default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'
+        https://secure.gaug.es https://gravatar.com https://secure.gravatar.com https://*.fastly-insights.com;
+        object-src 'none'; script-src 'self' https://secure.gaug.es https://www.fastly-insights.com;
+        style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://s3-us-west-2.amazonaws.com/rubygems-dumps/
+        https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
+        form-action 'self'; frame-ancestors 'self'
+      X-Request-Id:
+      - 74d545d5-ac6d-4189-b630-f4473264e666
+      X-Runtime:
+      - '0.021311'
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Backend:
+      - F_Rails 52.88.209.40:443
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Fri, 20 May 2022 23:59:31 GMT
+      Via:
+      - 1.1 varnish
+      X-Served-By:
+      - cache-tyo11938-TYO
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1653091171.199439,VS0,VE150
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"cb6320dbbfa71911ba5aba80ebe3097f"'
+      Server:
+      - RubyGems.org
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"gitlab-dangerfiles","downloads":6911803,"version":"3.1.0","version_created_at":"2022-04-19T10:01:39.777Z","version_downloads":4712,"platform":"ruby","authors":"GitLab","info":"This
+        gem provides common Dangerfile and plugins for GitLab projects.","licenses":["MIT"],"metadata":{"homepage_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","changelog_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles/-/releases","source_code_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","allowed_push_host":"https://rubygems.org"},"yanked":false,"sha":"1944092e64a81cd117c365f03537a8fa37ec13077be6b9bbc27b798a606466f2","project_uri":"https://rubygems.org/gems/gitlab-dangerfiles","gem_uri":"https://rubygems.org/gems/gitlab-dangerfiles-3.1.0.gem","homepage_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","wiki_uri":null,"documentation_uri":null,"mailing_list_uri":null,"source_code_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","bug_tracker_uri":null,"changelog_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles/-/releases","funding_uri":null,"dependencies":{"development":[{"name":"climate_control","requirements":"\u003e=
+        0"},{"name":"rspec","requirements":"~\u003e 3.0"},{"name":"rspec-parameterized","requirements":"\u003e=
+        0"},{"name":"rufo","requirements":"\u003e= 0"},{"name":"timecop","requirements":"\u003e=
+        0"},{"name":"webmock","requirements":"\u003e= 0"}],"runtime":[{"name":"danger","requirements":"\u003e=
+        8.4.5"},{"name":"danger-gitlab","requirements":"\u003e= 8.0.0"},{"name":"rake","requirements":"\u003e=
+        0"}]}}'
+  recorded_at: Fri, 20 May 2022 23:59:31 GMT
+recorded_with: VCR 6.1.0

@@ -62,10 +62,10 @@ RSpec.describe Bundler::Alive::Client::GitHubApi do
 
     context "when API rate limit exceeded" do
       it "returns `StatusResult` includes an error" do
-        # without retrying
-        stub_const("Bundler::Alive::Client::GitHubApi::RETRIES_ON_TOO_MANY_REQUESTS", 0)
+        stub_const("Bundler::Alive::Client::GitHubApi::RETRIES_ON_TOO_MANY_REQUESTS", 1)
+        stub_const("Bundler::Alive::Client::GitHubApi::RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS", 0)
 
-        VCR.use_cassette "github.com/rate-limit-exceeded" do
+        VCR.use_cassette("github.com/rate-limit-exceeded", allow_playback_repeats: true) do
           urls = [
             Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "aws"),
             Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/rails/journey", "journey"),
@@ -79,6 +79,24 @@ RSpec.describe Bundler::Alive::Client::GitHubApi do
           expect(result.rate_limit_exceeded).to eq true
           expect(result.error_messages).not_to be_nil
         end
+      end
+    end
+
+    context "when unknown error is raised" do
+      it "returns `StatusResult` includes an error" do
+        # mock
+        github_api_client_mock = double("GitHub API Client")
+        allow(github_api_client_mock).to receive(:search_repositories).and_raise(StandardError, "Unknown Error")
+        client.instance_variable_set(:@client, github_api_client_mock)
+
+        urls = [
+          Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "aws")
+        ]
+
+        result = client.query(urls: urls)
+        expect(result).to be_an_instance_of(Bundler::Alive::StatusResult)
+        expect(result.rate_limit_exceeded).to eq false
+        expect(result.error_messages).to eq ["Unknown Error"]
       end
     end
   end

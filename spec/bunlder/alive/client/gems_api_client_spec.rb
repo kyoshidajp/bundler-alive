@@ -110,5 +110,21 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
         end
       end
     end
+
+    context "when includes gem which has not supported url" do
+      it "returns only found gems result" do
+        VCR.use_cassette "rubygems.org/api/v1/gems/gitlab-dangerfiles" do
+          gems_api_response = client.gems_api_response(%w[gitlab-dangerfiles])
+
+          expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
+          message = "[gitlab-dangerfiles] Source code repository is not found in RubyGems.org,"\
+                    " or not supported. URL: https://rubygems.org/gems/gitlab-dangerfiles"
+          expect(gems_api_response.error_messages).to eq [message]
+
+          service_with_urls = gems_api_response.service_with_urls
+          expect(service_with_urls.keys).to eq []
+        end
+      end
+    end
   end
 end

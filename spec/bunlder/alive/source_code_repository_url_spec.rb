@@ -41,5 +41,15 @@ RSpec.describe Bundler::Alive::SourceCodeRepositoryUrl do
         end.to raise_error(Bundler::Alive::SourceCodeRepositoryUrl::UnSupportedUrl)
       end
     end
+
+    context "without `url`" do
+      it "returns `Bundler::Alive::RepositoryUrl::UnSupportedUrl`" do
+        expect do
+          described_class.new(nil, "name")
+        end
+          .to raise_error(Bundler::Alive::SourceCodeRepositoryUrl::UnSupportedUrl,
+                          "[name] is not support URL: (blank)")
+      end
+    end
   end
 end
