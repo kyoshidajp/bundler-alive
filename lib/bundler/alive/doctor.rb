@@ -14,10 +14,12 @@ module Bundler
       #
       # @param [String] lock_file lock file of gem
       # @param [String] config_file config file
+      # @param [Array<String>] ignore_gems ignore gems
       #
-      def initialize(lock_file, config_file)
+      def initialize(lock_file, config_file, ignore_gems)
         @lock_file = lock_file
         @gem_client = Client::GemsApiClient.new(config_file)
+        @ignore_gems = ignore_gems
         @result = nil
         @rate_limit_exceeded = false
         @announcer = Announcer.new
@@ -36,14 +38,17 @@ module Bundler
       # @return [Report]
       #
       def diagnose
-        $stdout.puts "#{collection_from_gemfile.total_size} gems are in Gemfile.lock"
+        message = "#{collection_from_gemfile.total_size + ignore_gems.size} gems are in Gemfile.lock"
+        message = "#{message} (#{ignore_gems.size} gems are ignored)" if ignore_gems.size.positive?
+        $stdout.puts message
+
         result = _diagnose
         Report.new(result)
       end
 
       private
 
-      attr_reader :lock_file, :gem_client, :announcer,
+      attr_reader :lock_file, :gem_client, :announcer, :ignore_gems,
                   :result, :error_messages, :rate_limit_exceeded
 
       def diagnose_by_service(service, urls)
@@ -71,6 +76,8 @@ module Bundler
       def collection_from_gemfile
         gems_from_lockfile.each_with_object(StatusCollection.new) do |gem, collection|
           gem_name = gem.name
+          next if ignore_gems.include?(gem_name)
+
           status = Status.new(name: gem_name,
                               repository_url: nil,
                               alive: nil,
