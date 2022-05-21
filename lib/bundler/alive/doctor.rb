@@ -26,7 +26,7 @@ module Bundler
       end
 
       #
-      # Diagnoses gems in lock file of gem
+      # Diagnoses gems in Gemfile.lock
       #
       # @raise [Client::SourceCodeClient::RateLimitExceededError]
       #   When exceeded access rate limit
@@ -55,6 +55,7 @@ module Bundler
         client.query(urls: urls)
       end
 
+      # @return [StatusResult]
       def result_by_search(collection)
         gems_api_response = gem_client.gems_api_response(collection.names)
         service_with_urls = gems_api_response.service_with_urls
@@ -67,6 +68,7 @@ module Bundler
         result
       end
 
+      # @return [StatusCollection]
       def collection_from_gemfile
         gems_from_lockfile.each_with_object(StatusCollection.new) do |gem, collection|
           gem_name = gem.name
@@ -80,12 +82,14 @@ module Bundler
         end
       end
 
+      # @return [StatusResult]
       def _diagnose
         collection = collection_from_gemfile
         result = result_by_search(collection)
         new_collection = collection_from_gemfile.merge(result.collection)
 
         messages = error_messages.concat(result.error_messages)
+
         StatusResult.new(collection: new_collection,
                          error_messages: messages,
                          rate_limit_exceeded: result.rate_limit_exceeded)
