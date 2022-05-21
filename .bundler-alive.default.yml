@@ -28,3 +28,29 @@ gems:
     url: https://github.com/fog/fog-sakuracloud
   ovirt-engine-sdk:
     url: https://github.com/oVirt/ovirt-engine-sdk-ruby
+  declarative_policy:
+    url: https://gitlab.com/gitlab-org/ruby/gems/declarative-policy
+  spamcheck:
+    url: https://gitlab.com/gitlab-com/gl-security/engineering-and-research/automation-team/spam/spamcheck
+  tanuki_emoji:
+    url: https://gitlab.com/gitlab-org/ruby/gems/tanuki_emoji
+  cbor:
+    url: https://github.com/cabo/cbor-ruby
+  expression_parser:
+    url: https://github.com/nricciar/expression_parser
+  extended-markdown-filter:
+    url: https://github.com/gjtorikian/extended-markdown-filter
+  gettext:
+    url: https://github.com/ruby-gettext/gettext
+  png_quantizator:
+    url: https://github.com/rogercampos/png_quantizator
+  redis-actionpack:
+    url: https://github.com/redis-store/redis-actionpack
+  redis-rack:
+    url: https://github.com/redis-store/redis-rack
+  sixarm_ruby_unaccent:
+    url: https://github.com/SixArm/sixarm_ruby_unaccent
+  thrift:
+    url: https://github.com/szechyjs/thrift-gem
+  vmstat:
+    url: https://github.com/threez/ruby-vmstat
