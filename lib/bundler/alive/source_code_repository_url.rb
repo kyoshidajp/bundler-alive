@@ -44,6 +44,8 @@ module Bundler
                           end
           message = "[#{name}] is not support URL: #{decorated_url}"
           super(message)
+
+          freeze
         end
       end
 

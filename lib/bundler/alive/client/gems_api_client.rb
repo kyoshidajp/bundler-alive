@@ -28,6 +28,8 @@ module Bundler
         def initialize(config_path = nil)
           @error_messages = []
           @config_gems = get_config_gems(config_path)
+
+          freeze
         end
 
         #
