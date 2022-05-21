@@ -17,6 +17,8 @@ module Bundler
         raise ArgumentError, "Unknown url: #{url}" unless url.instance_of?(SourceCodeRepositoryUrl)
 
         @url = url
+
+        freeze
       end
 
       private

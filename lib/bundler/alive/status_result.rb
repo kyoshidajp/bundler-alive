@@ -21,6 +21,8 @@ module Bundler
         @collection = collection
         @error_messages = error_messages
         @rate_limit_exceeded = rate_limit_exceeded
+
+        freeze
       end
 
       #

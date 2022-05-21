@@ -18,9 +18,18 @@ module Bundler
         class NotFound < StandardError
         end
 
+        #
+        # A new instance of `GemApiClient`
+        #
+        # @param [String] config_path
+        #
+        # @return [GemApiClient]
+        #
         def initialize(config_path = nil)
           @error_messages = []
           @config_gems = get_config_gems(config_path)
+
+          freeze
         end
 
         #
@@ -30,8 +39,8 @@ module Bundler
         #
         # @return [Client::GemsApiResponse]
         #
-        def gems_api_response(gem_names, &block)
-          urls = service_with_urls(gem_names, &block)
+        def gems_api_response(gem_names)
+          urls = service_with_urls(gem_names)
           $stdout.puts <<~MESSAGE
 
             Get all source code repository URLs of gems are done!
@@ -57,14 +66,14 @@ module Bundler
         end
 
         def get_config_gems(path)
-          return {} if path.nil?
+          return {} if path.nil? || !File.exist?(path)
 
           config = YAML.load_file(path)
           config["gems"]
         end
 
-        def service_with_urls(gem_names, &block)
-          urls = get_repository_urls(gem_names, &block)
+        def service_with_urls(gem_names)
+          urls = get_repository_urls(gem_names)
           urls.each_with_object({}) do |url, hash|
             service_name = url.service_name
             hash[service_name] = Array(hash[service_name]) << url
@@ -108,13 +117,13 @@ module Bundler
           return url if SourceCodeRepositoryUrl.support_url?(url)
 
           message = "[#{gem_name}] Source code repository is not found in RubyGems.org,"\
-                    "or not supported. URL: https://rubygems.org/gems/#{gem_name}"
+                    " or not supported. URL: https://rubygems.org/gems/#{gem_name}"
           raise NotFound, message
         end
 
         def get_repository_urls(gem_names)
           result = gem_names.map do |gem_name|
-            yield if block_given?
+            $stdout.write "."
             get_repository_url(gem_name)
           rescue StandardError => e
             $stdout.write "W"

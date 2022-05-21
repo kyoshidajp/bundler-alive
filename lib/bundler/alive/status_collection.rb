@@ -26,6 +26,7 @@ module Bundler
         @alive_size = _alive_size
         @unknown_size = _unknown_size
         @archived_size = _archived_size
+
         freeze
       end
 

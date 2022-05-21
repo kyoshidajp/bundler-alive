@@ -21,7 +21,15 @@ module Bundler
         # Number of attempts to request after too many requests
         RETRIES_ON_TOO_MANY_REQUESTS = 3
 
+        #
         # Interval second when retrying request
+        #
+        # @note
+        #   This is an empirical value and should
+        #   refer to response of Rate Limit API
+        #
+        # @see
+        #   https://docs.github.com/en/rest/overview/resources-in-the-rest-api#checking-your-rate-limit-status
         RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS = 120
 
         #
@@ -60,7 +68,7 @@ module Bundler
           collection = StatusCollection.new
           name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
-            yield if block_given?
+            $stdout.write "."
 
             gem_name = url.gem_name
             alive = !name_with_archived[gem_name]
