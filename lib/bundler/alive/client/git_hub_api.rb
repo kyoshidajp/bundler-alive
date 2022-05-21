@@ -68,7 +68,7 @@ module Bundler
           collection = StatusCollection.new
           name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
-            yield if block_given?
+            $stdout.write "."
 
             gem_name = url.gem_name
             alive = !name_with_archived[gem_name]

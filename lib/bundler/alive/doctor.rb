@@ -22,7 +22,6 @@ module Bundler
         @ignore_gems = ignore_gems
         @result = nil
         @rate_limit_exceeded = false
-        @announcer = Announcer.new
         @error_messages = []
       end
 
@@ -48,21 +47,16 @@ module Bundler
 
       private
 
-      attr_reader :lock_file, :gem_client, :announcer, :ignore_gems,
+      attr_reader :lock_file, :gem_client, :ignore_gems,
                   :result, :error_messages, :rate_limit_exceeded
 
       def diagnose_by_service(service, urls)
         client = Client::SourceCodeClient.new(service_name: service)
-        client.query(urls: urls) do
-          announcer.announce
-        end
+        client.query(urls: urls)
       end
 
       def result_by_search(collection)
-        gems_api_response = gem_client.gems_api_response(collection.names) do
-          announcer.announce
-        end
-
+        gems_api_response = gem_client.gems_api_response(collection.names)
         service_with_urls = gems_api_response.service_with_urls
         error_messages.concat(gems_api_response.error_messages)
 
