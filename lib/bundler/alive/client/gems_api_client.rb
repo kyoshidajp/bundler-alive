@@ -18,6 +18,13 @@ module Bundler
         class NotFound < StandardError
         end
 
+        #
+        # A new instance of `GemApiClient`
+        #
+        # @param [String] config_path
+        #
+        # @return [GemApiClient]
+        #
         def initialize(config_path = nil)
           @error_messages = []
           @config_gems = get_config_gems(config_path)

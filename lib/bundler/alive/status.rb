@@ -20,7 +20,7 @@ module Bundler
       # @param [String] :name
       # @param [SourceCodeRepositoryUrl] :repository_url
       # @param [Boolean] :alive
-      # @param [] :checked_at
+      # @param [Time] :checked_at
       #
       # @return [Status]
       #
