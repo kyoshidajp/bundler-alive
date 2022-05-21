@@ -66,7 +66,7 @@ module Bundler
         end
 
         def get_config_gems(path)
-          return {} if path.nil?
+          return {} if path.nil? || !File.exist?(path)
 
           config = YAML.load_file(path)
           config["gems"]
