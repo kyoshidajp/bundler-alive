@@ -16,7 +16,8 @@ module Bundler
         end
 
         SERVICE_WITH_STRATEGIES = {
-          SourceCodeRepository::Service::GITHUB => GithubApi
+          SourceCodeRepository::Service::GITHUB => GithubApi,
+          SourceCodeRepository::Service::GITLAB => GitlabApi
         }.freeze
 
         private_constant :SERVICE_WITH_STRATEGIES

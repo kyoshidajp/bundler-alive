@@ -6,6 +6,7 @@ module Bundler
     class SourceCodeRepository
       module Service
         GITHUB = :github
+        GITLAB = :gitlab
       end
 
       #

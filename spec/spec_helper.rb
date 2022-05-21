@@ -33,4 +33,5 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.allow_http_connections_when_no_cassette = false
   c.filter_sensitive_data("github-access-token") { ENV.fetch(Client::GithubApi::ACCESS_TOKEN_ENV_NAME, nil) }
+  c.filter_sensitive_data("gitlab-access-token") { ENV.fetch(Client::GitlabApi::ACCESS_TOKEN_ENV_NAME, nil) }
 end

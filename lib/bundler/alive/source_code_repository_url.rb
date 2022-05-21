@@ -7,7 +7,8 @@ module Bundler
       # service domain with service
       DOMAIN_WITH_SERVICES = {
         "github.com" => SourceCodeRepository::Service::GITHUB,
-        "www.github.com" => SourceCodeRepository::Service::GITHUB
+        "www.github.com" => SourceCodeRepository::Service::GITHUB,
+        "gitlab.com" => SourceCodeRepository::Service::GITLAB
       }.freeze
 
       private_constant :DOMAIN_WITH_SERVICES
