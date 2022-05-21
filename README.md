@@ -7,7 +7,7 @@
 
 `bunder-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
 
-Currently only github.com is supported as a source code repository. If the source code repository is archived, then reports as not alive.
+Currently only GitHub is supported as a source code repository. If the source code repository is archived, then reports as not alive.
 
 ## Installation
 
@@ -23,13 +23,15 @@ $ bundle-alive
 ..W....
 Get all source code repository URLs of gems are done!
 .....
-Name: journey
-URL: http://github.com/rails/journey
-Status: false
 
-Gem: bundle-alive is not found in RubyGems.org.
+Errors:
+    [bundle-alive] Not found in RubyGems.org.
 
-Total: 6 (Dead: 1, Alive: 4, Unknown: 1)
+Archived gems:
+    Name: journey
+    URL: http://github.com/rails/journey
+
+Total: 6 (Archived: 1, Alive: 4, Unknown: 1)
 Not alive gems are found!
 ```
 
@@ -39,7 +41,9 @@ Default `Gemfile.lock` location is in your current directory. You can specify it
 $ bundle-alive -G /path/to/Gemfile.lock
 ```
 
-In some cases, the following error is output.
+## Exceeding rate limit
+
+In some cases, the following error may be output.
 
 ```
 Too many requested! Retry later.
@@ -47,7 +51,34 @@ Too many requested! Retry later.
 
 In this case, setting [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) as `BUNDLER_ALIVE_GITHUB_TOKEN` environment variable may alleviate the error.
 
-If you run again, it will resume.
+## Ignore gems
+
+You can ignore certain gems.
+
+```
+$ bundle-alive -i journey rubocop-junit-formatter
+```
+
+## Specifying repository URL
+
+In some cases, some gems cannot find the URL of their source code repositories. For this case, you can specify a mapping between the gem and its URL.
+
+Put `.bundler-alive.yml` in your current directory. The following code is the sample.
+
+```yaml
+---
+gems:
+  coffee-script-source:
+    url: https://github.com/jashkenas/coffeescript/
+```
+
+You can also specify the file path.
+
+```
+$ bundle-alive -c /path/to/.bundler-alive.yml
+```
+
+[.bundler-alive.default.yml](https://github.com/kyoshidajp/bundler-alive/blob/main/.bundler-alive.default.yml) may also be helpful. Considering that having these mappings obtained automatically in the future.
 
 ## Contributing
 
