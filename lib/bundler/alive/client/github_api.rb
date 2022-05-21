@@ -11,7 +11,7 @@ module Bundler
       #
       # @see https://docs.github.com/en/rest/search#search-repositories
       #
-      module GitHubApi
+      module GithubApi
         # Environment variable name of GitHub Access Token
         ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITHUB_TOKEN"
 

@@ -24,7 +24,7 @@ RSpec.describe Bundler::Alive::Doctor do
     context "when exceeding GitHub's rate limit" do
       it "report rate limit exceeded" do
         # without retrying
-        stub_const("Bundler::Alive::Client::GitHubApi::RETRIES_ON_TOO_MANY_REQUESTS", 0)
+        stub_const("Bundler::Alive::Client::GithubApi::RETRIES_ON_TOO_MANY_REQUESTS", 0)
 
         VCR.use_cassette "rubygems.org/multi_search" do
           VCR.use_cassette("github.com/rate-limit-exceeded2") do

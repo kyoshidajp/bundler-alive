@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Bundler::Alive::Client::GitHubApi do
+RSpec.describe Bundler::Alive::Client::GithubApi do
   let!(:client) do
     client = Client::SourceCodeClient.new(service_name: :github)
     client.extend described_class
@@ -62,8 +62,8 @@ RSpec.describe Bundler::Alive::Client::GitHubApi do
 
     context "when API rate limit exceeded" do
       it "returns `StatusResult` includes an error" do
-        stub_const("Bundler::Alive::Client::GitHubApi::RETRIES_ON_TOO_MANY_REQUESTS", 1)
-        stub_const("Bundler::Alive::Client::GitHubApi::RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS", 0)
+        stub_const("Bundler::Alive::Client::GithubApi::RETRIES_ON_TOO_MANY_REQUESTS", 1)
+        stub_const("Bundler::Alive::Client::GithubApi::RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS", 0)
 
         VCR.use_cassette("github.com/rate-limit-exceeded", allow_playback_repeats: true) do
           urls = [
