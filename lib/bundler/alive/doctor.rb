@@ -86,8 +86,7 @@ module Bundler
       def _diagnose
         collection = collection_from_gemfile
         result = result_by_search(collection)
-        new_collection = collection_from_gemfile.merge(result.collection)
-
+        new_collection = collection.merge(result.collection)
         messages = error_messages.concat(result.error_messages)
 
         StatusResult.new(collection: new_collection,
