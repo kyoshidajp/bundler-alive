@@ -54,6 +54,27 @@ RSpec.describe Bundler::Alive::Client::GithubApi do
       end
     end
 
+    context "with URL which gem name and repository name are different" do
+      it "returns `StatusResult`" do
+        VCR.use_cassette "github.com/gem_name-and-repository-different" do
+          urls = [
+            Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/rails/rails", "rails"),
+
+            # different!
+            Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/faye/websocket-driver-ruby",
+                                                        "websocket-extensions")
+          ]
+
+          result = client.query(urls: urls)
+          expect(result).to be_an_instance_of(Bundler::Alive::StatusResult)
+
+          collection = result.collection
+          expect(collection["rails"].alive).to eq true
+          expect(collection["websocket-extensions"].alive).to eq true
+        end
+      end
+    end
+
     context "without urls" do
       it "raises a `ArgumentError`" do
         expect { client.query }.to raise_error(ArgumentError)

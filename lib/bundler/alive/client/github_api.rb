@@ -97,14 +97,27 @@ module Bundler
             repositories = search_repositories_with_retry(q)
             next if repositories.nil?
 
-            repositories.each do |repository|
-              name = repository["name"]
-              name_with_status[name] = repository["archived"]
+            sliced_urls.each do |url|
+              repository = find_repository_from_repositories(url: url,
+                                                             repositories: repositories)
+              next if repository.nil?
+
+              name_with_status[url.gem_name] = repository["archived"]
             end
           end
           name_with_status
         end
         # rubocop:enable Metrics/MethodLength
+
+        # @param [SourceCodeRepositoryUrl] :url
+        # @param [Array<Sawyer::Resource>] :repositories
+        #
+        # @return [Sawyer::Resource|nil]
+        def find_repository_from_repositories(url:, repositories:)
+          repositories.find do |repository|
+            slug(url.url) == repository["full_name"]
+          end
+        end
 
         #
         # Search query of repositories
