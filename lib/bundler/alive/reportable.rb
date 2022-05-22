@@ -59,7 +59,7 @@ module Bundler
         def print_summary(result)
           $stdout.puts <<~RESULT
 
-            Total: #{result.total_size} (Archived: #{result.archived_size}, Alive: #{result.alive_size}, Unknown: #{result.unknown_size})
+            Total: #{result.total_size} (Archived: #{result.archived_size}, Unknown: #{result.unknown_size}, Alive: #{result.alive_size})
           RESULT
         end
 
