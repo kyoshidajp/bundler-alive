@@ -38,13 +38,20 @@ module Bundler
       private
 
       def check_by_doctor
-        doctor = begin
-          Doctor.new(options[:gemfile_lock], options[:config], options[:ignore])
-        rescue Bundler::GemfileLockNotFound
+        doctor = initialize_doctor
+
+        begin
+          doctor.diagnose
+        rescue Bundler::Alive::Client::GitlabApi::AccessTokenNotFoundError => e
+          say "\n#{e.message}", :yellow
           exit 1
         end
+      end
 
-        doctor.diagnose
+      def initialize_doctor
+        Doctor.new(options[:gemfile_lock], options[:config], options[:ignore])
+      rescue Bundler::GemfileLockNotFound
+        exit 1
       end
     end
   end

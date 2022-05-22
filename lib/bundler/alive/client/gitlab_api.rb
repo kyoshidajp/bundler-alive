@@ -12,7 +12,24 @@ module Bundler
       # @see https://docs.gitlab.com/ee/api/projects.html#get-single-project
       #
       module GitlabApi
+        #
+        # Access token isn't set error
+        #
+        # @see https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
+        #
+        class AccessTokenNotFoundError < StandardError
+          def initialize(_message = nil)
+            message = "Environment variable #{ACCESS_TOKEN_ENV_NAME} is not set."\
+                      " Need to set GitLab Personal Access Token to be authenticated at gitlab.com API."\
+                      " See: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
+            super(message)
+          end
+        end
+
         # Environment variable name of GitLab Access Token
+        #
+        # @see https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
+        #
         ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITLAB_TOKEN"
 
         # Endpoint of GitLab API
@@ -31,9 +48,12 @@ module Bundler
         # @return [Octokit::Client]
         #
         def create_client
+          access_token = ENV.fetch(ACCESS_TOKEN_ENV_NAME, nil)
+          raise AccessTokenNotFoundError if access_token.nil?
+
           Gitlab.client(
             endpoint: ENDPOINT,
-            private_token: ENV.fetch(ACCESS_TOKEN_ENV_NAME, nil)
+            private_token: access_token
           )
         end
 
