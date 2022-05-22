@@ -113,12 +113,12 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
 
     context "when includes gem which has not supported url" do
       it "returns only found gems result" do
-        VCR.use_cassette "rubygems.org/api/v1/gems/gitlab-dangerfiles" do
-          gems_api_response = client.gems_api_response(%w[gitlab-dangerfiles])
+        VCR.use_cassette "rubygems.org/api/v1/gems/atlassian-jwt" do
+          gems_api_response = client.gems_api_response(%w[atlassian-jwt])
 
           expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
-          message = "[gitlab-dangerfiles] Source code repository is not found in RubyGems.org,"\
-                    " or not supported. URL: https://rubygems.org/gems/gitlab-dangerfiles"
+          message = "[atlassian-jwt] Source code repository is not found in RubyGems.org,"\
+                    " or not supported. URL: https://rubygems.org/gems/atlassian-jwt"
           expect(gems_api_response.error_messages).to eq [message]
 
           service_with_urls = gems_api_response.service_with_urls

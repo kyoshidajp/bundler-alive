@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://rubygems.org/api/v1/gems/gitlab-dangerfiles.json
+    uri: https://rubygems.org/api/v1/gems/atlassian-jwt.json
     body:
       encoding: US-ASCII
       string: ''
@@ -50,9 +50,9 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - 74d545d5-ac6d-4189-b630-f4473264e666
+      - 7adf0951-8e33-4d8a-a30d-9ad4cdcb09d1
       X-Runtime:
-      - '0.021311'
+      - '0.021445'
       Strict-Transport-Security:
       - max-age=31536000
       X-Backend:
@@ -60,33 +60,32 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Date:
-      - Fri, 20 May 2022 23:59:31 GMT
+      - Sun, 22 May 2022 00:02:21 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-tyo11938-TYO
+      - cache-tyo11953-TYO
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1653091171.199439,VS0,VE150
+      - S1653177742.503336,VS0,VE135
       Vary:
       - Accept-Encoding,Fastly-SSL
       Etag:
-      - '"cb6320dbbfa71911ba5aba80ebe3097f"'
+      - '"f1f92d2198ac09b05b1c1f605bc93ada"'
       Server:
       - RubyGems.org
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"name":"gitlab-dangerfiles","downloads":6911803,"version":"3.1.0","version_created_at":"2022-04-19T10:01:39.777Z","version_downloads":4712,"platform":"ruby","authors":"GitLab","info":"This
-        gem provides common Dangerfile and plugins for GitLab projects.","licenses":["MIT"],"metadata":{"homepage_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","changelog_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles/-/releases","source_code_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","allowed_push_host":"https://rubygems.org"},"yanked":false,"sha":"1944092e64a81cd117c365f03537a8fa37ec13077be6b9bbc27b798a606466f2","project_uri":"https://rubygems.org/gems/gitlab-dangerfiles","gem_uri":"https://rubygems.org/gems/gitlab-dangerfiles-3.1.0.gem","homepage_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","wiki_uri":null,"documentation_uri":null,"mailing_list_uri":null,"source_code_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles","bug_tracker_uri":null,"changelog_uri":"https://gitlab.com/gitlab-org/ruby/gems/gitlab-dangerfiles/-/releases","funding_uri":null,"dependencies":{"development":[{"name":"climate_control","requirements":"\u003e=
-        0"},{"name":"rspec","requirements":"~\u003e 3.0"},{"name":"rspec-parameterized","requirements":"\u003e=
-        0"},{"name":"rufo","requirements":"\u003e= 0"},{"name":"timecop","requirements":"\u003e=
-        0"},{"name":"webmock","requirements":"\u003e= 0"}],"runtime":[{"name":"danger","requirements":"\u003e=
-        8.4.5"},{"name":"danger-gitlab","requirements":"\u003e= 8.0.0"},{"name":"rake","requirements":"\u003e=
-        0"}]}}'
-  recorded_at: Fri, 20 May 2022 23:59:31 GMT
+      string: '{"name":"atlassian-jwt","downloads":13464610,"version":"0.2.1","version_created_at":"2021-08-13T00:04:13.459Z","version_downloads":562877,"platform":"ruby","authors":"Spike
+        Ilacqua, Seb Ruiz, Ngoc Dao","info":"This gem simplifies generating the claims
+        needed to authenticate with the Atlassian Connect REST APIs.","licenses":["Apache
+        2.0"],"metadata":{},"yanked":false,"sha":"2fd2d87418773f2e140c038cb22e049069708aff2bd0a423a7e1740574e97823","project_uri":"https://rubygems.org/gems/atlassian-jwt","gem_uri":"https://rubygems.org/gems/atlassian-jwt-0.2.1.gem","homepage_uri":"https://bitbucket.org/atlassian/atlassian-jwt-ruby","wiki_uri":null,"documentation_uri":"https://www.rubydoc.info/gems/atlassian-jwt/0.2.1","mailing_list_uri":null,"source_code_uri":null,"bug_tracker_uri":null,"changelog_uri":null,"funding_uri":null,"dependencies":{"development":[{"name":"json","requirements":"~\u003e
+        2.2"},{"name":"rake","requirements":"~\u003e 12.3"},{"name":"rspec","requirements":"~\u003e
+        3.8"}],"runtime":[{"name":"jwt","requirements":"~\u003e 2.1"}]}}'
+  recorded_at: Sun, 22 May 2022 00:02:21 GMT
 recorded_with: VCR 6.1.0
