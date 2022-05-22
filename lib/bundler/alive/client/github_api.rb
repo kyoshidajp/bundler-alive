@@ -44,6 +44,7 @@ module Bundler
           base.instance_eval do
             @rate_limit_exceeded = false
             @retries_on_too_many_requests = 0
+            @name_with_archived = {}
           end
         end
 
@@ -65,10 +66,10 @@ module Bundler
         #
         def query(urls:)
           collection = StatusCollection.new
-          name_with_archived = get_name_with_statuses(urls)
+          @name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
             gem_name = url.gem_name
-            alive = name_with_archived.key?(gem_name) && !name_with_archived[gem_name]
+            alive = alive?(gem_name)
             status = Status.new(name: gem_name, repository_url: url, alive: alive, checked_at: Time.now)
             collection = collection.add(gem_name, status)
           end
@@ -78,6 +79,13 @@ module Bundler
         end
 
         private
+
+        def alive?(gem_name)
+          return false unless @name_with_archived.key?(gem_name)
+
+          value = @name_with_archived[gem_name]
+          value == Status::ALIVE_UNKNOWN ? Status::ALIVE_UNKNOWN : !value
+        end
 
         #
         # Search status of repositories
@@ -100,9 +108,12 @@ module Bundler
             sliced_urls.each do |url|
               repository = find_repository_from_repositories(url: url,
                                                              repositories: repositories)
-              next if repository.nil?
-
-              name_with_status[url.gem_name] = repository["archived"]
+              alive_status = if repository.nil?
+                               Status::ALIVE_UNKNOWN
+                             else
+                               repository["archived"]
+                             end
+              name_with_status[url.gem_name] = alive_status
             end
           end
           name_with_status
