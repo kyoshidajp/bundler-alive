@@ -35,9 +35,10 @@ module Bundler
       def merge(result)
         merged_collection = collection.merge(result.collection)
         merged_error_messages = error_messages + result.error_messages
+        merged_rate_limit_exceeded = rate_limit_exceeded || result.rate_limit_exceeded
         self.class.new(collection: merged_collection,
                        error_messages: merged_error_messages,
-                       rate_limit_exceeded: result.rate_limit_exceeded)
+                       rate_limit_exceeded: merged_rate_limit_exceeded)
       end
     end
   end
