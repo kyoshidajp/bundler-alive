@@ -44,6 +44,7 @@ module Bundler
           base.instance_eval do
             @rate_limit_exceeded = false
             @retries_on_too_many_requests = 0
+            @name_with_archived = {}
           end
         end
 
@@ -65,10 +66,10 @@ module Bundler
         #
         def query(urls:)
           collection = StatusCollection.new
-          name_with_archived = get_name_with_statuses(urls)
+          @name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
             gem_name = url.gem_name
-            alive = name_with_archived.key?(gem_name) && !name_with_archived[gem_name]
+            alive = alive?(gem_name)
             status = Status.new(name: gem_name, repository_url: url, alive: alive, checked_at: Time.now)
             collection = collection.add(gem_name, status)
           end
@@ -78,6 +79,13 @@ module Bundler
         end
 
         private
+
+        def alive?(gem_name)
+          return false unless @name_with_archived.key?(gem_name)
+
+          value = @name_with_archived[gem_name]
+          value == Status::ALIVE_UNKNOWN ? Status::ALIVE_UNKNOWN : !value
+        end
 
         #
         # Search status of repositories
@@ -97,14 +105,30 @@ module Bundler
             repositories = search_repositories_with_retry(q)
             next if repositories.nil?
 
-            repositories.each do |repository|
-              name = repository["name"]
-              name_with_status[name] = repository["archived"]
+            sliced_urls.each do |url|
+              repository = find_repository_from_repositories(url: url,
+                                                             repositories: repositories)
+              alive_status = if repository.nil?
+                               Status::ALIVE_UNKNOWN
+                             else
+                               repository["archived"]
+                             end
+              name_with_status[url.gem_name] = alive_status
             end
           end
           name_with_status
         end
         # rubocop:enable Metrics/MethodLength
+
+        # @param [SourceCodeRepositoryUrl] :url
+        # @param [Array<Sawyer::Resource>] :repositories
+        #
+        # @return [Sawyer::Resource|nil]
+        def find_repository_from_repositories(url:, repositories:)
+          repositories.find do |repository|
+            slug(url.url) == repository["full_name"]
+          end
+        end
 
         #
         # Search query of repositories
@@ -168,7 +192,7 @@ module Bundler
         # @return [String]
         #
         def slug(repository_url)
-          Octokit::Repository.from_url(repository_url).slug
+          Octokit::Repository.from_url(repository_url).slug.gsub(/\.git/, "")
         end
       end
     end

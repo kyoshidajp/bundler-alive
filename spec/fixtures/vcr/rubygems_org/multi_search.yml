@@ -50,119 +50,120 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - 69662040-a367-42e5-94b8-beb8873cb709
+      - 6ef0000c-b1b0-412d-ac53-b6371671072a
       X-Runtime:
-      - '0.015245'
+      - '0.013983'
       Strict-Transport-Security:
       - max-age=31536000
       X-Backend:
-      - F_Rails 52.88.209.40:443
+      - F_Rails 34.218.36.241:443
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 12 May 2022 23:38:50 GMT
+      - Sun, 22 May 2022 10:54:26 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-tyo11930-TYO
+      - cache-tyo11923-TYO
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1652398731.560944,VS0,VE145
+      - S1653216867.513217,VS0,VE142
       Vary:
       - Accept-Encoding,Fastly-SSL
       Etag:
-      - '"f32f68a9bfe8a2611721d232e3f402d0"'
+      - '"84d8ed829d29f76806bb5e67f5601d15"'
       Server:
       - RubyGems.org
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"name":"ast","downloads":228529247,"version":"2.4.2","version_created_at":"2021-01-23T18:56:53.214Z","version_downloads":62088301,"platform":"ruby","authors":"whitequark","info":"A
+      string: '{"name":"ast","downloads":230862245,"version":"2.4.2","version_created_at":"2021-01-23T18:56:53.214Z","version_downloads":63965671,"platform":"ruby","authors":"whitequark","info":"A
         library for working with Abstract Syntax Trees.","licenses":["MIT"],"metadata":{},"yanked":false,"sha":"1e280232e6a33754cde542bc5ef85520b74db2aac73ec14acef453784447cc12","project_uri":"https://rubygems.org/gems/ast","gem_uri":"https://rubygems.org/gems/ast-2.4.2.gem","homepage_uri":"https://whitequark.github.io/ast/","wiki_uri":"","documentation_uri":"http://whitequark.github.io/ast","mailing_list_uri":"","source_code_uri":"https://github.com/whitequark/ast","bug_tracker_uri":"https://github.com/whitequark/ast/issues","changelog_uri":null,"funding_uri":null,"dependencies":{"development":[{"name":"bacon","requirements":"~\u003e
         1.2"},{"name":"bacon-colored_output","requirements":"\u003e= 0"},{"name":"coveralls","requirements":"~\u003e
         0.8.23"},{"name":"kramdown","requirements":"\u003e= 0"},{"name":"rake","requirements":"~\u003e
         12.3"},{"name":"simplecov","requirements":"\u003e= 0"},{"name":"yard","requirements":"\u003e=
         0"}],"runtime":[]}}'
-  recorded_at: Thu, 12 May 2022 23:38:50 GMT
+  recorded_at: Sun, 22 May 2022 10:54:26 GMT
 - request:
-    method: get
-    uri: https://rubygems.org/api/v1/gems/bundle-alive.json
+    method: head
+    uri: https://github.com/whitequark/ast
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
       - Faraday v1.10.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '58'
+      Server:
+      - GitHub.com
+      Date:
+      - Sun, 22 May 2022 10:54:27 GMT
       Content-Type:
-      - text/plain; charset=utf-8
+      - text/html; charset=utf-8
+      Vary:
+      - X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, Accept-Encoding, Accept,
+        X-Requested-With
+      Permissions-Policy:
+      - interest-cohort=()
+      Etag:
+      - W/"bb373bc39ae525acd2d0242e71fd5ef6"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
       X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
+      - deny
       X-Content-Type-Options:
       - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
+      X-Xss-Protection:
+      - '0'
       Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Cache-Control:
-      - no-cache
+      - no-referrer-when-downgrade
+      Expect-Ct:
+      - max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"
       Content-Security-Policy:
-      - default-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'
-        https://secure.gaug.es https://gravatar.com https://secure.gravatar.com https://*.fastly-insights.com;
-        object-src 'none'; script-src 'self' https://secure.gaug.es https://www.fastly-insights.com;
-        style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://s3-us-west-2.amazonaws.com/rubygems-dumps/
-        https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
-        form-action 'self'; frame-ancestors 'self'
-      X-Request-Id:
-      - 197b3012-c994-4a03-81c9-27d6ba3c8b5c
-      X-Runtime:
-      - '0.007068'
-      Strict-Transport-Security:
-      - max-age=31536000
+      - 'default-src ''none''; base-uri ''self''; block-all-mixed-content; child-src
+        github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src
+        ''self'' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com
+        collector.github.com raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com
+        github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
+        github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events
+        translator.github.com *.actions.githubusercontent.com wss://*.actions.githubusercontent.com
+        online.visualstudio.com/api/v1/locations github-production-repository-image-32fea6.s3.amazonaws.com
+        github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com
+        wss://alive.github.com; font-src github.githubassets.com; form-action ''self''
+        github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors
+        ''none''; frame-src render.githubusercontent.com viewscreen.githubusercontent.com
+        notebooks.githubusercontent.com; img-src ''self'' data: github.githubassets.com
+        identicons.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/
+        *.githubusercontent.com; manifest-src ''self''; media-src github.com user-images.githubusercontent.com/;
+        script-src github.githubassets.com; style-src ''unsafe-inline'' github.githubassets.com;
+        worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/'
+      Set-Cookie:
+      - _gh_sess=pFob0hFnjVfw%2FDT252ohFr0RzYx5bYFsYIDOBbc8dYH3rOEuohRDWNB0EguTsSBdgUoD1WgPSAN1cTqjuBnGZp9j9hTofv5hI%2FsooVsC68VyxtufqtBtm9MhUvop%2FPYIv3FVGrI41IFOG7PtDxyL5DI1pgVTUv%2B%2BWTqYuPoe2SXK7fqHHL2iO%2F8q%2BnOercCt42LP4LCOEUWTr8ibkhgpbFfr2MFgAMHC%2BxXCG0QhdgM5EXLh4q8rkCq1BvQdndKSkWP%2Bkzn0gsMPBnITNNCHSA%3D%3D--AYbhx3ADeKHy8RK2--LH21mE4Wv8TAR%2FpHjo45tw%3D%3D;
+        Path=/; HttpOnly; Secure; SameSite=Lax
+      - _octo=GH1.1.329254057.1653216866; Path=/; Domain=github.com; Expires=Mon,
+        22 May 2023 10:54:26 GMT; Secure; SameSite=Lax
+      - logged_in=no; Path=/; Domain=github.com; Expires=Mon, 22 May 2023 10:54:26
+        GMT; HttpOnly; Secure; SameSite=Lax
       Accept-Ranges:
       - bytes
-      Date:
-      - Thu, 12 May 2022 23:38:50 GMT
-      Via:
-      - 1.1 varnish
-      Age:
-      - '0'
-      X-Served-By:
-      - cache-tyo11930-TYO
-      X-Cache:
-      - MISS
-      X-Cache-Hits:
-      - '0'
-      X-Timer:
-      - S1652398731.764296,VS0,VE137
-      Vary:
-      - Accept-Encoding
-      Server:
-      - RubyGems.org
+      X-Github-Request-Id:
+      - E4C6:6D41:4F4EC6:82A0F7:628A1662
     body:
-      encoding: ASCII-8BIT
-      string: This rubygem could not be found.
-  recorded_at: Thu, 12 May 2022 23:38:50 GMT
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 22 May 2022 10:54:27 GMT
 - request:
     method: get
     uri: https://rubygems.org/api/v1/gems/journey.json
@@ -213,17 +214,17 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - 2b44c6d2-40bc-4af5-ace7-213e8311f1ff
+      - 84f8c48b-3c5e-4c4d-b420-f3672708b3b0
       X-Runtime:
-      - '0.014245'
+      - '0.020240'
       Strict-Transport-Security:
       - max-age=31536000
       X-Backend:
-      - F_Rails 52.88.209.40:443
+      - F_Rails 34.218.36.241:443
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 12 May 2022 23:38:51 GMT
+      - Sun, 22 May 2022 10:54:27 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
@@ -233,23 +234,47 @@ http_interactions:
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1652398731.954856,VS0,VE143
+      - S1653216867.187383,VS0,VE535
       Vary:
       - Accept-Encoding,Fastly-SSL
       Etag:
-      - '"3a357037b452399a2ea87dcf437d2ebb"'
+      - '"d53261b78c86972c21fa2479b6385d18"'
       Server:
       - RubyGems.org
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"name":"journey","downloads":29350971,"version":"1.0.4","version_created_at":"2012-06-14T21:18:48.707Z","version_downloads":27488911,"platform":"ruby","authors":"Aaron
+      string: '{"name":"journey","downloads":29365233,"version":"1.0.4","version_created_at":"2012-06-14T21:18:48.707Z","version_downloads":27502970,"platform":"ruby","authors":"Aaron
         Patterson","info":"Journey is a router.  It routes requests.","licenses":null,"metadata":{},"yanked":false,"sha":"7454b8612530784000fbb17ea2df749a71b70702a0ac8ebef4a1e7f05aecc10f","project_uri":"https://rubygems.org/gems/journey","gem_uri":"https://rubygems.org/gems/journey-1.0.4.gem","homepage_uri":"http://github.com/rails/journey","wiki_uri":null,"documentation_uri":"https://www.rubydoc.info/gems/journey/1.0.4","mailing_list_uri":null,"source_code_uri":null,"bug_tracker_uri":null,"changelog_uri":null,"funding_uri":null,"dependencies":{"development":[{"name":"hoe","requirements":"~\u003e
         2.13"},{"name":"json","requirements":"\u003e= 0"},{"name":"minitest","requirements":"~\u003e
         2.11"},{"name":"racc","requirements":"\u003e= 1.4.6"},{"name":"rdoc","requirements":"~\u003e
         3.11"},{"name":"rdoc","requirements":"~\u003e 3.10"}],"runtime":[]}}'
-  recorded_at: Thu, 12 May 2022 23:38:51 GMT
+  recorded_at: Sun, 22 May 2022 10:54:27 GMT
+- request:
+    method: head
+    uri: http://github.com/rails/journey
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Content-Length:
+      - '0'
+      Location:
+      - https://github.com/rails/journey
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 22 May 2022 10:54:27 GMT
 - request:
     method: get
     uri: https://rubygems.org/api/v1/gems/parallel.json
@@ -300,9 +325,9 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - f9354af2-3d6c-430a-ae7f-5aa1ae822dad
+      - 8f61ffaa-8a9b-4f27-ad38-f703902ac3e6
       X-Runtime:
-      - '0.013151'
+      - '0.014219'
       Strict-Transport-Security:
       - max-age=31536000
       X-Backend:
@@ -310,30 +335,106 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 12 May 2022 23:38:51 GMT
+      - Sun, 22 May 2022 10:54:27 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-tyo11932-TYO
+      - cache-tyo11936-TYO
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1652398731.164982,VS0,VE129
+      - S1653216868.813773,VS0,VE144
       Vary:
       - Accept-Encoding,Fastly-SSL
       Etag:
-      - '"a51c1075a6a44df6ec14b4fba4eb6530"'
+      - '"81695a6e9e3b4aa365e8fe6718e3290b"'
       Server:
       - RubyGems.org
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"name":"parallel","downloads":245984588,"version":"1.22.1","version_created_at":"2022-03-25T23:34:40.553Z","version_downloads":7255231,"platform":"ruby","authors":"Michael
+      string: '{"name":"parallel","downloads":248497000,"version":"1.22.1","version_created_at":"2022-03-25T23:34:40.553Z","version_downloads":8149588,"platform":"ruby","authors":"Michael
         Grosser","info":"Run any kind of code in parallel processes","licenses":["MIT"],"metadata":{"wiki_uri":"https://github.com/grosser/parallel/wiki","bug_tracker_uri":"https://github.com/grosser/parallel/issues","source_code_uri":"https://github.com/grosser/parallel/tree/v1.22.1","documentation_uri":"https://github.com/grosser/parallel/blob/v1.22.1/Readme.md"},"yanked":false,"sha":"ebdf1f0c51f182df38522f70ba770214940bef998cdb6e00f36492b29699761f","project_uri":"https://rubygems.org/gems/parallel","gem_uri":"https://rubygems.org/gems/parallel-1.22.1.gem","homepage_uri":"https://github.com/grosser/parallel","wiki_uri":"https://github.com/grosser/parallel/wiki","documentation_uri":"https://github.com/grosser/parallel/blob/v1.22.1/Readme.md","mailing_list_uri":null,"source_code_uri":"https://github.com/grosser/parallel/tree/v1.22.1","bug_tracker_uri":"https://github.com/grosser/parallel/issues","changelog_uri":null,"funding_uri":null,"dependencies":{"development":[],"runtime":[]}}'
-  recorded_at: Thu, 12 May 2022 23:38:51 GMT
+  recorded_at: Sun, 22 May 2022 10:54:27 GMT
+- request:
+    method: head
+    uri: https://github.com/grosser/parallel/tree/v1.22.1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sun, 22 May 2022 10:54:28 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Vary:
+      - X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, Accept-Encoding, Accept,
+        X-Requested-With
+      Permissions-Policy:
+      - interest-cohort=()
+      Etag:
+      - W/"2799ba9783c5dd3af0ab1476bc3afb70"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Expect-Ct:
+      - max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"
+      Content-Security-Policy:
+      - 'default-src ''none''; base-uri ''self''; block-all-mixed-content; child-src
+        github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src
+        ''self'' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com
+        collector.github.com raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com
+        github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
+        github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events
+        translator.github.com *.actions.githubusercontent.com wss://*.actions.githubusercontent.com
+        online.visualstudio.com/api/v1/locations github-production-repository-image-32fea6.s3.amazonaws.com
+        github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com
+        wss://alive.github.com; font-src github.githubassets.com; form-action ''self''
+        github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors
+        ''none''; frame-src render.githubusercontent.com viewscreen.githubusercontent.com
+        notebooks.githubusercontent.com; img-src ''self'' data: github.githubassets.com
+        identicons.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/
+        *.githubusercontent.com; manifest-src ''self''; media-src github.com user-images.githubusercontent.com/;
+        script-src github.githubassets.com; style-src ''unsafe-inline'' github.githubassets.com;
+        worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/'
+      Set-Cookie:
+      - _gh_sess=uh60g0192dFUUAyQXyoLJIj6ForA9zxaiJfMuAEUrWnT1ECx3toNN3PQUcVkwG2sO4vD4GebgbJYRfB4maupL7F4mrf4tfYxdBDIRhalf0tVhMiK99yHuiw1FpF5pO9MoqbdwdG2luIsJ6rv%2BhWrAPRzCPwwwTQgVi9KdXnMq0bb%2B%2F0ylL1eVrP3dE4q5FNdaPV8mjK6CDcyrv20zPebHKF3hb6zUzOwsUXBXMg1iH53I5AuMhGKtCmutBrCJ7ibnlU0QzbnXsVgTM9%2B0vO7dQ%3D%3D--U5g0W4GESpD3Ok9Z--q9JegOgfVYybVfb34HmQcA%3D%3D;
+        Path=/; HttpOnly; Secure; SameSite=Lax
+      - _octo=GH1.1.548742258.1653216868; Path=/; Domain=github.com; Expires=Mon,
+        22 May 2023 10:54:28 GMT; Secure; SameSite=Lax
+      - logged_in=no; Path=/; Domain=github.com; Expires=Mon, 22 May 2023 10:54:28
+        GMT; HttpOnly; Secure; SameSite=Lax
+      Accept-Ranges:
+      - bytes
+      X-Github-Request-Id:
+      - E4CE:0CBC:A6F9:D11C4:628A1663
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 22 May 2022 10:54:28 GMT
 - request:
     method: get
     uri: https://rubygems.org/api/v1/gems/parser.json
@@ -384,45 +485,121 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - ba952826-f10e-433f-8659-ea4249c9512d
+      - f434f452-7eb3-4747-a767-11efba03703e
       X-Runtime:
-      - '0.020445'
+      - '0.014014'
       Strict-Transport-Security:
       - max-age=31536000
       X-Backend:
-      - F_Rails 34.218.36.241:443
+      - F_Rails 54.203.190.11:443
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 12 May 2022 23:38:51 GMT
+      - Sun, 22 May 2022 10:54:28 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-tyo11969-TYO
+      - cache-tyo11934-TYO
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1652398731.351551,VS0,VE155
+      - S1653216869.804587,VS0,VE144
       Vary:
       - Accept-Encoding,Fastly-SSL
       Etag:
-      - '"7ddafa704098563a009a8b91feb112d8"'
+      - '"5a072bfa98706c040b2fe80a330b74e9"'
       Server:
       - RubyGems.org
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"name":"parser","downloads":247191982,"version":"3.1.2.0","version_created_at":"2022-04-12T17:22:30.014Z","version_downloads":2322914,"platform":"ruby","authors":"whitequark","info":"A
+      string: '{"name":"parser","downloads":249654598,"version":"3.1.2.0","version_created_at":"2022-04-12T17:22:30.014Z","version_downloads":3145544,"platform":"ruby","authors":"whitequark","info":"A
         Ruby parser written in pure Ruby.","licenses":["MIT"],"metadata":{"changelog_uri":"https://github.com/whitequark/parser/blob/v3.1.2.0/CHANGELOG.md","bug_tracker_uri":"https://github.com/whitequark/parser/issues","source_code_uri":"https://github.com/whitequark/parser/tree/v3.1.2.0","documentation_uri":"https://www.rubydoc.info/gems/parser/3.1.2.0"},"yanked":false,"sha":"eda4d7b49bbfddad3b6ca9cdfb23302eec6cf73c2e808b6d5b0cc9161f7c0e76","project_uri":"https://rubygems.org/gems/parser","gem_uri":"https://rubygems.org/gems/parser-3.1.2.0.gem","homepage_uri":"https://github.com/whitequark/parser","wiki_uri":null,"documentation_uri":"https://www.rubydoc.info/gems/parser/3.1.2.0","mailing_list_uri":null,"source_code_uri":"https://github.com/whitequark/parser/tree/v3.1.2.0","bug_tracker_uri":"https://github.com/whitequark/parser/issues","changelog_uri":"https://github.com/whitequark/parser/blob/v3.1.2.0/CHANGELOG.md","funding_uri":null,"dependencies":{"development":[{"name":"bundler","requirements":"\u003e=
         1.15, \u003c 3.0.0"},{"name":"cliver","requirements":"~\u003e 0.3.2"},{"name":"gauntlet","requirements":"\u003e=
         0"},{"name":"kramdown","requirements":"\u003e= 0"},{"name":"minitest","requirements":"~\u003e
         5.10"},{"name":"racc","requirements":"= 1.4.15"},{"name":"rake","requirements":"~\u003e
         13.0.1"},{"name":"simplecov","requirements":"~\u003e 0.15.1"},{"name":"yard","requirements":"\u003e=
         0"}],"runtime":[{"name":"ast","requirements":"~\u003e 2.4.1"}]}}'
-  recorded_at: Thu, 12 May 2022 23:38:51 GMT
+  recorded_at: Sun, 22 May 2022 10:54:28 GMT
+- request:
+    method: head
+    uri: https://github.com/whitequark/parser/tree/v3.1.2.0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sun, 22 May 2022 10:54:29 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Vary:
+      - X-PJAX, X-PJAX-Container, Turbo-Visit, Turbo-Frame, Accept-Encoding, Accept,
+        X-Requested-With
+      Permissions-Policy:
+      - interest-cohort=()
+      Etag:
+      - W/"89d5fdd1f5a16c43d3266f0bd5e33518"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Expect-Ct:
+      - max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"
+      Content-Security-Policy:
+      - 'default-src ''none''; base-uri ''self''; block-all-mixed-content; child-src
+        github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src
+        ''self'' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com
+        collector.github.com raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com
+        github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
+        github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events
+        translator.github.com *.actions.githubusercontent.com wss://*.actions.githubusercontent.com
+        online.visualstudio.com/api/v1/locations github-production-repository-image-32fea6.s3.amazonaws.com
+        github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com
+        wss://alive.github.com; font-src github.githubassets.com; form-action ''self''
+        github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors
+        ''none''; frame-src render.githubusercontent.com viewscreen.githubusercontent.com
+        notebooks.githubusercontent.com; img-src ''self'' data: github.githubassets.com
+        identicons.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/
+        *.githubusercontent.com; manifest-src ''self''; media-src github.com user-images.githubusercontent.com/;
+        script-src github.githubassets.com; style-src ''unsafe-inline'' github.githubassets.com;
+        worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/'
+      Set-Cookie:
+      - _gh_sess=FDtld8wUyBGRSdTxs3IEPPQ9Md5nmnJqvDpLyGJ8v4YxliWripW03YTdBumKM93yuf%2Ff4KI8qqV5lVFn7ZnJCo8ROHZUDbjo0laSNYX4Nk44QAWT%2FK8FsibZgiG7WWmgrZjMilnZ2njQkplFUaUhwIJGBPm44Dx2suQ%2FnJMI9xD1CcxUujTph9avFx9UFlxIktZjmzDa%2B1lUvOmLc96%2BgYboeJwxNuPmAQ4jEOrLepBe3kj7E1nMOgO7LtNEANOD1eUnPs8evMjyDiZahq4zIA%3D%3D--CkqudkJMM3DmY5Bj--dWsn3LidgCppVsNskn1KKg%3D%3D;
+        Path=/; HttpOnly; Secure; SameSite=Lax
+      - _octo=GH1.1.1939860694.1653216869; Path=/; Domain=github.com; Expires=Mon,
+        22 May 2023 10:54:29 GMT; Secure; SameSite=Lax
+      - logged_in=no; Path=/; Domain=github.com; Expires=Mon, 22 May 2023 10:54:29
+        GMT; HttpOnly; Secure; SameSite=Lax
+      Accept-Ranges:
+      - bytes
+      X-Github-Request-Id:
+      - E4D4:0C1C:8A3EBB:B2AD60:628A1664
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 22 May 2022 10:54:29 GMT
 - request:
     method: get
     uri: https://rubygems.org/api/v1/gems/rainbow.json
@@ -473,39 +650,63 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - 0e42b601-cdd5-4c9e-95de-802d49a90831
+      - af6f0aee-208b-41f3-8730-e582a0c7fb76
       X-Runtime:
-      - '0.013398'
+      - '0.021477'
       Strict-Transport-Security:
       - max-age=31536000
       X-Backend:
-      - F_Rails 34.218.36.241:443
+      - F_Rails 52.88.209.40:443
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 12 May 2022 23:38:51 GMT
+      - Sun, 22 May 2022 10:54:30 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-tyo11975-TYO
+      - cache-tyo11920-TYO
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1652398732.569604,VS0,VE141
+      - S1653216870.710152,VS0,VE462
       Vary:
       - Accept-Encoding,Fastly-SSL
       Etag:
-      - '"17c664a93b89dfe5c23f3b41e706217d"'
+      - '"9560acc797c21d035264ec710ebe6345"'
       Server:
       - RubyGems.org
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"name":"rainbow","downloads":233244545,"version":"3.1.1","version_created_at":"2022-01-11T09:11:07.407Z","version_downloads":14324139,"platform":"ruby","authors":"Marcin
+      string: '{"name":"rainbow","downloads":235618024,"version":"3.1.1","version_created_at":"2022-01-11T09:11:07.407Z","version_downloads":15342589,"platform":"ruby","authors":"Marcin
         Kulik, Olle Jonsson","info":"Colorize printed text on ANSI terminals","licenses":["MIT"],"metadata":{},"yanked":false,"sha":"039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a","project_uri":"https://rubygems.org/gems/rainbow","gem_uri":"https://rubygems.org/gems/rainbow-3.1.1.gem","homepage_uri":"https://github.com/sickill/rainbow","wiki_uri":"","documentation_uri":"https://www.rubydoc.info/gems/rainbow/3.1.1","mailing_list_uri":"","source_code_uri":"http://github.com/sickill/rainbow","bug_tracker_uri":"","changelog_uri":null,"funding_uri":null,"dependencies":{"development":[{"name":"bundler","requirements":"\u003e=
         1.3, \u003c 3"}],"runtime":[]}}'
-  recorded_at: Thu, 12 May 2022 23:38:51 GMT
+  recorded_at: Sun, 22 May 2022 10:54:30 GMT
+- request:
+    method: head
+    uri: http://github.com/sickill/rainbow
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.0
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Content-Length:
+      - '0'
+      Location:
+      - https://github.com/sickill/rainbow
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 22 May 2022 10:54:30 GMT
 recorded_with: VCR 6.1.0
