@@ -30,16 +30,21 @@ RSpec.describe Bundler::Alive::StatusResult do
       gem1 = build(:status, name: "gem1", alive: false)
       collection1 = build(:status_collection).add(gem1.name, gem1)
       status_result1 = build(:status_result, collection: collection1, error_messages: ["first"],
-                                             rate_limit_exceeded: false)
+                                             rate_limit_exceeded: true)
 
       gem2 = build(:status, name: "gem2", alive: false)
       collection2 = build(:status_collection).add(gem2.name, gem2)
       status_result2 = build(:status_result, collection: collection2, error_messages: ["second"],
-                                             rate_limit_exceeded: true)
+                                             rate_limit_exceeded: false)
 
-      merged_status_result = status_result1.merge(status_result2)
-      expect(merged_status_result.collection.names).to eq %w[gem1 gem2]
-      expect(merged_status_result.error_messages).to eq %w[first second]
+      gem3 = build(:status, name: "gem3", alive: false)
+      collection3 = build(:status_collection).add(gem3.name, gem3)
+      status_result3 = build(:status_result, collection: collection3, error_messages: ["third"],
+                                             rate_limit_exceeded: false)
+
+      merged_status_result = status_result1.merge(status_result2).merge(status_result3)
+      expect(merged_status_result.collection.names).to eq %w[gem1 gem2 gem3]
+      expect(merged_status_result.error_messages).to eq %w[first second third]
       expect(merged_status_result.rate_limit_exceeded).to eq true
     end
   end
