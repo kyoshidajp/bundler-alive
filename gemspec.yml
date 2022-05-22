@@ -19,6 +19,7 @@ dependencies:
   octokit:
   rake:
   thor:
+  gitlab:
 
 development_dependencies:
   rspec:

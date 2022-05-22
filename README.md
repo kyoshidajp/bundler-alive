@@ -7,7 +7,7 @@
 
 `bunder-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
 
-Currently only GitHub is supported as a source code repository. If the source code repository is archived, then reports as not alive.
+Currently GitHub.com and GitLab.com are supported as a source code repository. If the source code repository is archived, then reports as not alive.
 
 ## Installation
 
@@ -40,6 +40,10 @@ Default `Gemfile.lock` location is in your current directory. You can specify it
 ```
 $ bundle-alive -G /path/to/Gemfile.lock
 ```
+
+## GitLab Access Token
+
+When gems are in GitLab.com repository, you MUST set environment variable `BUNDLER_ALIVE_GITLAB_TOKEN`. See the document [Personal access tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
 
 ## Exceeding rate limit
 

@@ -17,7 +17,7 @@ module Bundler
       #
       # @return [StatusResult]
       #
-      def initialize(collection: nil, error_messages: nil, rate_limit_exceeded: nil)
+      def initialize(collection: StatusCollection.new, error_messages: [], rate_limit_exceeded: false)
         @collection = collection
         @error_messages = error_messages
         @rate_limit_exceeded = rate_limit_exceeded
@@ -33,8 +33,10 @@ module Bundler
       # @return [StatusResult]
       #
       def merge(result)
-        self.class.new(collection: result.collection,
-                       error_messages: result.error_messages,
+        merged_collection = collection.merge(result.collection)
+        merged_error_messages = error_messages + result.error_messages
+        self.class.new(collection: merged_collection,
+                       error_messages: merged_error_messages,
                        rate_limit_exceeded: result.rate_limit_exceeded)
       end
     end

@@ -7,7 +7,7 @@ RSpec.describe Bundler::Alive::Client::SourceCodeClient do
     context "with github.com" do
       it "includes `Client::GitHubApi`" do
         client = described_class.new(service_name: :github)
-        expect(client).to be_a_kind_of(Client::GitHubApi)
+        expect(client).to be_a_kind_of(Client::GithubApi)
       end
     end
 
