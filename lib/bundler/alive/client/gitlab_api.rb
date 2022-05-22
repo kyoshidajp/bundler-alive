@@ -48,8 +48,6 @@ module Bundler
           collection = StatusCollection.new
           name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
-            $stdout.write "."
-
             gem_name = url.gem_name
             alive = name_with_archived.key?(gem_name) && !name_with_archived[gem_name]
             status = Status.new(name: gem_name, repository_url: url, alive: alive, checked_at: Time.now)
@@ -73,6 +71,7 @@ module Bundler
         def get_name_with_statuses(urls)
           name_with_status = {}
           urls.each do |url|
+            $stdout.write "."
             project = search_repositories_with_retry(url)
             next if project.nil? || project.empty?
 

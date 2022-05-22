@@ -63,13 +63,10 @@ module Bundler
         #
         # @return [StatusResult]
         #
-        # rubocop:disable Metrics/MethodLength
         def query(urls:)
           collection = StatusCollection.new
           name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
-            $stdout.write "."
-
             gem_name = url.gem_name
             alive = !name_with_archived[gem_name]
             status = Status.new(name: gem_name, repository_url: url, alive: alive, checked_at: Time.now)
@@ -79,7 +76,6 @@ module Bundler
           StatusResult.new(collection: collection, error_messages: @error_messages,
                            rate_limit_exceeded: @rate_limit_exceeded)
         end
-        # rubocop:enable Metrics/MethodLength
 
         private
 
@@ -93,10 +89,10 @@ module Bundler
         #
         # rubocop:disable Metrics/MethodLength
         def get_name_with_statuses(urls)
-          raise ArgumentError unless urls.instance_of?(Array)
-
           name_with_status = {}
           urls.each_slice(QUERY_MAX_OPERATORS_AT_ONCE) do |sliced_urls|
+            $stdout.print "." * sliced_urls.size
+
             q = search_query(sliced_urls)
             repositories = search_repositories_with_retry(q)
             next if repositories.nil?
