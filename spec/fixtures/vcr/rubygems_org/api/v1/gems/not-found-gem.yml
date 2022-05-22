@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Faraday v0.15.4
+      - Faraday v1.10.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -46,27 +46,27 @@ http_interactions:
         https://*.fastly-insights.com https://fastly-insights.com https://api.github.com;
         form-action 'self'; frame-ancestors 'self'
       X-Request-Id:
-      - deb09352-915a-4456-881d-99d1e693143d
+      - f82f9c05-44a7-49ff-950c-059e33c785ee
       X-Runtime:
-      - '0.006861'
+      - '0.006035'
       Strict-Transport-Security:
       - max-age=31536000
       Accept-Ranges:
       - bytes
       Date:
-      - Sat, 07 May 2022 01:51:55 GMT
+      - Sun, 22 May 2022 10:59:25 GMT
       Via:
       - 1.1 varnish
       Age:
       - '0'
       X-Served-By:
-      - cache-tyo11948-TYO
+      - cache-tyo11979-TYO
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1651888315.656620,VS0,VE509
+      - S1653217165.262907,VS0,VE139
       Vary:
       - Accept-Encoding
       Server:
@@ -74,5 +74,5 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: This rubygem could not be found.
-  recorded_at: Sat, 07 May 2022 01:51:55 GMT
+  recorded_at: Sun, 22 May 2022 10:59:25 GMT
 recorded_with: VCR 6.1.0

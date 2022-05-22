@@ -111,14 +111,21 @@ module Bundler
 
         def source_code_url(body:, gem_name:)
           url = body["source_code_uri"]
-          return url if SourceCodeRepositoryUrl.support_url?(url)
+          return url_via_redirect(url) if SourceCodeRepositoryUrl.support_url?(url)
 
           url = body["homepage_uri"]
-          return url if SourceCodeRepositoryUrl.support_url?(url)
+          return url_via_redirect(url) if SourceCodeRepositoryUrl.support_url?(url)
 
           message = "[#{gem_name}] Source code repository is not found in RubyGems.org,"\
                     " or not supported. URL: https://rubygems.org/gems/#{gem_name}"
           raise NotFound, message
+        end
+
+        def url_via_redirect(url)
+          response = connection.head(url)
+          return response.headers["location"] if response.status == 301
+
+          url
         end
 
         def get_repository_urls(gem_names)

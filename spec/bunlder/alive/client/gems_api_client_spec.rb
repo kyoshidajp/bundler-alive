@@ -22,7 +22,7 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
         VCR.use_cassette "rubygems.org/api/v1/gems/rails" do
           url = client.send(:get_repository_url, "rails")
           expect(url).to be_a_kind_of(SourceCodeRepositoryUrl)
-          expect(url.url).to eq "https://github.com/rails/rails/tree/v7.0.2.4"
+          expect(url.url).to eq "https://github.com/rails/rails/tree/v7.0.3"
         end
       end
     end
@@ -49,10 +49,10 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
             github:
               [
                 SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "ast"),
-                SourceCodeRepositoryUrl.new("http://github.com/rails/journey", "journey"),
+                SourceCodeRepositoryUrl.new("https://github.com/rails/journey", "journey"),
                 SourceCodeRepositoryUrl.new("https://github.com/grosser/parallel/tree/v1.22.1", "parallel"),
                 SourceCodeRepositoryUrl.new("https://github.com/whitequark/parser/tree/v3.1.2.0", "parser"),
-                SourceCodeRepositoryUrl.new("http://github.com/sickill/rainbow", "rainbow")
+                SourceCodeRepositoryUrl.new("https://github.com/sickill/rainbow", "rainbow")
               ]
           }
           expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
@@ -74,10 +74,10 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
                 SourceCodeRepositoryUrl.new("https://github.com/whitequark/ast", "ast"),
                 SourceCodeRepositoryUrl.new("https://github.com/fog/fog-sakuracloud", "fog-sakuracloud"),
                 SourceCodeRepositoryUrl.new("https://github.com/davetron5000/gli", "gli"),
-                SourceCodeRepositoryUrl.new("http://github.com/rails/journey", "journey"),
+                SourceCodeRepositoryUrl.new("https://github.com/rails/journey", "journey"),
                 SourceCodeRepositoryUrl.new("https://github.com/grosser/parallel/tree/v1.22.1", "parallel"),
                 SourceCodeRepositoryUrl.new("https://github.com/whitequark/parser/tree/v3.1.2.0", "parser"),
-                SourceCodeRepositoryUrl.new("http://github.com/sickill/rainbow", "rainbow")
+                SourceCodeRepositoryUrl.new("https://github.com/sickill/rainbow", "rainbow")
               ]
           }
           expect(gems_api_response).to be_an_instance_of(Client::GemsApiResponse)
