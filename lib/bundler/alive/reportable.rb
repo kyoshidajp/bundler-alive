@@ -21,8 +21,11 @@ module Bundler
           error_messages = report.error_messages
           print_error(error_messages)
 
-          gems = result.archived_gems
-          print_archived_gems(gems) if gems.size.positive?
+          unknown_gems = result.unknown_gems
+          print_archived_gems(unknown_gems, header: "Unknown gems:") if unknown_gems.size.positive?
+
+          archived_gems = result.archived_gems
+          print_archived_gems(archived_gems, header: "Archived gems:") if archived_gems.size.positive?
 
           print_summary(result)
           print_message(result, report.rate_limit_exceeded)
@@ -31,15 +34,15 @@ module Bundler
         private
 
         # soo messy
-        def print_archived_gems(gems)
+        def print_archived_gems(gems, header:)
           $stdout.puts
-          $stdout.puts "Archived gems:"
-          archived_gems = gems.map do |_name, gem|
+          $stdout.puts header
+          gems_to_report = gems.map do |_name, gem|
             gem.report.split("\n").each_with_object([]) do |line, gem_str|
               gem_str << "    #{line}"
             end.join("\n")
           end
-          $stdout.puts archived_gems.join("\n\n")
+          $stdout.puts gems_to_report.join("\n\n")
         end
 
         def print_error(error_messages)

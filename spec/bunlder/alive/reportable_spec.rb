@@ -43,6 +43,10 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
       it "reports result" do
         expected = <<~RESULT
 
+          Unknown gems:
+              Name: gem2
+              URL: https://github.com/rails/rails
+
           Total: 2 (Archived: 0, Alive: 1, Unknown: 1)
           Too many requested! Retry later.
           Unknown gems are found!
@@ -92,6 +96,10 @@ RSpec.describe Bundler::Alive::CLI::Reportable do
           Errors:
               gem2 is not found in gems.org.
               Unknown url:#{" "}
+
+          Unknown gems:
+              Name: gem2
+              URL: http://github.com/kyoshidajp/gem2
 
           Archived gems:
               Name: gem1

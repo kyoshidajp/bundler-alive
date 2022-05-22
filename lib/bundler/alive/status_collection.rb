@@ -89,6 +89,10 @@ module Bundler
         collection.find_all { |_name, gem| !!!gem.alive }
       end
 
+      def unknown_gems
+        collection.find_all { |_name, gem| gem.unknown? }
+      end
+
       #
       # All of statuses are alive nor not
       #
