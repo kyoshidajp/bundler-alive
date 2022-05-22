@@ -68,7 +68,7 @@ module Bundler
           name_with_archived = get_name_with_statuses(urls)
           urls.each do |url|
             gem_name = url.gem_name
-            alive = !name_with_archived[gem_name]
+            alive = name_with_archived.key?(gem_name) && !name_with_archived[gem_name]
             status = Status.new(name: gem_name, repository_url: url, alive: alive, checked_at: Time.now)
             collection = collection.add(gem_name, status)
           end
