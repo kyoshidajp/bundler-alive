@@ -181,7 +181,7 @@ module Bundler
         # @return [String]
         #
         def slug(repository_url)
-          Octokit::Repository.from_url(repository_url).slug
+          Octokit::Repository.from_url(repository_url).slug.gsub(/\.git/, "")
         end
       end
     end
