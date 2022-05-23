@@ -12,7 +12,7 @@ Currently GitHub.com and GitLab.com are supported as a source code repository. I
 ## Installation
 
 ```
-$ gem install bunlder-alive
+$ gem install bundler-alive
 ```
 
 ## Usage
