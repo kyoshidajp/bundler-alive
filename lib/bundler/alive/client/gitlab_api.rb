@@ -45,7 +45,7 @@ module Bundler
         #
         # Creates a GitLab client
         #
-        # @return [Octokit::Client]
+        # @return [Gitlab::Client]
         #
         def create_client
           access_token = ENV.fetch(ACCESS_TOKEN_ENV_NAME, nil)

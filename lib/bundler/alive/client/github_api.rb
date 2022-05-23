@@ -1,43 +1,22 @@
 # frozen_string_literal: true
 
-require "octokit"
 require "json"
 
 module Bundler
   module Alive
     module Client
       #
-      # API Client for GitHub API
+      # API Client for GitHub GraphQL API
       #
-      # @see https://docs.github.com/en/rest/search#search-repositories
+      # @see https://docs.github.com/en/graphql
       #
       module GithubApi
-        # Environment variable name of GitHub Access Token
-        ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITHUB_TOKEN"
-
         # Separator of query condition
         QUERY_CONDITION_SEPARATOR = " "
+        private_constant :QUERY_CONDITION_SEPARATOR
 
-        # Number of attempts to request after too many requests
-        RETRIES_ON_TOO_MANY_REQUESTS = 3
-
-        #
-        # Interval second when retrying request
-        #
-        # @note
-        #   This is an empirical value and should
-        #   refer to response of Rate Limit API
-        #
-        # @see
-        #   https://docs.github.com/en/rest/overview/resources-in-the-rest-api#checking-your-rate-limit-status
-        RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS = 120
-
-        #
         # Max number of conditional operator at once
-        #
-        # @see https://docs.github.com/en/rest/search#limitations-on-query-length
-        QUERY_MAX_OPERATORS_AT_ONCE = 6
-
+        QUERY_MAX_OPERATORS_AT_ONCE = 50
         private_constant :QUERY_MAX_OPERATORS_AT_ONCE
 
         def self.extended(base)
@@ -49,12 +28,15 @@ module Bundler
         end
 
         #
-        # Creates a GitHub client
+        # Creates a GraphQL client
         #
-        # @return [Octokit::Client]
+        # @return [GraphQL::Client]
         #
         def create_client
-          Octokit::Client.new(access_token: ENV.fetch(ACCESS_TOKEN_ENV_NAME, nil))
+          require_relative "github_graphql"
+          extend GithubGraphql
+
+          GithubGraphql::CLIENT
         end
 
         #
@@ -111,7 +93,7 @@ module Bundler
               alive_status = if repository.nil?
                                Status::ALIVE_UNKNOWN
                              else
-                               repository["archived"]
+                               repository["isArchived"]
                              end
               name_with_status[url.gem_name] = alive_status
             end
@@ -126,7 +108,7 @@ module Bundler
         # @return [Sawyer::Resource|nil]
         def find_repository_from_repositories(url:, repositories:)
           repositories.find do |repository|
-            slug(url.url) == repository["full_name"]
+            slug(url.url) == repository["nameWithOwner"]
           end
         end
 
@@ -148,18 +130,12 @@ module Bundler
         #
         # @param [String] query
         #
-        # @raise [Octokit::TooManyRequests]
-        #   when too many requested to GitHub.com
-        # @raise [SourceCodeClient::SearchRepositoryError]
-        #   when Error without `Octokit::TooManyRequests`
-        #
         # @return [Array<Sawyer::Resource>|nil]
         #
         def search_repositories(query)
-          result = @client.search_repositories(query)
-          result[:items]
-        rescue Octokit::TooManyRequests => e
-          raise e
+          result = @client.query(GithubGraphql::Query,
+                                 variables: { var_query: query, var_first: QUERY_MAX_OPERATORS_AT_ONCE })
+          result.data.search.nodes.map(&:to_h)
         rescue StandardError => e
           @error_messages << e.message
           []
@@ -167,21 +143,6 @@ module Bundler
 
         def search_repositories_with_retry(query)
           search_repositories(query)
-        rescue Octokit::TooManyRequests
-          if @retries_on_too_many_requests < RETRIES_ON_TOO_MANY_REQUESTS
-            @retries_on_too_many_requests += 1
-            sleep_with_message
-            retry
-          end
-
-          @rate_limit_exceeded = true
-          []
-        end
-
-        def sleep_with_message
-          puts "Too many requested to GitHub. Sleep #{RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS} sec."
-          sleep RETRY_INTERVAL_SEC_ON_TOO_MANY_REQUESTS
-          puts "Retry request (#{@retries_on_too_many_requests}/#{RETRIES_ON_TOO_MANY_REQUESTS})"
         end
 
         #
@@ -192,7 +153,13 @@ module Bundler
         # @return [String]
         #
         def slug(repository_url)
-          Octokit::Repository.from_url(repository_url).slug.gsub(/\.git/, "")
+          # from https://github.com/octokit/octokit.rb/blob/v4.22.0/lib/octokit/repository.rb#L12-L17
+          github_slug = URI.parse(repository_url).path[1..]
+                           .gsub(%r{^repos/}, "")
+                           .split("/", 3)[0..1]
+                           .join("/")
+
+          github_slug.gsub(/\.git/, "")
         end
       end
     end
