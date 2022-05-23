@@ -5,7 +5,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a79d53257bc5e93842f6/maintainability)](https://codeclimate.com/github/kyoshidajp/bundler-alive/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a79d53257bc5e93842f6/test_coverage)](https://codeclimate.com/github/kyoshidajp/bundler-alive/test_coverage)
 
-`bunder-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
+`bundler-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
 
 Currently GitHub.com and GitLab.com are supported as a source code repository. If the source code repository is archived, then reports as not alive.
 
