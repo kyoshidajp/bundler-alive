@@ -11,13 +11,12 @@ module Bundler
       #
       # A new instance of Doctor
       #
-      # @param [String] lock_file lock file of gem
-      # @param [String] config_file config file
-      # @param [Array<String>] ignore_gems ignore gems
-      # @param [Boolean] :follow_redirect
-      #   Follow redirect URL in gems
+      # @param [String] :lock_file # lock file of gem
+      # @param [String] :config_file # config file
+      # @param [Array<String>] :ignore_gems ignore gems
+      # @param [Boolean] :follow_redirect Follow redirect URL in gems
       #
-      def initialize(lock_file, config_file, ignore_gems, follow_redirect: false)
+      def initialize(lock_file:, config_file:, ignore_gems:, follow_redirect: false)
         @lock_file = lock_file
         @gem_client = Client::GemsApiClient.new(config_path: config_file, follow_redirect: follow_redirect)
         @ignore_gems = ignore_gems

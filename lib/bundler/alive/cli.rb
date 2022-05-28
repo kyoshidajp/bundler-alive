@@ -50,7 +50,9 @@ module Bundler
       end
 
       def initialize_doctor
-        Doctor.new(options[:gemfile_lock], options[:config], options[:ignore],
+        Doctor.new(lock_file: options[:gemfile_lock],
+                   config_file: options[:config],
+                   ignore_gems: options[:ignore],
                    follow_redirect: options[:follow_redirect])
       rescue Bundler::GemfileLockNotFound
         exit 1
