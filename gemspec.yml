@@ -8,7 +8,7 @@ homepage: https://github.com/kyoshidajp/bundler-alive
 metadata:
   homepage_uri: https://github.com/kyoshidajp/bundler-alive
   source_code_uri: https://github.com/kyoshidajp/bundler-alive
-  changelog_uri: https://github.com/kyoshidajp/bundler-alive
+  changelog_uri: https://github.com/kyoshidajp/bundler-alive/commits/main
 
 required_ruby_version: ">= 2.6.0"
 bindir: bin
