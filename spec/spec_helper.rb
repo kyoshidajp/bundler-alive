@@ -10,6 +10,8 @@ require "vcr"
 
 include Bundler::Alive # rubocop:disable Style/MixinUsage
 
+TMP_DIR = "tmp"
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
@@ -25,6 +27,25 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     FactoryBot.find_definitions
+  end
+
+  config.before do
+    path = File.join(TMP_DIR, "schema.json")
+    Dir.mkdir(TMP_DIR) unless Dir.exist?(TMP_DIR)
+    FileUtils.remove_file(path) if File.exist?(path)
+    stub_const("Bundler::Alive::USER_PATH", TMP_DIR)
+    stub_const("Bundler::Alive::SCHEMA_PATH", path)
+
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch)
+      .with(Bundler::Alive::Client::GithubApi::ACCESS_TOKEN_ENV_NAME, nil)
+      .and_return("something")
+  end
+
+  config.after do
+    path = File.join(TMP_DIR, "schema.json")
+    Dir.mkdir(TMP_DIR) unless Dir.exist?(TMP_DIR)
+    FileUtils.remove_file(path) if File.exist?(path)
   end
 end
 

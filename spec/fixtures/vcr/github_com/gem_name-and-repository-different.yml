@@ -1,22 +1,25 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://api.github.com/search/repositories?q=repo:rails/rails%20repo:faye/websocket-driver-ruby
+    method: post
+    uri: https://api.github.com/graphql
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"query":"query Kernel__Query($var_query: String!, $var_first: Int!)
+        {\n  search(query: $var_query, type: REPOSITORY, first: $var_first) {\n    repositoryCount\n    nodes
+        {\n      __typename\n      ... on Repository {\n        isArchived\n        nameWithOwner\n        isMirror\n      }\n    }\n  }\n}","variables":{"var_query":"repo:rails/rails
+        repo:faye/websocket-driver-ruby","var_first":50},"operationName":"Kernel__Query"}'
     headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - application/vnd.github.v3+json
+      - application/json
       User-Agent:
-      - Octokit Ruby Gem 4.22.0
+      - Ruby
       Content-Type:
       - application/json
       Authorization:
-      - token github-access-token
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - Bearer github-access-token
   response:
     status:
       code: 200
@@ -25,32 +28,27 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 22 May 2022 09:39:59 GMT
+      - Mon, 23 May 2022 10:23:52 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
       - chunked
-      Cache-Control:
-      - no-cache
-      Vary:
-      - Accept, Authorization, Cookie, X-GitHub-OTP
-      - Accept-Encoding, Accept, X-Requested-With
       X-Oauth-Scopes:
       - ''
       X-Accepted-Oauth-Scopes:
-      - ''
+      - repo
       X-Github-Media-Type:
-      - github.v3; format=json
+      - github.v4
       X-Ratelimit-Limit:
-      - '30'
+      - '5000'
       X-Ratelimit-Remaining:
-      - '29'
+      - '4926'
       X-Ratelimit-Reset:
-      - '1653212459'
+      - '1653303524'
       X-Ratelimit-Used:
-      - '1'
+      - '74'
       X-Ratelimit-Resource:
-      - search
+      - graphql
       Access-Control-Expose-Headers:
       - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
         X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
@@ -70,13 +68,12 @@ http_interactions:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Content-Security-Policy:
       - default-src 'none'
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
       X-Github-Request-Id:
-      - D6CE:7BAE:983016:A90806:628A04EE
+      - 911C:4DA7:66DB30:72CD9C:628B60B8
     body:
       encoding: ASCII-8BIT
-      string: '{"total_count":2,"incomplete_results":false,"items":[{"id":8514,"node_id":"MDEwOlJlcG9zaXRvcnk4NTE0","name":"rails","full_name":"rails/rails","private":false,"owner":{"login":"rails","id":4223,"node_id":"MDEyOk9yZ2FuaXphdGlvbjQyMjM=","avatar_url":"https://avatars.githubusercontent.com/u/4223?v=4","gravatar_id":"","url":"https://api.github.com/users/rails","html_url":"https://github.com/rails","followers_url":"https://api.github.com/users/rails/followers","following_url":"https://api.github.com/users/rails/following{/other_user}","gists_url":"https://api.github.com/users/rails/gists{/gist_id}","starred_url":"https://api.github.com/users/rails/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rails/subscriptions","organizations_url":"https://api.github.com/users/rails/orgs","repos_url":"https://api.github.com/users/rails/repos","events_url":"https://api.github.com/users/rails/events{/privacy}","received_events_url":"https://api.github.com/users/rails/received_events","type":"Organization","site_admin":false},"html_url":"https://github.com/rails/rails","description":"Ruby
-        on Rails","fork":false,"url":"https://api.github.com/repos/rails/rails","forks_url":"https://api.github.com/repos/rails/rails/forks","keys_url":"https://api.github.com/repos/rails/rails/keys{/key_id}","collaborators_url":"https://api.github.com/repos/rails/rails/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/rails/rails/teams","hooks_url":"https://api.github.com/repos/rails/rails/hooks","issue_events_url":"https://api.github.com/repos/rails/rails/issues/events{/number}","events_url":"https://api.github.com/repos/rails/rails/events","assignees_url":"https://api.github.com/repos/rails/rails/assignees{/user}","branches_url":"https://api.github.com/repos/rails/rails/branches{/branch}","tags_url":"https://api.github.com/repos/rails/rails/tags","blobs_url":"https://api.github.com/repos/rails/rails/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/rails/rails/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/rails/rails/git/refs{/sha}","trees_url":"https://api.github.com/repos/rails/rails/git/trees{/sha}","statuses_url":"https://api.github.com/repos/rails/rails/statuses/{sha}","languages_url":"https://api.github.com/repos/rails/rails/languages","stargazers_url":"https://api.github.com/repos/rails/rails/stargazers","contributors_url":"https://api.github.com/repos/rails/rails/contributors","subscribers_url":"https://api.github.com/repos/rails/rails/subscribers","subscription_url":"https://api.github.com/repos/rails/rails/subscription","commits_url":"https://api.github.com/repos/rails/rails/commits{/sha}","git_commits_url":"https://api.github.com/repos/rails/rails/git/commits{/sha}","comments_url":"https://api.github.com/repos/rails/rails/comments{/number}","issue_comment_url":"https://api.github.com/repos/rails/rails/issues/comments{/number}","contents_url":"https://api.github.com/repos/rails/rails/contents/{+path}","compare_url":"https://api.github.com/repos/rails/rails/compare/{base}...{head}","merges_url":"https://api.github.com/repos/rails/rails/merges","archive_url":"https://api.github.com/repos/rails/rails/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/rails/rails/downloads","issues_url":"https://api.github.com/repos/rails/rails/issues{/number}","pulls_url":"https://api.github.com/repos/rails/rails/pulls{/number}","milestones_url":"https://api.github.com/repos/rails/rails/milestones{/number}","notifications_url":"https://api.github.com/repos/rails/rails/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/rails/rails/labels{/name}","releases_url":"https://api.github.com/repos/rails/rails/releases{/id}","deployments_url":"https://api.github.com/repos/rails/rails/deployments","created_at":"2008-04-11T02:19:47Z","updated_at":"2022-05-22T08:20:52Z","pushed_at":"2022-05-22T09:22:34Z","git_url":"git://github.com/rails/rails.git","ssh_url":"git@github.com:rails/rails.git","clone_url":"https://github.com/rails/rails.git","svn_url":"https://github.com/rails/rails","homepage":"https://rubyonrails.org","size":245025,"stargazers_count":50730,"watchers_count":50730,"language":"Ruby","has_issues":true,"has_projects":true,"has_downloads":true,"has_wiki":false,"has_pages":false,"forks_count":20355,"mirror_url":null,"archived":false,"disabled":false,"open_issues_count":595,"license":{"key":"mit","name":"MIT
-        License","spdx_id":"MIT","url":"https://api.github.com/licenses/mit","node_id":"MDc6TGljZW5zZTEz"},"allow_forking":true,"is_template":false,"topics":["activejob","activerecord","framework","html","mvc","rails","ruby"],"visibility":"public","forks":20355,"open_issues":595,"watchers":50730,"default_branch":"main","permissions":{"admin":false,"maintain":false,"push":false,"triage":false,"pull":true},"score":1.0},{"id":9236384,"node_id":"MDEwOlJlcG9zaXRvcnk5MjM2Mzg0","name":"websocket-driver-ruby","full_name":"faye/websocket-driver-ruby","private":false,"owner":{"login":"faye","id":1277447,"node_id":"MDEyOk9yZ2FuaXphdGlvbjEyNzc0NDc=","avatar_url":"https://avatars.githubusercontent.com/u/1277447?v=4","gravatar_id":"","url":"https://api.github.com/users/faye","html_url":"https://github.com/faye","followers_url":"https://api.github.com/users/faye/followers","following_url":"https://api.github.com/users/faye/following{/other_user}","gists_url":"https://api.github.com/users/faye/gists{/gist_id}","starred_url":"https://api.github.com/users/faye/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/faye/subscriptions","organizations_url":"https://api.github.com/users/faye/orgs","repos_url":"https://api.github.com/users/faye/repos","events_url":"https://api.github.com/users/faye/events{/privacy}","received_events_url":"https://api.github.com/users/faye/received_events","type":"Organization","site_admin":false},"html_url":"https://github.com/faye/websocket-driver-ruby","description":"WebSocket
-        protocol handler with pluggable I/O","fork":false,"url":"https://api.github.com/repos/faye/websocket-driver-ruby","forks_url":"https://api.github.com/repos/faye/websocket-driver-ruby/forks","keys_url":"https://api.github.com/repos/faye/websocket-driver-ruby/keys{/key_id}","collaborators_url":"https://api.github.com/repos/faye/websocket-driver-ruby/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/faye/websocket-driver-ruby/teams","hooks_url":"https://api.github.com/repos/faye/websocket-driver-ruby/hooks","issue_events_url":"https://api.github.com/repos/faye/websocket-driver-ruby/issues/events{/number}","events_url":"https://api.github.com/repos/faye/websocket-driver-ruby/events","assignees_url":"https://api.github.com/repos/faye/websocket-driver-ruby/assignees{/user}","branches_url":"https://api.github.com/repos/faye/websocket-driver-ruby/branches{/branch}","tags_url":"https://api.github.com/repos/faye/websocket-driver-ruby/tags","blobs_url":"https://api.github.com/repos/faye/websocket-driver-ruby/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/faye/websocket-driver-ruby/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/faye/websocket-driver-ruby/git/refs{/sha}","trees_url":"https://api.github.com/repos/faye/websocket-driver-ruby/git/trees{/sha}","statuses_url":"https://api.github.com/repos/faye/websocket-driver-ruby/statuses/{sha}","languages_url":"https://api.github.com/repos/faye/websocket-driver-ruby/languages","stargazers_url":"https://api.github.com/repos/faye/websocket-driver-ruby/stargazers","contributors_url":"https://api.github.com/repos/faye/websocket-driver-ruby/contributors","subscribers_url":"https://api.github.com/repos/faye/websocket-driver-ruby/subscribers","subscription_url":"https://api.github.com/repos/faye/websocket-driver-ruby/subscription","commits_url":"https://api.github.com/repos/faye/websocket-driver-ruby/commits{/sha}","git_commits_url":"https://api.github.com/repos/faye/websocket-driver-ruby/git/commits{/sha}","comments_url":"https://api.github.com/repos/faye/websocket-driver-ruby/comments{/number}","issue_comment_url":"https://api.github.com/repos/faye/websocket-driver-ruby/issues/comments{/number}","contents_url":"https://api.github.com/repos/faye/websocket-driver-ruby/contents/{+path}","compare_url":"https://api.github.com/repos/faye/websocket-driver-ruby/compare/{base}...{head}","merges_url":"https://api.github.com/repos/faye/websocket-driver-ruby/merges","archive_url":"https://api.github.com/repos/faye/websocket-driver-ruby/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/faye/websocket-driver-ruby/downloads","issues_url":"https://api.github.com/repos/faye/websocket-driver-ruby/issues{/number}","pulls_url":"https://api.github.com/repos/faye/websocket-driver-ruby/pulls{/number}","milestones_url":"https://api.github.com/repos/faye/websocket-driver-ruby/milestones{/number}","notifications_url":"https://api.github.com/repos/faye/websocket-driver-ruby/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/faye/websocket-driver-ruby/labels{/name}","releases_url":"https://api.github.com/repos/faye/websocket-driver-ruby/releases{/id}","deployments_url":"https://api.github.com/repos/faye/websocket-driver-ruby/deployments","created_at":"2013-04-05T07:54:49Z","updated_at":"2022-04-06T05:38:03Z","pushed_at":"2022-02-06T23:16:43Z","git_url":"git://github.com/faye/websocket-driver-ruby.git","ssh_url":"git@github.com:faye/websocket-driver-ruby.git","clone_url":"https://github.com/faye/websocket-driver-ruby.git","svn_url":"https://github.com/faye/websocket-driver-ruby","homepage":"","size":2833,"stargazers_count":206,"watchers_count":206,"language":"Ruby","has_issues":true,"has_projects":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"forks_count":44,"mirror_url":null,"archived":false,"disabled":false,"open_issues_count":10,"license":{"key":"other","name":"Other","spdx_id":"NOASSERTION","url":null,"node_id":"MDc6TGljZW5zZTA="},"allow_forking":true,"is_template":false,"topics":[],"visibility":"public","forks":44,"open_issues":10,"watchers":206,"default_branch":"main","permissions":{"admin":false,"maintain":false,"push":false,"triage":false,"pull":true},"score":1.0}]}'
-  recorded_at: Sun, 22 May 2022 09:39:59 GMT
+      string: '{"data":{"search":{"repositoryCount":2,"nodes":[{"__typename":"Repository","isArchived":false,"nameWithOwner":"rails/rails","isMirror":false},{"__typename":"Repository","isArchived":false,"nameWithOwner":"faye/websocket-driver-ruby","isMirror":false}]}}}'
+  recorded_at: Mon, 23 May 2022 10:23:52 GMT
 recorded_with: VCR 6.1.0

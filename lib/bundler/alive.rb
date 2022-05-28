@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+module Bundler
+  module Alive
+    USER_PATH = File.expand_path(File.join(Gem.user_home, ".local", "share", "bundler-alive"))
+    SCHEMA_PATH = File.join(USER_PATH, "schema.json")
+  end
+end
+
 require_relative "alive/version"
 require_relative "alive/doctor"
 require_relative "alive/source_code_repository"

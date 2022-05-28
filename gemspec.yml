@@ -16,7 +16,7 @@ require_paths: lib
 
 dependencies:
   faraday:
-  octokit:
+  graphql-client:
   rake:
   thor:
   gitlab:
