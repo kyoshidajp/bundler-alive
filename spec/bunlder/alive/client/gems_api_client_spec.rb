@@ -6,7 +6,7 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
   describe "#new" do
     context "with `config_path`" do
       let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
-      let!(:client) { described_class.new(config) }
+      let!(:client) { described_class.new(config_path: config) }
       it "has merged `@config_gems`" do
         config_gems = client.instance_variable_get(:@config_gems)
         expect(config_gems.keys).to eq %w[fog-sakuracloud gli]
@@ -16,7 +16,7 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
 
   describe "#get_source_code_url" do
     let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
-    let!(:client) { described_class.new(config) }
+    let!(:client) { described_class.new(config_path: config) }
     context "with a exists gem on gems.org" do
       it "returns a `SourceCodeRepositoryUrl`" do
         VCR.use_cassette "rubygems.org/api/v1/gems/rails" do
@@ -40,7 +40,7 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
 
   describe "#gems_api_response" do
     let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
-    let!(:client) { described_class.new(config) }
+    let!(:client) { described_class.new(config_path: config, follow_redirect: true) }
     context "all gems are found" do
       it "returns a `Client::GemsApiResponse`" do
         VCR.use_cassette "rubygems.org/multi_search" do

@@ -17,6 +17,7 @@ module Bundler
 
       desc "check [DIR]", "Checks the Gemfile.lock"
       method_option :ignore, type: :array, aliases: "-i", default: []
+      method_option :follow_redirect, type: :boolean, aliases: "-r"
       method_option :gemfile_lock, type: :string, aliases: "-G",
                                    default: "Gemfile.lock"
       method_option :config, type: :string, aliases: "-c", default: ".bundler-alive.yml"
@@ -49,7 +50,10 @@ module Bundler
       end
 
       def initialize_doctor
-        Doctor.new(options[:gemfile_lock], options[:config], options[:ignore])
+        Doctor.new(lock_file: options[:gemfile_lock],
+                   config_file: options[:config],
+                   ignore_gems: options[:ignore],
+                   follow_redirect: options[:follow_redirect])
       rescue Bundler::GemfileLockNotFound
         exit 1
       end

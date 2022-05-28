@@ -58,6 +58,14 @@ You can ignore certain gems.
 $ bundle-alive -i journey rubocop-junit-formatter
 ```
 
+## Following redirect on RubyGems.org
+
+The URL for some gems in RubyGems.org may have changed. You can follow the URL (default: doesn't follow).
+
+```
+$ bundle-alive --follow_redirect
+```
+
 ## Specifying repository URL
 
 In some cases, some gems cannot find the URL of their source code repositories. For this case, you can specify a mapping between the gem and its URL.
