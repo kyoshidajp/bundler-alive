@@ -118,16 +118,17 @@ module Bundler
         end
 
         #
-        # Search query of repositories
+        # Search query of repositories (includes forked)
         #
         # @param [Array<RepositoryUrl>] urls
         #
         # @return [String]
         #
         def search_query(urls)
-          urls.map do |url|
+          repository_query = urls.map do |url|
             "repo:#{slug(url.url)}"
           end.join(QUERY_CONDITION_SEPARATOR)
+          "#{repository_query} fork:true"
         end
 
         #
