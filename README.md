@@ -7,7 +7,7 @@
 
 `bundler-alive` checks if gems in a RubyGem's `Gemfile.lock` are active.
 
-Currently GitHub.com and GitLab.com are supported as a source code repository. If the source code repository is archived, then reports as not alive.
+Currently, GitHub.com and GitLab.com are supported as a source code repository. If the source code repository is archived, then reports as not alive.
 
 ## Installation
 
@@ -41,19 +41,14 @@ Default `Gemfile.lock` location is in your current directory. You can specify it
 $ bundle-alive -G /path/to/Gemfile.lock
 ```
 
-## GitLab Access Token
+## Access Token
 
-When gems are in GitLab.com repository, you MUST set environment variable `BUNDLER_ALIVE_GITLAB_TOKEN`. See the document [Personal access tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html).
+You MUST set environment variables to access source code repository services.
 
-## Exceeding rate limit
-
-In some cases, the following error may be output.
-
-```
-Too many requested! Retry later.
-```
-
-In this case, setting [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) as `BUNDLER_ALIVE_GITHUB_TOKEN` environment variable may alleviate the error.
+| Repository service | ENV variable |
+| ------- |---- |
+| GitHub | [`BUNDLER_ALIVE_GITHUB_TOKEN`](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) |
+| GitLab | [`BUNDLER_ALIVE_GITLAB_TOKEN`](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) |
 
 ## Ignore gems
 
