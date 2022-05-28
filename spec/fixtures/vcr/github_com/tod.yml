@@ -1,0 +1,79 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.github.com/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query Bundler__Alive__Client__GithubGraphql__Query($var_query:
+        String!, $var_first: Int!) {\n  search(query: $var_query, type: REPOSITORY,
+        first: $var_first) {\n    repositoryCount\n    nodes {\n      __typename\n      ...
+        on Repository {\n        isArchived\n        nameWithOwner\n        isMirror\n      }\n    }\n  }\n}","variables":{"var_query":"repo:JackC/tod","var_first":50},"operationName":"Bundler__Alive__Client__GithubGraphql__Query"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer github-access-token
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sat, 28 May 2022 03:59:03 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      X-Oauth-Scopes:
+      - ''
+      X-Accepted-Oauth-Scopes:
+      - repo
+      X-Github-Media-Type:
+      - github.v4
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4976'
+      X-Ratelimit-Reset:
+      - '1653711917'
+      X-Ratelimit-Used:
+      - '24'
+      X-Ratelimit-Resource:
+      - graphql
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Github-Request-Id:
+      - D774:3A02:1B74D0:1EE77B:62919E07
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"search":{"repositoryCount":1,"nodes":[{"__typename":"Repository","isArchived":false,"nameWithOwner":"jackc/tod","isMirror":false}]}}}'
+  recorded_at: Sat, 28 May 2022 03:59:03 GMT
+recorded_with: VCR 6.1.0
