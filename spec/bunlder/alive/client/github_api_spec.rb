@@ -94,6 +94,22 @@ RSpec.describe Bundler::Alive::Client::GithubApi do
       end
     end
 
+    context "with URL which repository url and the nameWithOwner case-sensitivity are not same" do
+      it "returns `StatusResult`" do
+        VCR.use_cassette "github.com/tod" do
+          urls = [
+            Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/JackC/tod", "tod")
+          ]
+
+          result = client.query(urls: urls)
+          expect(result).to be_an_instance_of(Bundler::Alive::StatusResult)
+
+          collection = result.collection
+          expect(collection["tod"].alive).to eq true
+        end
+      end
+    end
+
     context "without urls" do
       it "raises a `ArgumentError`" do
         expect { client.query }.to raise_error(ArgumentError)

@@ -111,7 +111,9 @@ module Bundler
         # @return [Sawyer::Resource|nil]
         def find_repository_from_repositories(url:, repositories:)
           repositories.find do |repository|
-            slug(url.url) == repository["nameWithOwner"]
+            # e.g.) tod's URL is https://github.com/JackC/tod
+            # but, the `nameWithOwner` is `jacks/tod`
+            slug(url.url).downcase == repository["nameWithOwner"].downcase
           end
         end
 
