@@ -54,3 +54,17 @@ gems:
     url: https://github.com/szechyjs/thrift-gem
   vmstat:
     url: https://github.com/threez/ruby-vmstat
+  mongoid-rspec:
+    url: https://github.com/mongoid/mongoid-rspec
+  rack-test:
+    url: https://github.com/rack/rack-test
+  jmespath:
+    url: https://github.com/jmespath/jmespath.rb
+  slack-notifier:
+    url: https://github.com/slack-notifier/slack-notifier
+  ipaddress:
+    url: https://github.com/ipaddress-gem/ipaddress
+  fog-powerdns:
+    url: https://github.com/fog/fog-powerdns
+  html_tokenizer:
+    url: https://github.com/EiNSTeiN-/html_tokenizer
