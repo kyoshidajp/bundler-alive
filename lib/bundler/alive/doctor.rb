@@ -17,7 +17,7 @@ module Bundler
       #
       def initialize(lock_file, config_file, ignore_gems)
         @lock_file = lock_file
-        @gem_client = Client::GemsApiClient.new(config_file)
+        @gem_client = Client::GemsApiClient.new(config_path: config_file)
         @ignore_gems = ignore_gems
         @result = nil
         @rate_limit_exceeded = false

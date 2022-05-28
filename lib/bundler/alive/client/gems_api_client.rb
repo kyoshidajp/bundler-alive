@@ -21,11 +21,11 @@ module Bundler
         #
         # A new instance of `GemApiClient`
         #
-        # @param [String] config_path
+        # @param [String] :config_path
         #
         # @return [GemApiClient]
         #
-        def initialize(config_path = nil)
+        def initialize(config_path: nil)
           @error_messages = []
           @config_gems = get_config_gems(config_path)
 
