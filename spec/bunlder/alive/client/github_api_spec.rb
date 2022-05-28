@@ -110,6 +110,22 @@ RSpec.describe Bundler::Alive::Client::GithubApi do
       end
     end
 
+    context "with forked repository URL" do
+      it "returns `StatusResult`" do
+        VCR.use_cassette "github.com/masutaka/compare_linker" do
+          urls = [
+            Bundler::Alive::SourceCodeRepositoryUrl.new("https://github.com/masutaka/compare_linker", "compare_linker")
+          ]
+
+          result = client.query(urls: urls)
+          expect(result).to be_an_instance_of(Bundler::Alive::StatusResult)
+
+          collection = result.collection
+          expect(collection["compare_linker"].alive).to eq true
+        end
+      end
+    end
+
     context "without urls" do
       it "raises a `ArgumentError`" do
         expect { client.query }.to raise_error(ArgumentError)
