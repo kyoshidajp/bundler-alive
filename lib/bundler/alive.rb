@@ -2,7 +2,8 @@
 
 module Bundler
   module Alive
-    SCHEMA_PATH = File.expand_path(File.join(Gem.user_home, ".local", "share", "schema.json"))
+    USER_PATH = File.expand_path(File.join(Gem.user_home, ".local", "share", "bundler-alive"))
+    SCHEMA_PATH = File.join(USER_PATH, "schema.json")
   end
 end
 

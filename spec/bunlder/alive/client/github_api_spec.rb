@@ -10,11 +10,11 @@ RSpec.describe Bundler::Alive::Client::GithubApi do
         allow(ENV).to receive(:fetch)
           .with("BUNDLER_ALIVE_GITHUB_TOKEN", nil)
           .and_return("something")
-        require_relative "../../../../lib/bundler/alive/client/github_graphql"
       end
 
       it "returns `GraphQL::Client` instance" do
         VCR.use_cassette "github.com/schema.json" do
+          require_relative "../../../../lib/bundler/alive/client/github_graphql"
           obj = Object.new
           obj.extend described_class
           expect(obj.create_client).to be_an_instance_of(GraphQL::Client)
@@ -29,10 +29,10 @@ RSpec.describe Bundler::Alive::Client::GithubApi do
       allow(ENV).to receive(:fetch)
         .with("BUNDLER_ALIVE_GITHUB_TOKEN", nil)
         .and_return("something")
-      require_relative "../../../../lib/bundler/alive/client/github_graphql"
     end
     let!(:client) do
       VCR.use_cassette "github.com/schema.json" do
+        require_relative "../../../../lib/bundler/alive/client/github_graphql"
         Client::SourceCodeClient.new(service_name: :github)
       end
     end

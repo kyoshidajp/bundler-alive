@@ -66,6 +66,7 @@ module Bundler
           SCHEMA = GraphQL::Client.load_schema(SCHEMA_PATH)
         else
           SCHEMA = GraphQL::Client.load_schema(HTTP)
+          Dir.mkdir(USER_PATH) unless Dir.exist?(USER_PATH)
           GraphQL::Client.dump_schema(SCHEMA, SCHEMA_PATH)
         end
         private_constant :SCHEMA

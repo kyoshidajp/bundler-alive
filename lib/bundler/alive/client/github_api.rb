@@ -11,6 +11,9 @@ module Bundler
       # @see https://docs.github.com/en/graphql
       #
       module GithubApi
+        # Environment variable name of GitHub Access Token
+        ACCESS_TOKEN_ENV_NAME = "BUNDLER_ALIVE_GITHUB_TOKEN"
+
         # Separator of query condition
         QUERY_CONDITION_SEPARATOR = " "
         private_constant :QUERY_CONDITION_SEPARATOR
@@ -25,6 +28,10 @@ module Bundler
             @retries_on_too_many_requests = 0
             @name_with_archived = {}
           end
+        end
+
+        def access_token_env_name
+          ACCESS_TOKEN_ENV_NAME
         end
 
         #
