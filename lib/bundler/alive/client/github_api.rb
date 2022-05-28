@@ -30,10 +30,6 @@ module Bundler
           end
         end
 
-        def access_token_env_name
-          ACCESS_TOKEN_ENV_NAME
-        end
-
         #
         # Creates a GraphQL client
         #
