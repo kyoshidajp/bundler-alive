@@ -22,12 +22,15 @@ module Bundler
         # A new instance of `GemApiClient`
         #
         # @param [String] :config_path
+        # @param [Boolean] :follow_redirect
+        #   Follow redirect URL in gems
         #
         # @return [GemApiClient]
         #
-        def initialize(config_path: nil)
+        def initialize(config_path: nil, follow_redirect: false)
           @error_messages = []
           @config_gems = get_config_gems(config_path)
+          @follow_redirect = follow_redirect
 
           freeze
         end
@@ -53,7 +56,7 @@ module Bundler
 
         private
 
-        attr_accessor :error_messages, :config_gems
+        attr_accessor :error_messages, :config_gems, :follow_redirect
 
         def api_url(gem_name)
           "https://rubygems.org/api/v1/gems/#{gem_name}.json"
@@ -122,6 +125,8 @@ module Bundler
         end
 
         def url_via_redirect(url)
+          return url unless follow_redirect
+
           response = connection.head(url)
           return response.headers["location"] if response.status == 301
 

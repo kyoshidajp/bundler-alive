@@ -40,7 +40,7 @@ RSpec.describe Bundler::Alive::Client::GemsApiClient do
 
   describe "#gems_api_response" do
     let!(:config) { "spec/fixtures/files/.bundler-alive.yml" }
-    let!(:client) { described_class.new(config_path: config) }
+    let!(:client) { described_class.new(config_path: config, follow_redirect: true) }
     context "all gems are found" do
       it "returns a `Client::GemsApiResponse`" do
         VCR.use_cassette "rubygems.org/multi_search" do
